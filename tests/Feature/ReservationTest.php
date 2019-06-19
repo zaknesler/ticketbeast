@@ -3,9 +3,10 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Ticket;
 use App\Models\Concert;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Reservations\Reservation;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReservationTest extends TestCase
@@ -15,8 +16,11 @@ class ReservationTest extends TestCase
     /** @test */
     function calculating_the_total_cost_of_a_reservation()
     {
-        $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 1200])->addTickets(3);
-        $tickets = $concert->findTickets(3);
+        $tickets = collect([
+            (object) ['price' => 1200],
+            (object) ['price' => 1200],
+            (object) ['price' => 1200],
+        ]);
 
         $reservation = new Reservation($tickets);
 

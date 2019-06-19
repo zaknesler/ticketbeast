@@ -7,14 +7,14 @@ class Reservation
     /**
      * The tickets that are reserved.
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
     protected $tickets;
 
     /**
      * Create a reservation for a number of tickets.
      *
-     * @param array  $tickets
+     * @param \Illuminate\Support\Collection  $tickets
      */
     public function __construct($tickets)
     {
