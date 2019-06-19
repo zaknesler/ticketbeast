@@ -1,0 +1,33 @@
+language: php
+
+php:
+  - 7.3
+
+before_script:
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - php artisan migrate --seed --force
+
+before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('pass') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -ppass
+  - sudo service mysql restart
+  - mysql -u root -ppass -e 'CREATE DATABASE ticketbeast;'
+
+script:
+  - phpunit
+
+services:
+  - mysql
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+
+notifications:
+  email: false
