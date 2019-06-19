@@ -7,6 +7,7 @@ before_script:
   - cp .env.travis .env
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - php artisan key:generate --force
   - php artisan migrate --seed --force
 
 before_install:
