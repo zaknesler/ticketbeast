@@ -18,3 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/**
+ * Concerts
+ */
+Route::get('/concerts/{concert}', 'ConcertController@show');
+Route::post('/concerts/{concert}/orders', 'ConcertOrderController@store');
