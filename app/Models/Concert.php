@@ -93,7 +93,7 @@ class Concert extends Model
     }
 
     /**
-     * Create the order for a specified email and tickets.
+     * Create the order for a specified email and number of tickets.
      *
      * @param  string  $email
      * @param  \Illuminate\Database\Eloquent\Collection  $tickets
@@ -101,9 +101,9 @@ class Concert extends Model
      */
     public function createOrder($email, $tickets)
     {
-        $order = $this->orders()->create([
+        $order = Order::create([
             'email' => $email,
-            'amount' => $tickets->count() * $this->ticket_price,
+            'amount' => $tickets->sum('price'),
         ]);
 
         foreach ($tickets as $ticket) {
@@ -182,11 +182,11 @@ class Concert extends Model
     /**
      * A concert has many orders.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsToMany(Order::class, 'tickets');
     }
 
     /**

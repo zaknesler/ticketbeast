@@ -14,11 +14,11 @@ class CreateConcertsTable extends Migration
     public function up()
     {
         Schema::create('concerts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
             $table->string('subtitle');
             $table->timestamp('date');
-            $table->integer('ticket_price');
+            $table->bigInteger('ticket_price');
             $table->string('venue');
             $table->string('venue_address');
             $table->string('city');

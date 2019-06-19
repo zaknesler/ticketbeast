@@ -8,6 +8,19 @@ use Illuminate\Http\Request;
 class ConcertController extends Controller
 {
     /**
+     * Get a listing of all published concerts.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $concerts = Concert::whereNotNull('published_at')->get();
+
+        return view('concerts.show')
+            ->with('concerts', $concerts);
+    }
+
+    /**
      * Display a single concert.
      *
      * @param  App\Models\Concert  $concert

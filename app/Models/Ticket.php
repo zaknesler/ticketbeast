@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Order;
+use App\Models\Concert;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
@@ -22,6 +23,16 @@ class Ticket extends Model
     public function release()
     {
         $this->update(['order_id' => null]);
+    }
+
+    /**
+     * Get the price of a ticket from the concert's ticket price.
+     *
+     * @return int
+     */
+    public function getPriceAttribute()
+    {
+        return $this->concert->ticket_price;
     }
 
     /**
@@ -54,5 +65,15 @@ class Ticket extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * A ticket belongs to an concert.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function concert()
+    {
+        return $this->belongsTo(Concert::class);
     }
 }
