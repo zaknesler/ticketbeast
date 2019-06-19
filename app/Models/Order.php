@@ -16,6 +16,27 @@ class Order extends Model
     protected $guarded = [];
 
     /**
+     * Create an order for specific tickets
+     *
+     * @param  array  $tickets
+     * @param  string  $email
+     * @return \App\Models\Order
+     */
+    public static function forTickets($tickets, $email)
+    {
+        $order = self::create([
+            'email' => $email,
+            'amount' => $tickets->sum('price'),
+        ]);
+
+        foreach ($tickets as $ticket) {
+            $order->tickets()->save($ticket);
+        }
+
+        return $order;
+    }
+
+    /**
      * Cancel an order and delete it from the database.
      *
      * @return void
