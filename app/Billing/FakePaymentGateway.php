@@ -12,7 +12,14 @@ class FakePaymentGateway implements PaymentGateway
      *
      * @var array
      */
-    protected $charges;
+    private $charges;
+
+    /**
+     * Callback to run before the first charge.
+     *
+     * @var function
+     */
+    private $beforeFirstChargeCallback;
 
     /**
      * Create a new instance of the fake payment gateway.
@@ -41,11 +48,22 @@ class FakePaymentGateway implements PaymentGateway
      */
     public function charge($amount, $token)
     {
+        if (!is_null($this->beforeFirstChargeCallback)) {
+            $callback = $this->beforeFirstChargeCallback;
+            $this->beforeFirstChargeCallback = null;
+            $callback($this);
+        }
+
         if ($token !== $this->getValidTestToken()) {
             throw new PaymentFailedException;
         }
 
         $this->charges[] = $amount;
+    }
+
+    public function beforeFirstCharge($callback)
+    {
+        $this->beforeFirstChargeCallback = $callback;
     }
 
     /**

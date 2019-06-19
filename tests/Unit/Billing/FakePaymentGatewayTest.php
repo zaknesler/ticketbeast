@@ -19,17 +19,38 @@ class FakePaymentGatewayTest extends TestCase
         $this->assertEquals(2500, $paymentGateway->totalCharges());
     }
 
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     */
+    function charges_with_an_invalid_payment_token_fail()
+    {
+        try {
+            $paymentGateway = new FakePaymentGateway;
+
+            $paymentGateway->charge(2500, 'invalid-payment-token');
+        } catch (PaymentFailedException $e) {
+            return;
+        }
+
+        $this->fail('Payment succeeded when using invalid payment token.');
+    }
+
     /** @test */
-    // function charges_with_an_invalid_payment_token_fail()
-    // {
-    //     try {
-    //         $paymentGateway = new FakePaymentGateway;
+    function running_a_hook_before_the_first_charge()
+    {
+        $gateway = new FakePaymentGateway;
+        $timesCallbackRan = 0;
 
-    //         $paymentGateway->charge(2500, 'invalid-payment-token');
-    //     } catch (PaymentFailedException $e) {
-    //         return;
-    //     }
+        $gateway->beforeFirstCharge(function ($gateway) use (&$timesCallbackRan) {
+            $gateway->charge(2500, $gateway->getValidTestToken());
+            $timesCallbackRan++;
 
-    //     $this->fail();
-    // }
+            $this->assertEquals(2500, $gateway->totalCharges());
+        });
+
+        $gateway->charge(2500, $gateway->getValidTestToken());
+        $this->assertEquals(1, $timesCallbackRan, 'Callback ran more than once.');
+        $this->assertEquals(5000, $gateway->totalCharges());
+    }
 }

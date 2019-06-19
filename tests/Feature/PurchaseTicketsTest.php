@@ -22,13 +22,16 @@ class PurchaseTicketsTest extends TestCase
 
     private function orderTickets($concert, $params)
     {
-        return $this->json('POST', '/concerts/' . $concert->id . '/orders', $params);
+        $savedRequest = $this->app['request'];
+        $response = $this->json('POST', '/concerts/' . $concert->id . '/orders', $params);
+        $this->app['request'] = $savedRequest;
+
+        return $response;
     }
 
     private function assertValidationError($response, $field)
     {
         $response->assertStatus(422);
-
         $this->assertArrayHasKey($field, $response->decodeResponseJson()['errors']);
     }
 
@@ -44,7 +47,6 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-
         $response->assertJson([
             'email' => 'alex@example.com',
             'ticket_quantity' => 3,
@@ -68,7 +70,6 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $response->assertStatus(404);
-
         $this->assertFalse($concert->hasOrderFor('alex@example.com'));
         $this->assertEquals(0, $this->paymentGateway->totalCharges());
     }
@@ -85,7 +86,6 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-
         $this->assertFalse($concert->hasOrderFor('alex@example.com'));
     }
 
@@ -101,10 +101,40 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-
         $this->assertFalse($concert->hasOrderFor('alex@example.com'));
         $this->assertEquals(0, $this->paymentGateway->totalCharges());
         $this->assertEquals(50, $concert->ticketsRemaining());
+    }
+
+    /** @test */
+    function cannot_purchase_tickets_another_customer_is_already_trying_to_purchase()
+    {
+        $this->withoutExceptionHandling();
+
+        $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 1200])->addTickets(3);
+
+        $this->paymentGateway->beforeFirstCharge(function ($paymentGateway) use ($concert) {
+            $responseB = $this->orderTickets($concert, [
+                'email' => 'personB@example.com',
+                'ticket_quantity' => 1,
+                'payment_token' => $this->paymentGateway->getValidTestToken(),
+            ]);
+
+            $responseB->assertStatus(422);
+            $this->assertFalse($concert->hasOrderFor('personB@example.com'), 'Person B was able to purchase tickets.');
+            $this->assertEquals(0, $this->paymentGateway->totalCharges());
+        });
+
+        $responseA = $this->orderTickets($concert, [
+            'email' => 'personA@example.com',
+            'ticket_quantity' => 3,
+            'payment_token' => $this->paymentGateway->getValidTestToken(),
+        ]);
+
+        $responseA->assertStatus(201);
+        $this->assertEquals(3600, $this->paymentGateway->totalCharges());
+        $this->assertTrue($concert->hasOrderFor('personA@example.com'), 'An order was not created for person B');
+        $this->assertEquals(3, $concert->ordersFor('personA@example.com')->first()->ticketQuantity());
     }
 
     /** @test */
