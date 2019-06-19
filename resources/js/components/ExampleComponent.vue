@@ -1,21 +1,22 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
+    <div class="border rounded-lg">
+        <div class="px-4 py-3 border-b bg-gray-100 text-gray-600 font-semibold rounded-t-lg" v-text="title" />
+        <div class="p-4 bg-white text-gray-700 rounded-b-lg overflow-hidden">
+            <slot>I'm an example component!</slot>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            title: {
+                type: String,
+                required: false,
+                default: 'Example Component'
+            }
+        },
+
         mounted() {
             console.log('Component mounted.')
         }

@@ -1,99 +1,64 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.base')
 
-        <title>Laravel</title>
+@section('title', 'Welcome')
+@section('show-header', false)
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
+@section('content-full')
+    <div class="h-full flex relative">
+        @if (Route::has('login'))
+            <div class="m-8 absolute top-0 right-0">
+                <ul class="-mr-6 flex items-baseline font-semibold text-brand-600">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <li class="mr-6">
+                            <a class="hover:text-brand-800" href="{{ route('home') }}">Home</a>
+                        </li>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <li class="mr-6">
+                            <a class="hover:text-brand-800" href="{{ route('login') }}">Sign in</a>
+                        </li>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <li class="mr-6">
+                                <a class="hover:text-brand-800" href="{{ route('register') }}">Sign up</a>
+                            </li>
                         @endif
                     @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                </ul>
             </div>
+        @endif
+
+        <div class="p-6 m-auto text-center font-semibold">
+            <h1 class="leading-tight text-4xl text-gray-700">{{ config('app.name') }}</h1>
+
+            <ul class="-mb-4 sm:-mr-6 mt-8 block sm:flex items-baseline text-brand-600">
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://laravel.com/docs">Docs</a>
+                </li>
+
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://laracasts.com">Laracasts</a>
+                </li>
+
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://laravel-news.com">News</a>
+                </li>
+
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://blog.laravel.com">Blog</a>
+                </li>
+
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://nova.laravel.com">Nova</a>
+                </li>
+
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://forge.laravel.com">Forge</a>
+                </li>
+
+                <li class="mb-4 sm:mr-6">
+                    <a class="hover:text-brand-800" href="https://github.com/laravel/laravel">GitHub</a>
+                </li>
+            </ul>
         </div>
-    </body>
-</html>
+    </div>
+@endsection
