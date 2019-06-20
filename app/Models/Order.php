@@ -37,20 +37,6 @@ class Order extends Model
     }
 
     /**
-     * Cancel an order and delete it from the database.
-     *
-     * @return void
-     */
-    public function cancel()
-    {
-        $this->tickets()->each(function ($ticket) {
-            $ticket->release();
-        });
-
-        $this->delete();
-    }
-
-    /**
      * Get the amount of tickets that belong to an order.
      *
      * @return integer
