@@ -16,7 +16,7 @@ class ConcertController extends Controller
     {
         $concerts = Concert::whereNotNull('published_at')->get();
 
-        return view('concerts.show')
+        return view('concerts.index')
             ->with('concerts', $concerts);
     }
 

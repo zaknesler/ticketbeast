@@ -65,4 +65,19 @@ class ReservationTest extends TestCase
             $ticket->shouldHaveReceived('release')->once();
         }
     }
+
+    /** @test */
+    function completing_a_reservation_returns_an_order()
+    {
+        $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 1200])->addTickets(5);
+        $tickets = factory(Ticket::class, 3)->create(['concert_id' => $concert->id]);
+
+        $reservation = new Reservation($tickets, 'john@example.com');
+
+        $order = $reservation->complete();
+
+        $this->assertEquals('john@example.com', $order->email);
+        $this->assertEquals(3, $order->ticketQuantity());
+        $this->assertEquals(3600, $order->amount);
+    }
 }

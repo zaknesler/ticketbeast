@@ -2,6 +2,8 @@
 
 namespace App\Reservations;
 
+use App\Models\Order;
+
 class Reservation
 {
     /**
@@ -40,6 +42,16 @@ class Reservation
         foreach ($this->tickets as $ticket) {
             $ticket->release();
         }
+    }
+
+    /**
+     * Complete a reservation and return the created order.
+     *
+     * @return \App\Models\Order
+     */
+    public function complete()
+    {
+        return Order::forTickets($this->tickets(), $this->email(), $this->totalCost());
     }
 
     /**

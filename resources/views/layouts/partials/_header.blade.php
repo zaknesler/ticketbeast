@@ -30,6 +30,7 @@
             <nav class="sm:flex-1" aria-label="Left navigation">
                 <ul class="sm:flex sm:items-baseline">
                     <li><a href="{{ route('home') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-600 hover:text-brand-900 hover:bg-gray-200 sm:hover:bg-transparent no-underline">Home</a></li>
+                    <li><a href="{{ route('concerts.index') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-600 hover:text-brand-900 hover:bg-gray-200 sm:hover:bg-transparent no-underline">Concerts</a></li>
                 </ul>
             </nav>
 
