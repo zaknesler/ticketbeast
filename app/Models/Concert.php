@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Order;
 use App\Models\Ticket;
+use App\Reservations\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use App\Billing\Exceptions\NotEnoughTicketsException;
 
@@ -64,15 +65,16 @@ class Concert extends Model
     /**
      * Hold a certain number of tickets in reserve.
      *
-     * @param  int $quantity
-     * @return void
+     * @param  integer  $quantity
+     * @return \App\Reservations\Reservation
      */
     public function reserveTickets($quantity)
     {
-        return $this->findTickets($quantity)
-                    ->each(function ($ticket) {
-                        $ticket->reserve();
-                    });
+        $tickets = $this->findTickets($quantity)->each(function ($ticket) {
+            $ticket->reserve();
+        });
+
+        return new Reservation($tickets);
     }
 
     /**

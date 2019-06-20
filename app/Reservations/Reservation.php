@@ -42,4 +42,14 @@ class Reservation
     {
         return $this->tickets->sum('price');
     }
+
+    /**
+     * Get the tickets of a reservation.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function tickets()
+    {
+        return $this->tickets;
+    }
 }
