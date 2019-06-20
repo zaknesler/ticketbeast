@@ -12,6 +12,11 @@ class PurchaseTicketsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -20,6 +25,13 @@ class PurchaseTicketsTest extends TestCase
         $this->app->instance(PaymentGateway::class, $this->paymentGateway);
     }
 
+    /**
+     * Order tickets for a specific concert.
+     *
+     * @param  \App\Models\Concert  $concert
+     * @param  array  $params
+     * @return \Illuminate\Http\Response
+     */
     private function orderTickets($concert, $params)
     {
         $savedRequest = $this->app['request'];
@@ -29,6 +41,13 @@ class PurchaseTicketsTest extends TestCase
         return $response;
     }
 
+    /**
+     * Assert that a validation error is stored in the response.
+     *
+     * @param  \Illuminate\Http\Response  $response
+     * @param  string  $field
+     * @return void
+     */
     private function assertValidationError($response, $field)
     {
         $response->assertStatus(422);

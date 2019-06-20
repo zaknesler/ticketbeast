@@ -11,8 +11,9 @@ class ViewConcertListingTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
     // Save for Dusk
+
+    /** @test */
     // function user_can_view_a_published_concert_listing()
     // {
     //     $concert = factory(Concert::class)->states('published')->create([
@@ -24,8 +25,8 @@ class ViewConcertListingTest extends TestCase
     //         'venue_address' => '123 Example Ln.',
     //         'city' => 'Laraville',
     //         'state' => 'ON',
-    //         'zip' => '17916',
-    //         'additional_information' => 'For tickets, call (555) 555-5555.',
+    //         'zip' => '90210',
+    //         'additional_information' => 'For support, call (555) 555-5555.',
     //     ]);
 
     //     $this->get('/concerts/' . $concert->id);
@@ -37,8 +38,8 @@ class ViewConcertListingTest extends TestCase
     //     $this->see('32.50');
     //     $this->see('The Mosh Pit');
     //     $this->see('123 Example Ln.');
-    //     $this->see('Laraville, ON 17916');
-    //     $this->see('For tickets, call (555) 555-5555.');
+    //     $this->see('Laraville, ON 90210');
+    //     $this->see('For support, call (555) 555-5555.');
     // }
 
     /** @test */
