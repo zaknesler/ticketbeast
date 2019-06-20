@@ -10,13 +10,37 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class StripePaymentGatewayTest extends TestCase
 {
     /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->lastCharge = $this->lastCharge();
+    }
+
+    /**
      * Get the last charge from Stripe.
      *
      * @return \Stripe\Charge
      */
     private function lastCharge()
     {
-        return \Stripe\Charge::all(['limit' => 1])['data'][0];
+        return array_first(\Stripe\Charge::all(['limit' => 1])['data']);
+    }
+
+    /**
+     * Fetch all charges that were created after another charge.
+     *
+     * @return array
+     */
+    private function newCharges()
+    {
+        return \Stripe\Charge::all([
+            'ending_before' => $this->lastCharge ? $this->lastCharge->id : null,
+        ])['data'];
     }
 
     /**
@@ -35,17 +59,11 @@ class StripePaymentGatewayTest extends TestCase
     */
     function stripe_charges_with_a_valid_payment_token_are_successful()
     {
-        $lastCharge = $this->lastCharge();
-
         $paymentGateway = new StripePaymentGateway;
+
         $paymentGateway->charge(2500, $this->validToken());
 
-        $newCharge = \Stripe\Charge::all([
-            'limit' => 1,
-            'ending_before' => $lastCharge->id
-        ])['data'][0];
-
-        $this->assertEquals(2500, $newCharge->amount);
-        $this->assertEquals('succeeded', $newCharge->status);
+        $this->assertCount(1, $this->newCharges());
+        $this->assertEquals(2500, $this->lastCharge()->amount);
     }
 }
