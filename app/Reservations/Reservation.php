@@ -12,13 +12,22 @@ class Reservation
     protected $tickets;
 
     /**
+     * The email to whom the reservation belongs.
+     *
+     * @var string
+     */
+    protected $email;
+
+    /**
      * Create a reservation for a number of tickets.
      *
      * @param \Illuminate\Support\Collection  $tickets
+     * @param string  $email
      */
-    public function __construct($tickets)
+    public function __construct($tickets, $email)
     {
         $this->tickets = $tickets;
+        $this->email = $email;
     }
 
     /**
@@ -51,5 +60,15 @@ class Reservation
     public function tickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Get the email of a reservation.
+     *
+     * @return string
+     */
+    public function email()
+    {
+        return $this->email;
     }
 }

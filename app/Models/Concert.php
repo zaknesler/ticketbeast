@@ -66,15 +66,16 @@ class Concert extends Model
      * Hold a certain number of tickets in reserve.
      *
      * @param  integer  $quantity
+     * @param  string  $email
      * @return \App\Reservations\Reservation
      */
-    public function reserveTickets($quantity)
+    public function reserveTickets($quantity, $email)
     {
         $tickets = $this->findTickets($quantity)->each(function ($ticket) {
             $ticket->reserve();
         });
 
-        return new Reservation($tickets);
+        return new Reservation($tickets, $email);
     }
 
     /**
