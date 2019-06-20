@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome')->name('index');
 
 Auth::routes();
 
@@ -22,5 +20,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 /**
  * Concerts
  */
-Route::get('/concerts/{concert}', 'ConcertController@show');
-Route::post('/concerts/{concert}/orders', 'ConcertOrderController@store');
+Route::get('/concerts', 'ConcertController@index')->name('concerts.index');
+Route::get('/concerts/{concert}', 'ConcertController@show')->name('concerts.show');
+Route::post('/concerts/{concert}/orders', 'ConcertOrderController@store')->name('concerts.store');

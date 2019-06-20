@@ -26,4 +26,22 @@ class ReservationTest extends TestCase
 
         $this->assertEquals(3600, $reservation->totalCost());
     }
+
+    /** @test */
+    function reserved_tickets_are_released_when_cancelled()
+    {
+        $tickets = collect([
+            $this->spy(Ticket::class),
+            $this->spy(Ticket::class),
+            $this->spy(Ticket::class),
+        ]);
+
+        $reservation = new Reservation($tickets);
+
+        $reservation->cancel();
+
+        foreach ($tickets as $ticket) {
+            $ticket->shouldHaveReceived('release')->once();
+        }
+    }
 }

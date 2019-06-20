@@ -61,9 +61,9 @@ class ConcertTest extends TestCase
     {
         $concert = factory(Concert::class)->create()->addTickets(3);
 
-        $order = $concert->orderTickets('alex@example.com', 3);
+        $order = $concert->orderTickets('john@example.com', 3);
 
-        $this->assertEquals('alex@example.com', $order->email);
+        $this->assertEquals('john@example.com', $order->email);
         $this->assertEquals(3, $order->ticketQuantity());
     }
 
@@ -82,7 +82,7 @@ class ConcertTest extends TestCase
     {
         $concert = factory(Concert::class)->create()->addTickets(50);
 
-        $concert->orderTickets('alex@example.com', 30);
+        $concert->orderTickets('john@example.com', 30);
 
         $this->assertEquals(20, $concert->ticketsRemaining());
     }
@@ -93,9 +93,9 @@ class ConcertTest extends TestCase
         $concert = factory(Concert::class)->create()->addTickets(10);
 
         try {
-            $concert->orderTickets('alex@example.com', 11);
+            $concert->orderTickets('john@example.com', 11);
         } catch (NotEnoughTicketsException $e) {
-            $this->assertFalse($concert->hasOrderFor('alex@example.com'));
+            $this->assertFalse($concert->hasOrderFor('john@example.com'));
             $this->assertEquals(10, $concert->ticketsRemaining());
 
             return;
@@ -108,7 +108,7 @@ class ConcertTest extends TestCase
     function cannot_order_tickets_that_have_already_been_purchased()
     {
         $concert = factory(Concert::class)->create()->addTickets(10);
-        $concert->orderTickets('alex@example.com', 8);
+        $concert->orderTickets('jane@example.com', 8);
 
         try {
             $concert->orderTickets('john@example.com', 3);
@@ -119,7 +119,7 @@ class ConcertTest extends TestCase
             return;
         }
 
-        $this->fail('Order succeeded event though there were not enough tickets remaining.');
+        $this->fail('Order succeeded evet though there were not enough tickets remaining.');
     }
 
     /** @test */

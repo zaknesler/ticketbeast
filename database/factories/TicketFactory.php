@@ -9,3 +9,10 @@ $factory->define(App\Models\Ticket::class, function (Faker $faker) {
         },
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->state(App\Models\Ticket::class, 'reserved', function (Faker $faker) {
+    return [
+        'reserved_at' => now(),
+    ];
+});

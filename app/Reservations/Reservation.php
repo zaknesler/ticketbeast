@@ -22,6 +22,18 @@ class Reservation
     }
 
     /**
+     * Cancel the reservation by releasing of its tickets.
+     *
+     * @return void
+     */
+    public function cancel()
+    {
+        foreach ($this->tickets as $ticket) {
+            $ticket->release();
+        }
+    }
+
+    /**
      * Get the total cost of all tickets in the reservation
      *
      * @return int

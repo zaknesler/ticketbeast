@@ -29,12 +29,12 @@ class OrderTest extends TestCase
     function ordering_tickets_yields_proper_results()
     {
         $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 1200])->addTickets(5);
-        $order = $concert->orderTickets('alex@example.com', 5);
+        $order = $concert->orderTickets('john@example.com', 5);
 
         $results = $order->toArray();
 
         $this->assertEquals([
-            'email' => 'alex@example.com',
+            'email' => 'john@example.com',
             'ticket_quantity' => 5,
             'amount' => 6000,
         ], $results);
@@ -44,7 +44,7 @@ class OrderTest extends TestCase
     function tickets_are_released_when_an_order_is_canceled()
     {
         $concert = factory(Concert::class)->states('published')->create()->addTickets(10);
-        $order = $concert->orderTickets('alex@example.com', 5);
+        $order = $concert->orderTickets('john@example.com', 5);
         $this->assertEquals(5, $concert->ticketsRemaining());
 
         $order->cancel();
