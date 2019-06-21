@@ -7,6 +7,9 @@ use App\Billing\Stripe\StripePaymentGateway;
 use App\Billing\Exceptions\PaymentFailedException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * @group hits-stripe
+*/
 class StripePaymentGatewayTest extends TestCase
 {
     /**
@@ -53,10 +56,7 @@ class StripePaymentGatewayTest extends TestCase
         return 'tok_visa';
     }
 
-    /**
-     * @test
-     * @group hits-stripe
-    */
+    /** @test */
     function stripe_charges_with_a_valid_payment_token_are_successful()
     {
         $paymentGateway = new StripePaymentGateway;
