@@ -12,6 +12,14 @@ interface PaymentGateway
     public function getValidTestToken();
 
     /**
+     * Get the charges made during a callback.
+     *
+     * @param  callback  $callback
+     * @return array
+     */
+    public function newChargesDuring($callback);
+
+    /**
      * Process a charge on a token for a specified amount.
      *
      * @param  int  $amount

@@ -40,6 +40,21 @@ class FakePaymentGateway implements PaymentGateway
     }
 
     /**
+     * Get the charges made during a callback.
+     *
+     * @param  callback  $callback
+     * @return array
+     */
+    public function newChargesDuring($callback)
+    {
+        $oldCharges = $this->charges->count();
+
+        $callback($this);
+
+        return $this->charges->slice($oldCharges)->reverse()->values();
+    }
+
+    /**
      * Process a fake charge on a token for a specified amount.
      *
      * @param  int  $amount
