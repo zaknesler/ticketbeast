@@ -9,10 +9,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FakePaymentGatewayTest extends TestCase
 {
+    /**
+     * Get the implementation of the payment gateway.
+     *
+     * @return \App\Billing\PaymentGateway
+     */
+    public function getPaymentGateway()
+    {
+        return new FakePaymentGateway;
+    }
+
     /** @test */
     function charges_with_a_valid_payment_token_are_successful()
     {
-        $paymentGateway = new FakePaymentGateway;
+        $paymentGateway = $this->getPaymentGateway();
 
         $paymentGateway->charge(2500, $paymentGateway->getValidTestToken());
 
@@ -23,7 +33,7 @@ class FakePaymentGatewayTest extends TestCase
     function fake_charges_with_an_invalid_payment_token_fail()
     {
         try {
-            $paymentGateway = new FakePaymentGateway;
+            $paymentGateway = $this->getPaymentGateway();
 
             $paymentGateway->charge(2500, 'invalid-payment-token');
         } catch (PaymentFailedException $e) {
@@ -37,7 +47,7 @@ class FakePaymentGatewayTest extends TestCase
     /** @test */
     function running_a_hook_before_the_first_charge()
     {
-        $gateway = new FakePaymentGateway;
+        $gateway = $this->getPaymentGateway();
         $timesCallbackRan = 0;
 
         $gateway->beforeFirstCharge(function ($gateway) use (&$timesCallbackRan) {

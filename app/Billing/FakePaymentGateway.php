@@ -30,7 +30,7 @@ class FakePaymentGateway implements PaymentGateway
     }
 
     /**
-     * Get a generic test token.
+     * Get a valid token that can be used for testing.
      *
      * @return string
      */

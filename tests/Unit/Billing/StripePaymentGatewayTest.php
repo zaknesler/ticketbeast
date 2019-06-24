@@ -47,21 +47,21 @@ class StripePaymentGatewayTest extends TestCase
     }
 
     /**
-     * Get a valid test token to use with Stripe.
+     * Get the implementation of the payment gateway.
      *
-     * @return string
+     * @return \App\Billing\PaymentGateway
      */
-    private function validToken()
+    public function getPaymentGateway()
     {
-        return 'tok_visa';
+        return new StripePaymentGateway;
     }
 
     /** @test */
     function stripe_charges_with_a_valid_payment_token_are_successful()
     {
-        $paymentGateway = new StripePaymentGateway;
+        $paymentGateway = $this->getPaymentGateway();
 
-        $paymentGateway->charge(2500, $this->validToken());
+        $paymentGateway->charge(2500, $paymentGateway->getValidTestToken());
 
         $this->assertCount(1, $this->newCharges());
         $this->assertEquals(2500, $this->lastCharge()->amount);
