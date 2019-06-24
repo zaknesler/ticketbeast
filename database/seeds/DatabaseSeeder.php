@@ -12,5 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+
+        factory(App\Models\Concert::class)
+            ->states('published')
+            ->create()
+            ->addTickets(10);
     }
 }
