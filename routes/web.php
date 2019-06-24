@@ -23,3 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/concerts', 'ConcertController@index')->name('concerts.index');
 Route::get('/concerts/{concert}', 'ConcertController@show')->name('concerts.show');
 Route::post('/concerts/{concert}/orders', 'ConcertOrderController@store')->name('concerts.store');
+
+/**
+ * Orders
+ */
+Route::get('/orders/{confirmationNumber}', 'OrderController@show')->name('orders.show');

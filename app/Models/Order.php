@@ -37,6 +37,17 @@ class Order extends Model
     }
 
     /**
+     * Find the order by its confirmation number.
+     *
+     * @param  string  $confirmationNumber
+     * @return \App\Models\Order
+     */
+    public static function findByConfirmationNumber($confirmationNumber)
+    {
+        return self::where('confirmation_number', $confirmationNumber)->firstOrFail();
+    }
+
+    /**
      * Get the amount of tickets that belong to an order.
      *
      * @return integer

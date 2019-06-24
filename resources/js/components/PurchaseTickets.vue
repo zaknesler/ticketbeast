@@ -4,7 +4,7 @@
       <div class="mr-3 w-full flex items-center">
         <select
           v-if="maxTickets"
-          class="form-select block w-full h-full"
+          class="form-select py-3 block w-full h-full"
           v-model="form.quantity"
         >
           <option

@@ -2557,7 +2557,7 @@ var render = function() {
                       expression: "form.quantity"
                     }
                   ],
-                  staticClass: "form-select block w-full h-full",
+                  staticClass: "form-select py-3 block w-full h-full",
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
