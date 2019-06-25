@@ -2,6 +2,7 @@
 
 namespace App\Billing;
 
+use App\Billing\Charge;
 use App\Billing\PaymentGateway;
 use App\Billing\Exceptions\PaymentFailedException;
 
@@ -13,6 +14,13 @@ class FakePaymentGateway implements PaymentGateway
      * @var array
      */
     private $charges;
+
+    /**
+     * A collection of generated tokens.
+     *
+     * @var array
+     */
+    private $tokens;
 
     /**
      * Callback to run before the first charge.
@@ -27,6 +35,7 @@ class FakePaymentGateway implements PaymentGateway
     public function __construct()
     {
         $this->charges = collect();
+        $this->tokens = collect();
     }
 
     /**
@@ -34,9 +43,13 @@ class FakePaymentGateway implements PaymentGateway
      *
      * @return string
      */
-    public function getValidTestToken()
+    public function getValidTestToken($cardNumber = '4242424242424242')
     {
-        return 'valid-token';
+        $token = 'faketok_' . str_random(24);
+
+        $this->tokens[$token] = $cardNumber;
+
+        return $token;
     }
 
     /**
@@ -69,11 +82,14 @@ class FakePaymentGateway implements PaymentGateway
             $callback($this);
         }
 
-        if ($token !== $this->getValidTestToken()) {
+        if (!$this->tokens->has($token)) {
             throw new PaymentFailedException;
         }
 
-        $this->charges[] = $amount;
+        return $this->charges[] = new Charge([
+            'amount' => $amount,
+            'card_last_four' => substr($this->tokens[$token], -4),
+        ]);
     }
 
     public function beforeFirstCharge($callback)
@@ -88,6 +104,6 @@ class FakePaymentGateway implements PaymentGateway
      */
     public function totalCharges()
     {
-        return $this->charges->sum();
+        return $this->charges->map->amount()->sum();
     }
 }

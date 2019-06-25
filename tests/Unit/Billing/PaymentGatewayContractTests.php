@@ -14,7 +14,7 @@ trait PaymentGatewayContractTests
     abstract protected function getPaymentGateway();
 
     /** @test */
-    function stripe_charges_with_a_valid_payment_token_are_successful()
+    function charges_with_a_valid_payment_token_are_successful()
     {
         $paymentGateway = $this->getPaymentGateway();
 
@@ -23,7 +23,18 @@ trait PaymentGatewayContractTests
         });
 
         $this->assertCount(1, $newCharges);
-        $this->assertEquals(2500, $newCharges->sum());
+        $this->assertEquals(2500, $newCharges->map->amount()->sum());
+    }
+
+    /** @test */
+    function can_get_details_about_a_successful_charge()
+    {
+        $paymentGateway = $this->getPaymentGateway();
+
+        $charge = $paymentGateway->charge(2500, $paymentGateway->getValidTestToken('0000000000004242'));
+
+        $this->assertEquals('4242', $charge->cardLastFour());
+        $this->assertEquals(2500, $charge->amount());
     }
 
     /** @test */
@@ -40,11 +51,11 @@ trait PaymentGatewayContractTests
         });
 
         $this->assertCount(2, $newCharges);
-        $this->assertEquals([5000, 4000], $newCharges->all());
+        $this->assertEquals([5000, 4000], $newCharges->map->amount()->all());
     }
 
     /** @test */
-    function stripe_charges_with_an_invalid_payment_token_fail()
+    function charges_with_an_invalid_payment_token_fail()
     {
         $paymentGateway = $this->getPaymentGateway();
 
