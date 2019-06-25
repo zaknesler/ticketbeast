@@ -7,7 +7,6 @@ use App\Models\Concert;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
 use App\Facades\ConfirmationNumber;
-use App\Orders\ConfirmationNumberGenerator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PurchaseTicketsTest extends TestCase
