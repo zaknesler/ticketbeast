@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Concert;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
+use App\Facades\ConfirmationNumber;
 use App\Orders\ConfirmationNumberGenerator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -58,11 +59,7 @@ class PurchaseTicketsTest extends TestCase
     /** @test */
     function can_purchase_tickets_to_a_published_concert()
     {
-        $this->app->instance(ConfirmationNumberGenerator::class,
-            \Mockery::mock(ConfirmationNumberGenerator::class, [
-                'generate' => 'ORDERCONFIRMATION1234',
-            ])
-        );
+        ConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
 
         $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 3250])->addTickets(3);
 
