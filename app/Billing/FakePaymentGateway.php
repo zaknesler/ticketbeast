@@ -8,6 +8,8 @@ use App\Billing\Exceptions\PaymentFailedException;
 
 class FakePaymentGateway implements PaymentGateway
 {
+    const TEST_CARD_NUMBER = '4242424242424242';
+
     /**
      * A collection of all charges.
      *
@@ -41,9 +43,10 @@ class FakePaymentGateway implements PaymentGateway
     /**
      * Get a valid token that can be used for testing.
      *
+     * @param  string|null  $cardNumber
      * @return string
      */
-    public function getValidTestToken($cardNumber = '4242424242424242')
+    public function getValidTestToken($cardNumber = self::TEST_CARD_NUMBER)
     {
         $token = 'faketok_' . str_random(24);
 

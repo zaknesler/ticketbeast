@@ -2,21 +2,30 @@
 
 namespace App\Billing\Stripe;
 
-use Stripe\Charge;
+use App\Billing\Charge;
 use App\Billing\PaymentGateway;
-use Stripe\Error\InvalidRequest;
 use App\Billing\Exceptions\PaymentFailedException;
 
 class StripePaymentGateway implements PaymentGateway
 {
+    const TEST_CARD_NUMBER = '4000056655665556';
+
     /**
      * Get a valid token that can be used for testing.
      *
+     * @param  string|null  $cardNumber
      * @return string
      */
-    public function getValidTestToken()
+    public function getValidTestToken($cardNumber = self::TEST_CARD_NUMBER)
     {
-        return 'tok_visa';
+        switch ($cardNumber) {
+            case '4242424242424242':
+                return 'tok_visa';
+            case '4000056655665556':
+                return 'tok_visa_debit';
+            default:
+                return null;
+        }
     }
 
     /**
@@ -27,13 +36,18 @@ class StripePaymentGateway implements PaymentGateway
      */
     public function newChargesDuring($callback)
     {
-        $lastCharge = array_first(Charge::all(['limit' => 1])['data']);
+        $lastCharge = array_first(\Stripe\Charge::all(['limit' => 1])['data']);
 
         $callback($this);
 
         return collect(
-            Charge::all(['ending_before' => $lastCharge])['data']
-        )->pluck('amount');
+            \Stripe\Charge::all(['ending_before' => $lastCharge])['data']
+        )->map(function ($stripeCharge) {
+            return new Charge([
+                'amount' => $stripeCharge->amount,
+                'card_last_four' => $stripeCharge->source->last4,
+            ]);
+        });
     }
 
     /**
@@ -46,12 +60,17 @@ class StripePaymentGateway implements PaymentGateway
     public function charge($amount, $token)
     {
         try {
-            $charge = Charge::create([
+            $charge = \Stripe\Charge::create([
                 'currency' => 'usd',
                 'amount' => $amount,
                 'source' => $token,
             ]);
-        } catch (InvalidRequest $e) {
+
+            return new Charge([
+                'amount' => $charge->amount,
+                'card_last_four' => $charge->source->last4,
+            ]);
+        } catch (\Stripe\Error\InvalidRequest $e) {
             throw new PaymentFailedException;
         }
     }
