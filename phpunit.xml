@@ -22,6 +22,11 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <groups>
+        <exclude>
+            <group>hits-stripe</group>
+        </exclude>
+    </groups>
     <php>
         <server name="APP_ENV" value="testing" />
         <server name="BCRYPT_ROUNDS" value="4" />

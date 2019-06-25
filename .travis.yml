@@ -18,6 +18,7 @@ before_install:
 
 script:
   - phpunit
+  - phpunit --group hits-stripe
 
 services:
   - mysql
