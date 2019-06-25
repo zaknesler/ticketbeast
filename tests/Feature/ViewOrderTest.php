@@ -29,7 +29,7 @@ class ViewOrderTest extends TestCase
             'zip' => '17916',
         ]);
         $order = factory(Order::class)->create([
-            'confirmation_number' => 'ord_1234',
+            'confirmation_number' => 'ORDERCONFIRMATION1234',
             'card_last_four' => 'card_7890',
             'amount' => '1234',
             'created_at' => Carbon::parse('June 24, 2019 5:30pm'),
@@ -45,11 +45,11 @@ class ViewOrderTest extends TestCase
             'code' => 'tik_5678',
         ]);
 
-        $response = $this->get('/orders/ord_1234');
+        $response = $this->get('/orders/ORDERCONFIRMATION1234');
 
         $response->assertStatus(200);
         $response->assertViewHas('order', $order);
-        $response->assertSee('ord_1234');
+        $response->assertSee('ORDERCONFIRMATION1234');
         $response->assertSee('$12.34');
         $response->assertSee('card_7890');
         $response->assertSee('tik_1234');

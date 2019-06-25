@@ -17,18 +17,20 @@ class Order extends Model
     protected $guarded = [];
 
     /**
-     * Create an order for specific tickets
+     * Create an order for specific tickets.
      *
      * @param  array  $tickets
      * @param  string  $email
+     * @param  \App\Billing\Charge  $charge
      * @return \App\Models\Order
      */
-    public static function forTickets($tickets, $email, $amount)
+    public static function forTickets($tickets, $email, $charge)
     {
         $order = self::create([
             'confirmation_number' => ConfirmationNumber::generate(),
             'email' => $email,
-            'amount' => $amount,
+            'amount' => $charge->amount(),
+            'card_last_four' => $charge->cardLastFour(),
         ]);
 
         foreach ($tickets as $ticket) {

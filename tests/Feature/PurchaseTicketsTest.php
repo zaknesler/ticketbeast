@@ -60,7 +60,7 @@ class PurchaseTicketsTest extends TestCase
     {
         $this->app->instance(ConfirmationNumberGenerator::class,
             \Mockery::mock(ConfirmationNumberGenerator::class, [
-                'generate' => 'ord_1234',
+                'generate' => 'ORDERCONFIRMATION1234',
             ])
         );
 
@@ -74,7 +74,7 @@ class PurchaseTicketsTest extends TestCase
 
         $response->assertStatus(201);
         $response->assertJson([
-            'confirmation_number' => 'ord_1234',
+            'confirmation_number' => 'ORDERCONFIRMATION1234',
             'email' => 'john@example.com',
             'ticket_quantity' => 3,
             'amount' => 9750,

@@ -49,20 +49,6 @@ class Concert extends Model
     }
 
     /**
-     * Order a specified amount of tickets for a specified email address.
-     *
-     * @param  string  $email
-     * @param  integer  $ticketQuantity
-     * @return App\Order
-     */
-    public function orderTickets($email, $ticketQuantity)
-    {
-        $tickets = $this->findTickets($ticketQuantity);
-
-        return $this->createOrder($email, $tickets);
-    }
-
-    /**
      * Hold a certain number of tickets in reserve.
      *
      * @param  integer  $quantity
@@ -93,18 +79,6 @@ class Concert extends Model
         }
 
         return $tickets;
-    }
-
-    /**
-     * Create the order for a specified email and number of tickets.
-     *
-     * @param  string  $email
-     * @param  \Illuminate\Database\Eloquent\Collection  $tickets
-     * @return App\Order
-     */
-    public function createOrder($email, $tickets)
-    {
-        return Order::forTickets($tickets, $email, $tickets->sum('price'));
     }
 
     /**
