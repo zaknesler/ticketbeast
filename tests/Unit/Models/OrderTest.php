@@ -29,14 +29,22 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    function ordering_tickets_yields_proper_results()
+    function ordering_tickets_yields_proper_results_when_converting_to_an_array()
     {
-        $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 1200])->addTickets(5);
-        $order = $concert->orderTickets('john@example.com', 5);
+        // $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 1200])->addTickets(5);
+        // $order = $concert->orderTickets('john@example.com', 5);
+
+        $order = factory(Order::class)->create([
+            'confirmation_number' => 'ord_1234',
+            'email' => 'john@example.com',
+            'amount' => 6000,
+        ]);
+        $order->tickets()->saveMany(factory(Ticket::class, 5)->create());
 
         $results = $order->toArray();
 
         $this->assertEquals([
+            'confirmation_number' => 'ord_1234',
             'email' => 'john@example.com',
             'ticket_quantity' => 5,
             'amount' => 6000,

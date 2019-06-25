@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Ticket;
 use App\Models\Concert;
+use App\Facades\ConfirmationNumber;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -25,6 +26,7 @@ class Order extends Model
     public static function forTickets($tickets, $email, $amount)
     {
         $order = self::create([
+            'confirmation_number' => ConfirmationNumber::generate(),
             'email' => $email,
             'amount' => $amount,
         ]);
@@ -87,6 +89,7 @@ class Order extends Model
         return [
             'email' => $this->email,
             'ticket_quantity' => $this->ticketQuantity(),
+            'confirmation_number' => $this->confirmation_number,
             'amount' => $this->amount,
         ];
     }

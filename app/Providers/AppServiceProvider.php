@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public $bindings = [
         \App\Billing\PaymentGateway::class => \App\Billing\Stripe\StripePaymentGateway::class,
+        \App\Orders\ConfirmationNumberGenerator::class => \App\Orders\RandomConfirmationNumberGenerator::class,
     ];
 
     /**
