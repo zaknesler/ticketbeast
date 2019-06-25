@@ -90,9 +90,11 @@ class Order extends Model
     {
         return [
             'email' => $this->email,
-            'ticket_quantity' => $this->ticketQuantity(),
             'confirmation_number' => $this->confirmation_number,
             'amount' => $this->amount,
+            'tickets' => $this->tickets->map(function ($ticket) {
+                return ['code' => $ticket->code];
+            })->all(),
         ];
     }
 }

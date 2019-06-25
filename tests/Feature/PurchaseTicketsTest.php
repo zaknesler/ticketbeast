@@ -74,6 +74,11 @@ class PurchaseTicketsTest extends TestCase
             'email' => 'john@example.com',
             'ticket_quantity' => 3,
             'amount' => 9750,
+            'tickets' => [
+                ['code' => 'TICKETCODE1'],
+                ['code' => 'TICKETCODE2'],
+                ['code' => 'TICKETCODE3'],
+            ],
         ]);
 
         $this->assertEquals(9750, $this->paymentGateway->totalCharges());
