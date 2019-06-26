@@ -6,6 +6,7 @@
           v-if="maxTickets"
           class="form-select py-3 block w-full h-full"
           v-model="form.quantity"
+          :class="{ 'opacity-50 pointer-events-none select-none': processing }"
         >
           <option
             v-for="i in maxTickets"
@@ -24,19 +25,15 @@
 
       <div
         class="ml-3 w-full"
-        :class="{'cursor-not-allowed': maxTickets === 0}"
+        :class="{ 'cursor-not-allowed': maxTickets === 0 || processing }"
       >
         <button
           class="btn w-full"
           :disabled="maxTickets === 0"
-          :class="{'opacity-50 pointer-events-none select-none': maxTickets === 0}"
+          :class="{ 'opacity-50 pointer-events-none select-none': maxTickets === 0 || processing }"
         >Buy Tickets</button>
       </div>
     </form>
-
-    <div class="hidden mt-6 px-5 py-4 rounded-lg bg-brand-100 text-brand-700 w-full">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, expedita, sapiente. Quaerat nam doloribus, veritatis quas laboriosam rerum minus atque perferendis sunt non fugit labore harum, ullam ipsum consequatur similique!
-    </div>
   </div>
 </template>
 
@@ -97,8 +94,8 @@
           email: token.email,
           ticket_quantity: this.form.quantity,
           payment_token: token.id,
-        }).then(response => {
-          console.log("Charge succeeded")
+        }).then(({ data }) => {
+          window.location.replace(`/orders/${data.confirmation_number}`)
         }).catch(response => {
           this.processing = false
         })
