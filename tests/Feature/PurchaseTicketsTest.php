@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Concert;
+use App\Facades\TicketCode;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
 use App\Facades\ConfirmationNumber;
@@ -59,6 +60,7 @@ class PurchaseTicketsTest extends TestCase
     function can_purchase_tickets_to_a_published_concert()
     {
         ConfirmationNumber::shouldReceive('generate')->andReturn('ORDERCONFIRMATION1234');
+        TicketCode::shouldReceive('generateFor')->andReturn('TICKETCODE1', 'TICKETCODE2', 'TICKETCODE3');
 
         $concert = factory(Concert::class)->states('published')->create(['ticket_price' => 3250])->addTickets(3);
 
@@ -72,7 +74,6 @@ class PurchaseTicketsTest extends TestCase
         $response->assertJson([
             'confirmation_number' => 'ORDERCONFIRMATION1234',
             'email' => 'john@example.com',
-            'ticket_quantity' => 3,
             'amount' => 9750,
             'tickets' => [
                 ['code' => 'TICKETCODE1'],

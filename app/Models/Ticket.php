@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Order;
 use App\Models\Concert;
+use App\Facades\TicketCode;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
@@ -23,6 +24,19 @@ class Ticket extends Model
     public function release()
     {
         $this->update(['reserved_at' => null]);
+    }
+
+    /**
+     * Save a ticket to an order.
+     *
+     * @param  \App\Models\Order  $order
+     * @return void
+     */
+    public function claimFor(Order $order)
+    {
+        $this->code = TicketCode::generateFor($this);
+
+        $order->tickets()->save($this);
     }
 
     /**

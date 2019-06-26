@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use App\Billing\PaymentGateway;
+use App\Tickets\TicketCodeGenerator;
 use Illuminate\Support\ServiceProvider;
+use App\Orders\ConfirmationNumberGenerator;
+use App\Tickets\HashidsTicketCodeGenerator;
+use App\Billing\Stripe\StripePaymentGateway;
+use App\Orders\RandomConfirmationNumberGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,8 +18,9 @@ class AppServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        \App\Billing\PaymentGateway::class => \App\Billing\Stripe\StripePaymentGateway::class,
-        \App\Orders\ConfirmationNumberGenerator::class => \App\Orders\RandomConfirmationNumberGenerator::class,
+        PaymentGateway::class => StripePaymentGateway::class,
+        ConfirmationNumberGenerator::class => RandomConfirmationNumberGenerator::class,
+        TicketCodeGenerator::class => HashidsTicketCodeGenerator::class,
     ];
 
     /**
@@ -33,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(HashidsTicketCodeGenerator::class, function () {
+            return new HashidsTicketCodeGenerator(config('ticketbeast.generators.tickets.salt'));
+        });
     }
 }

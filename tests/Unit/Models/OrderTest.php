@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use Mockery;
 use Tests\TestCase;
 use App\Models\Order;
 use App\Models\Ticket;
@@ -23,13 +24,18 @@ class OrderTest extends TestCase
             'amount' => 3600,
             'card_last_four' => 1234,
         ]);
+        $tickets = collect([
+            Mockery::spy(Ticket::class),
+            Mockery::spy(Ticket::class),
+            Mockery::spy(Ticket::class),
+        ]);
 
         $order = Order::forTickets($tickets, 'john@example.com', $charge);
 
         $this->assertEquals('john@example.com', $order->email);
-        $this->assertEquals(3, $order->ticketQuantity());
         $this->assertEquals(3600, $order->amount);
         $this->assertEquals('1234', $order->card_last_four);
+        $tickets->each->shouldHaveReceived('claimFor', [$order]);
     }
 
     /** @test */
