@@ -6,7 +6,7 @@
 @section('content-full')
   <div class="min-h-full bg-gray-100">
     <div class="p-6 md:p-16 m-auto max-w-4xl w-full">
-      <div class="flex justify-between items-center">
+      <div class="sm:flex sm:justify-between sm:items-center">
         <div>
           <h3 class="text-lg font-light text-gray-800">Order Summary</h3>
           <time datetime="{{ $order->created_at->toDateTimeString() }}" class="text-sm text-gray-600">
@@ -14,13 +14,18 @@
           </time>
         </div>
 
-        <a href="{{ route('orders.show', $order->confirmation_number) }}" class="font-mono text-brand-600 hover:text-brand-800">#{{ $order->confirmation_number }}</a>
+        <div class="mt-6 sm:mt-0">
+          <a href="{{ route('orders.show', $order->confirmation_number) }}" class="font-mono text-brand-600 hover:text-brand-800">#{{ $order->confirmation_number }}</a>
+        </div>
       </div>
 
       <div class="mt-6 w-full h-px bg-gray-300"></div>
 
-      <div class="mt-3">
-        <div class="text-xl font-semibold">${{ number_format($order->amount / 100, 2) }}</div>
+      <div class="mt-3 text-right">
+        <div class="text-xl font-semibold">
+          ${{ number_format($order->amount / 100, 2) }}
+        </div>
+
         <div class="mt-2 text-xs font-mono text-gray-600">
           &bullet;&bullet;&bullet;&bullet;
           &bullet;&bullet;&bullet;&bullet;
@@ -36,7 +41,7 @@
       <div class="-mt-8">
         @foreach($order->tickets as $ticket)
           <div class="mt-12 rounded-lg">
-            <div class="p-6 bg-gray-700 rounded-t-lg flex justify-between">
+            <div class="p-6 bg-gray-700 rounded-t-lg flex justify-between items-center">
               <div>
                 <div class="text-xl font-light text-white">{{ $ticket->concert->title }}</div>
                 <div class="-mt-1 font-light text-gray-500">{{ $ticket->concert->subtitle }}</div>
