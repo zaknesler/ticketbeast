@@ -10,19 +10,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderConfirmationEmailTest extends TestCase
 {
-    /**
-     * Render a specified mailable to perform tests upon it.
-     *
-     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
-     * @return string
-     */
-    private function render($mailable)
-    {
-        $mailable->build();
-
-        return view($mailable->view, $mailable->buildViewData())->render();
-    }
-
     /** @test */
     function order_confirmation_email_contains_a_link_to_the_order_confirmation_page()
     {
@@ -30,7 +17,7 @@ class OrderConfirmationEmailTest extends TestCase
             'confirmation_number' => 'ORDERCONFIRMATION1234',
         ]);
 
-        $renderedEmail = $this->render(new OrderConfirmationEmail($order));
+        $renderedEmail = (new OrderConfirmationEmail($order))->render();
 
         $this->assertContains(url('/orders/ORDERCONFIRMATION1234'), $renderedEmail);
     }
