@@ -7,6 +7,10 @@ mix.setPublicPath('public')
     require('tailwindcss'),
     require('autoprefixer')
   ])
+  .postCss('resources/css/mail.css', '../resources/views/vendor/mail/html/themes/custom.css', [
+    require('tailwindcss'),
+    require('autoprefixer')
+  ])
   .js('resources/js/app.js', 'public/js')
 
 if (mix.inProduction()) {
