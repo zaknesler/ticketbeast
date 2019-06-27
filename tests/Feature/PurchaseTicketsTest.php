@@ -15,6 +15,11 @@ class PurchaseTicketsTest extends TestCase
     use RefreshDatabase;
 
     /**
+     * @var \App\Billing\PaymentGateway
+     */
+    private $paymentGateway;
+
+    /**
      * Setup the test environment.
      *
      * @return void
