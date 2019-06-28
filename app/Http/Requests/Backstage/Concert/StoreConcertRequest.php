@@ -24,18 +24,18 @@ class StoreConcertRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
-            'subtitle' => 'nullable|string',
-            'date' => 'required|string',
-            'time' => 'required|string',
-            'ticket_price' => 'required|numeric|min:0',
-            'venue' => 'required|string',
-            'venue_address' => 'required|string',
-            'city' => 'required|string',
-            'state' => 'required|string',
-            'zip' => 'required|string',
-            'additional_information' => 'nullable|string',
-            'ticket_quantity' => 'required|integer|min:1',
+            'title' => ['required'],
+            'subtitle' => ['nullable'],
+            'date' => ['required', 'date'],
+            'time' => ['required', 'date_format:g:ia'],
+            'venue' => ['required'],
+            'venue_address' => ['required'],
+            'city' => ['required'],
+            'state' => ['required'],
+            'zip' => ['required'],
+            'additional_information' => ['nullable'],
+            'ticket_price' => ['required', 'numeric', 'min:5'],
+            'ticket_quantity' => ['required', 'integer', 'min:1'],
         ];
     }
 }

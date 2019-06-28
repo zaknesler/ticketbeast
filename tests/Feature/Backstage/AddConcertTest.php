@@ -13,6 +13,24 @@ class AddConcertTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function validParams($overrides = [])
+    {
+        return array_merge([
+            'title' => 'Example Band',
+            'subtitle' => 'Example Subtitle',
+            'additional_information' => "Some extra info.",
+            'date' => '2050-11-18',
+            'time' => '8:45pm',
+            'venue' => 'Fake Venue',
+            'venue_address' => '123 Fake St.',
+            'city' => 'Fakeville',
+            'state' => 'FK',
+            'zip' => '12345',
+            'ticket_price' => '1999',
+            'ticket_quantity' => '50',
+        ], $overrides);
+    }
+
     /** @test */
     function promoters_can_view_the_add_concert_page()
     {
@@ -37,54 +55,41 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
-            'title' => 'No Warning',
-            'subtitle' => 'with Cruel Hand and Backtrack',
-            'additional_information' => "You must be 19 years of age to attend this concert.",
-            'date' => '2017-11-18',
-            'time' => '8:00pm',
-            'venue' => 'The Mosh Pit',
+            'title' => 'Example Band',
+            'subtitle' => 'Example Subtitle',
+            'additional_information' => "Some extra info.",
+            'date' => '2050-11-18',
+            'time' => '8:45pm',
+            'venue' => 'Fake Venue',
             'venue_address' => '123 Fake St.',
-            'city' => 'Laraville',
-            'state' => 'ON',
+            'city' => 'Fakeville',
+            'state' => 'FK',
             'zip' => '12345',
-            'ticket_price' => '32.50',
-            'ticket_quantity' => '75',
+            'ticket_price' => '59.50',
+            'ticket_quantity' => '50',
         ]);
 
         $concert = Concert::first();
 
         $response->assertStatus(302);
         $response->assertRedirect(route('concerts.show', $concert));
-        $this->assertEquals('No Warning', $concert->title);
-        $this->assertEquals('with Cruel Hand and Backtrack', $concert->subtitle);
-        $this->assertEquals("You must be 19 years of age to attend this concert.", $concert->additional_information);
-        $this->assertEquals(Carbon::parse('2017-11-18 8:00pm'), $concert->date);
-        $this->assertEquals('The Mosh Pit', $concert->venue);
+        $this->assertEquals('Example Band', $concert->title);
+        $this->assertEquals('Example Subtitle', $concert->subtitle);
+        $this->assertEquals("Some extra info.", $concert->additional_information);
+        $this->assertEquals(Carbon::parse('2050-11-18 8:45pm'), $concert->date);
+        $this->assertEquals('Fake Venue', $concert->venue);
         $this->assertEquals('123 Fake St.', $concert->venue_address);
-        $this->assertEquals('Laraville', $concert->city);
-        $this->assertEquals('ON', $concert->state);
+        $this->assertEquals('Fakeville', $concert->city);
+        $this->assertEquals('FK', $concert->state);
         $this->assertEquals('12345', $concert->zip);
-        $this->assertEquals(3250, $concert->ticket_price);
-        $this->assertEquals(75, $concert->ticketsRemaining());
+        $this->assertEquals(5950, $concert->ticket_price);
+        $this->assertEquals(50, $concert->ticketsRemaining());
     }
 
     /** @test */
     function guests_cannot_add_concerts()
     {
-        $response = $this->post(route('backstage.concerts.store'), [
-            'title' => 'No Warning',
-            'subtitle' => 'with Cruel Hand and Backtrack',
-            'additional_information' => "You must be 19 years of age to attend this concert.",
-            'date' => '2017-11-18',
-            'time' => '8:00pm',
-            'venue' => 'The Mosh Pit',
-            'venue_address' => '123 Fake St.',
-            'city' => 'Laraville',
-            'state' => 'ON',
-            'zip' => '12345',
-            'ticket_price' => '32.50',
-            'ticket_quantity' => '75',
-        ]);
+        $response = $this->post(route('backstage.concerts.store'), $this->validParams());
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -92,25 +97,237 @@ class AddConcertTest extends TestCase
     }
 
     /** @test */
-    function invalid_form_input_returns_proper_validation_errors()
+    function title_is_required()
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'));
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'title' => '',
+        ]));
 
         $response->assertStatus(302);
-        $response->assertSessionHasErrors([
-            'title',
-            'date',
-            'time',
-            'venue',
-            'venue_address',
-            'city',
-            'state',
-            'zip',
-            'ticket_price',
-            'ticket_quantity',
+        $response->assertSessionHasErrors('title');
+    }
+
+    /** @test */
+    function subtitle_is_optional()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'subtitle' => '',
         ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors('subtitle');
+    }
+
+    /** @test */
+    function additional_informationt_is_optional()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'additional_informationt' => '',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors('additional_informationt');
+    }
+
+    /** @test */
+    function date_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'date' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('date');
+    }
+
+    /** @test */
+    function date_must_be_properly_formatted()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'date' => '2019-01-',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('date');
+    }
+
+    /** @test */
+    function properly_formatted_dates_are_allowed()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'date' => '2019-01-02',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors('date');
+    }
+
+    /** @test */
+    function time_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'time' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('time');
+    }
+
+    /** @test */
+    function time_must_be_properly_formatted()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'time' => '10:45',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('time');
+    }
+
+    /** @test */
+    function properly_formatted_times_are_allowed()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'time' => '10:45pm',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors('time');
+    }
+
+    /** @test */
+    function venue_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'venue' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('venue');
+    }
+
+    /** @test */
+    function venue_address_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'venue_address' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('venue_address');
+    }
+
+    /** @test */
+    function city_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'city' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('city');
+    }
+
+    /** @test */
+    function state_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'state' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('state');
+    }
+
+    /** @test */
+    function zip_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'zip' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('zip');
+    }
+
+    /** @test */
+    function ticket_price_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'ticket_price' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_price');
+    }
+
+    /** @test */
+    function ticket_price_must_be_numeric()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'ticket_price' => 'not a number',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_price');
+    }
+
+    /** @test */
+    function ticket_price_must_be_greater_than_five_dollars()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'ticket_price' => '4.99',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_price');
+    }
+
+    /** @test */
+    function ticket_quantity_is_required()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'ticket_quantity' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_quantity');
     }
 
     /** @test */
@@ -137,18 +354,5 @@ class AddConcertTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('ticket_quantity');
-    }
-
-    /** @test */
-    function ticket_price_must_be_numeric()
-    {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
-            'ticket_price' => 'not a number',
-        ]);
-
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors('ticket_price');
     }
 }
