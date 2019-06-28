@@ -46,7 +46,6 @@
             </li>
           @else
             <li><a href="{{ route('login') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Sign in</a></li>
-            <li><a href="{{ route('register') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Sign up</a></li>
           @endauth
         </ul>
       </nav>
