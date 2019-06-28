@@ -34,8 +34,6 @@ class AddConcertTest extends TestCase
     /** @test */
     function promoters_can_add_a_valid_concert()
     {
-        $this->withoutExceptionHandling();
-
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)->post('/backstage/concerts', [
@@ -68,5 +66,28 @@ class AddConcertTest extends TestCase
         $this->assertEquals('12345', $concert->zip);
         $this->assertEquals(3250, $concert->ticket_price);
         $this->assertEquals(75, $concert->ticketsRemaining());
+    }
+
+    /** @test */
+    function guests_cannot_add_concerts()
+    {
+        $response = $this->post('/backstage/concerts', [
+            'title' => 'No Warning',
+            'subtitle' => 'with Cruel Hand and Backtrack',
+            'additional_information' => "You must be 19 years of age to attend this concert.",
+            'date' => '2017-11-18',
+            'time' => '8:00pm',
+            'venue' => 'The Mosh Pit',
+            'venue_address' => '123 Fake St.',
+            'city' => 'Laraville',
+            'state' => 'ON',
+            'zip' => '12345',
+            'ticket_price' => '32.50',
+            'ticket_quantity' => '75',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+        $this->assertEquals(0, Concert::count());
     }
 }
