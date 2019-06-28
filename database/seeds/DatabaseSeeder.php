@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\User;
+use App\Models\Concert;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,9 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        factory(User::class)->create([
+            'email' => 'zak@example.com',
+            'password' => Hash::make('password'),
+        ]);
 
-        factory(App\Models\Concert::class)
+        factory(Concert::class)
             ->states('published')
             ->create()
             ->addTickets(10);
