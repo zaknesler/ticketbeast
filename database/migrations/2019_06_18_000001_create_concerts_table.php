@@ -16,7 +16,7 @@ class CreateConcertsTable extends Migration
         Schema::create('concerts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->string('subtitle');
+            $table->string('subtitle')->nullable();
             $table->timestamp('date');
             $table->bigInteger('ticket_price');
             $table->string('venue');
@@ -24,7 +24,7 @@ class CreateConcertsTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('zip');
-            $table->text('additional_information');
+            $table->text('additional_information')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
