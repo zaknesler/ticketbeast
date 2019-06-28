@@ -15,6 +15,8 @@ class CreateConcertsTable extends Migration
     {
         Schema::create('concerts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+
             $table->string('title');
             $table->string('subtitle')->nullable();
             $table->timestamp('date');
@@ -25,8 +27,11 @@ class CreateConcertsTable extends Migration
             $table->string('state');
             $table->string('zip');
             $table->text('additional_information')->nullable();
+
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

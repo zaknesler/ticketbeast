@@ -58,6 +58,8 @@ class AddConcertTest extends TestCase
     /** @test */
     function promoters_can_add_a_valid_concert()
     {
+        $this->withoutExceptionHandling();
+
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
@@ -79,6 +81,9 @@ class AddConcertTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect(route('concerts.show', $concert));
+
+        $this->assertTrue($concert->user->is($user));
+
         $this->assertEquals('Example Band', $concert->title);
         $this->assertEquals('Example Subtitle', $concert->subtitle);
         $this->assertEquals("Some extra info.", $concert->additional_information);
@@ -124,9 +129,12 @@ class AddConcertTest extends TestCase
             'subtitle' => '',
         ]));
 
+        $concert = Concert::first();
+
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors('subtitle');
-        $this->assertNull(Concert::first()->subtitle);
+        $this->assertNull($concert->subtitle);
+        $this->assertTrue($concert->user->is($user));
     }
 
     /** @test */
@@ -138,9 +146,12 @@ class AddConcertTest extends TestCase
             'additional_information' => '',
         ]));
 
+        $concert = Concert::first();
+
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors('additional_information');
-        $this->assertNull(Concert::first()->additional_information);
+        $this->assertNull($concert->additional_information);
+        $this->assertTrue($concert->user->is($user));
     }
 
     /** @test */

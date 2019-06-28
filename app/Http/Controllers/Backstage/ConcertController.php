@@ -28,7 +28,7 @@ class ConcertController extends Controller
      */
     public function store(StoreConcertRequest $request)
     {
-        $concert = Concert::create([
+        $concert = $request->user()->concerts()->create([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
             'date' => Carbon::parse(vsprintf('%s %s', [$request->date, $request->time])),
