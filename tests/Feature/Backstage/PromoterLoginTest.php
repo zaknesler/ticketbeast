@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Backstage;
 
 use Tests\TestCase;
 use App\Models\User;
@@ -26,7 +26,7 @@ class PromoterLoginTest extends TestCase
             'password' => 'secret-password',
         ]);
 
-        $response->assertRedirect('/backstage/concerts');
+        $response->assertRedirect('/backstage/concerts/new');
         $this->assertTrue(Auth::check());
         $this->assertTrue(Auth::user()->is($user));
     }
