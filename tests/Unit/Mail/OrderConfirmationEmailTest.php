@@ -19,7 +19,7 @@ class OrderConfirmationEmailTest extends TestCase
 
         $renderedEmail = (new OrderConfirmationEmail($order))->render();
 
-        $this->assertContains(url('/orders/ORDERCONFIRMATION1234'), $renderedEmail);
+        $this->assertStringContainsString(url('/orders/ORDERCONFIRMATION1234'), $renderedEmail);
     }
 
     /** @test */
