@@ -32,4 +32,4 @@ Route::get('/orders/{confirmationNumber}', 'OrderController@show')->name('orders
 /**
  * Backstage
  */
-Route::get('/backstage/concerts', null)->name('backstage.concerts.index');
+Route::get('/backstage/concerts/new', 'Backstage\\ConcertController@create')->name('backstage.concerts.create');
