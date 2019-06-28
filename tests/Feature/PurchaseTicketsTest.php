@@ -52,19 +52,6 @@ class PurchaseTicketsTest extends TestCase
         return $response;
     }
 
-    /**
-     * Assert that a validation error is stored in the response.
-     *
-     * @param  \Illuminate\Http\Response  $response
-     * @param  string  $field
-     * @return void
-     */
-    private function assertValidationError($response, $field)
-    {
-        $response->assertStatus(422);
-        $this->assertArrayHasKey($field, $response->decodeResponseJson()['errors']);
-    }
-
     /** @test */
     function can_purchase_tickets_to_a_published_concert()
     {
@@ -193,7 +180,7 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' => $this->paymentGateway->getValidTestToken(),
         ]);
 
-        $this->assertValidationError($response, 'email');
+        $response->assertJsonValidationErrors('email');
     }
 
     /** @test */
@@ -207,7 +194,7 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' => $this->paymentGateway->getValidTestToken(),
         ]);
 
-        $this->assertValidationError($response, 'email');
+        $response->assertJsonValidationErrors('email');
     }
 
     /** @test */
@@ -220,7 +207,7 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' => $this->paymentGateway->getValidTestToken(),
         ]);
 
-        $this->assertValidationError($response, 'ticket_quantity');
+        $response->assertJsonValidationErrors('ticket_quantity');
     }
 
     /** @test */
@@ -234,7 +221,7 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' => $this->paymentGateway->getValidTestToken(),
         ]);
 
-        $this->assertValidationError($response, 'ticket_quantity');
+        $response->assertJsonValidationErrors('ticket_quantity');
     }
 
     /** @test */
@@ -248,7 +235,7 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' => $this->paymentGateway->getValidTestToken(),
         ]);
 
-        $this->assertValidationError($response, 'ticket_quantity');
+        $response->assertJsonValidationErrors('ticket_quantity');
     }
 
     /** @test */
@@ -261,6 +248,6 @@ class PurchaseTicketsTest extends TestCase
             'ticket_quantity' => 3,
         ]);
 
-        $this->assertValidationError($response, 'payment_token');
+        $response->assertJsonValidationErrors('payment_token');
     }
 }

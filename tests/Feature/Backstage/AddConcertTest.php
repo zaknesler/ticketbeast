@@ -36,7 +36,7 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post('/backstage/concerts', [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
             'title' => 'No Warning',
             'subtitle' => 'with Cruel Hand and Backtrack',
             'additional_information' => "You must be 19 years of age to attend this concert.",
@@ -54,7 +54,7 @@ class AddConcertTest extends TestCase
         $concert = Concert::first();
 
         $response->assertStatus(302);
-        $response->assertRedirect("/concerts/{$concert->id}");
+        $response->assertRedirect(route('concerts.show', $concert));
         $this->assertEquals('No Warning', $concert->title);
         $this->assertEquals('with Cruel Hand and Backtrack', $concert->subtitle);
         $this->assertEquals("You must be 19 years of age to attend this concert.", $concert->additional_information);
@@ -71,7 +71,7 @@ class AddConcertTest extends TestCase
     /** @test */
     function guests_cannot_add_concerts()
     {
-        $response = $this->post('/backstage/concerts', [
+        $response = $this->post(route('backstage.concerts.store'), [
             'title' => 'No Warning',
             'subtitle' => 'with Cruel Hand and Backtrack',
             'additional_information' => "You must be 19 years of age to attend this concert.",
@@ -89,5 +89,66 @@ class AddConcertTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/login');
         $this->assertEquals(0, Concert::count());
+    }
+
+    /** @test */
+    function invalid_form_input_returns_proper_validation_errors()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'));
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors([
+            'title',
+            'date',
+            'time',
+            'venue',
+            'venue_address',
+            'city',
+            'state',
+            'zip',
+            'ticket_price',
+            'ticket_quantity',
+        ]);
+    }
+
+    /** @test */
+    function ticket_quantity_must_be_an_integer()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'ticket_quantity' => 11.5,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_quantity');
+    }
+
+    /** @test */
+    function ticket_quantity_must_be_greater_than_one()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'ticket_quantity' => 0,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_quantity');
+    }
+
+    /** @test */
+    function ticket_price_must_be_numeric()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+            'ticket_price' => 'not a number',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('ticket_price');
     }
 }

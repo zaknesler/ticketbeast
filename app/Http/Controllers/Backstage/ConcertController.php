@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Concert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backstage\Concert\StoreConcertRequest;
 
 class ConcertController extends Controller
 {
@@ -22,10 +23,10 @@ class ConcertController extends Controller
     /**
      * Create a new concert.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Backstage\Concert\StoreConcertRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreConcertRequest $request)
     {
         $concert = Concert::create([
             'title' => $request->title,

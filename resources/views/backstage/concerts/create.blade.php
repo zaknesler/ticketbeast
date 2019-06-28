@@ -52,7 +52,6 @@
                 <label>
                   <span class="text-sm font-medium text-gray-800 {{ $errors->first('subtitle', 'text-red-700') }}">Subtitle <span class="text-xs text-gray-500">(Optional)</span></span>
                   <input
-                    required
                     tabindex="2"
                     type="text"
                     name="subtitle"
@@ -71,7 +70,6 @@
                 <label>
                   <span class="text-sm font-medium text-gray-800 {{ $errors->first('additional_information', 'text-red-700') }}">Additional Information <span class="text-xs text-gray-500">(Optional)</span></span>
                   <textarea
-                    required
                     tabindex="3"
                     name="additional_information"
                     class="mt-1 form-textarea block w-full min-h-32 {{ $errors->first('additional_information', 'border-red-500') }}"
