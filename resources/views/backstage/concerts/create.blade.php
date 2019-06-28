@@ -23,7 +23,7 @@
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
                 <p>Tell us who's playing!</p>
-                <p class="mt-2">Include the headliner in the concert title, use the subtitle to list any additionally playing bands, and the additional information field for any important information fans need to know about.</p>
+                <p class="mt-2">Include the headliner in the concert title and any additional bands in the subtitle.</p>
               </div>
             </div>
 
@@ -43,7 +43,7 @@
                   />
 
                   @if ($errors->has('title'))
-                    <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('title') }}</div>
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('title') }}</div>
                   @endif
                 </label>
               </div>
@@ -61,7 +61,7 @@
                   />
 
                   @if ($errors->has('subtitle'))
-                    <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('subtitle') }}</div>
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('subtitle') }}</div>
                   @endif
                 </label>
               </div>
@@ -73,11 +73,11 @@
                     tabindex="3"
                     name="additional_information"
                     class="mt-1 form-textarea block w-full min-h-32 {{ $errors->first('additional_information', 'border-red-500') }}"
-                    placeholder="This concert is 18+"
+                    placeholder="This concert is 18+."
                   >{{ old('additional_information') }}</textarea>
 
                   @if ($errors->has('additional_information'))
-                    <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('additional_information') }}</div>
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('additional_information') }}</div>
                   @endif
                 </label>
               </div>
@@ -111,7 +111,7 @@
                     />
 
                     @if ($errors->has('date'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('date') }}</div>
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('date') }}</div>
                     @endif
                   </label>
                 </div>
@@ -130,7 +130,7 @@
                     />
 
                     @if ($errors->has('time'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('time') }}</div>
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('time') }}</div>
                     @endif
                   </label>
                 </div>
@@ -164,7 +164,7 @@
                   />
 
                   @if ($errors->has('venue'))
-                    <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('venue') }}</div>
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('venue') }}</div>
                   @endif
                 </label>
               </div>
@@ -183,7 +183,7 @@
                   />
 
                   @if ($errors->has('venue_address'))
-                    <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('venue_address') }}</div>
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('venue_address') }}</div>
                   @endif
                 </label>
               </div>
@@ -203,7 +203,7 @@
                     />
 
                     @if ($errors->has('city'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('city') }}</div>
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('city') }}</div>
                     @endif
                   </label>
                 </div>
@@ -223,7 +223,7 @@
                       />
 
                       @if ($errors->has('state'))
-                        <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('state') }}</div>
+                        <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('state') }}</div>
                       @endif
                     </label>
                   </div>
@@ -242,7 +242,7 @@
                       />
 
                       @if ($errors->has('zip'))
-                        <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('zip') }}</div>
+                        <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('zip') }}</div>
                       @endif
                     </label>
                   </div>
@@ -274,11 +274,12 @@
                       name="ticket_price"
                       value="{{ old('ticket_price') }}"
                       class="mt-1 form-input block w-full {{ $errors->first('ticket_price', 'border-red-500') }}"
-                      placeholder="0.00"
+                      placeholder="20.00"
+                      min="5"
                     />
 
                     @if ($errors->has('ticket_price'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('ticket_price') }}</div>
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('ticket_price') }}</div>
                     @endif
                   </label>
                 </div>
@@ -289,15 +290,16 @@
                     <input
                       required
                       tabindex="12"
-                      type="text"
+                      type="number"
                       name="ticket_quantity"
                       value="{{ old('ticket_quantity') }}"
                       class="mt-1 form-input block w-full {{ $errors->first('ticket_quantity', 'border-red-500') }}"
                       placeholder="250"
+                      min="1"
                     />
 
                     @if ($errors->has('ticket_quantity'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('ticket_quantity') }}</div>
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('ticket_quantity') }}</div>
                     @endif
                   </label>
                 </div>
