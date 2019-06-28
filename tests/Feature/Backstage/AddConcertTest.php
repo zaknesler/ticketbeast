@@ -13,6 +13,12 @@ class AddConcertTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Get the valid parameters for a successful request.
+     *
+     * @param  array  $overrides
+     * @return array
+     */
     private function validParams($overrides = [])
     {
         return array_merge([
@@ -26,7 +32,7 @@ class AddConcertTest extends TestCase
             'city' => 'Fakeville',
             'state' => 'FK',
             'zip' => '12345',
-            'ticket_price' => '1999',
+            'ticket_price' => '59.50',
             'ticket_quantity' => '50',
         ], $overrides);
     }
@@ -114,25 +120,27 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'subtitle' => '',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors('subtitle');
+        $this->assertNull(Concert::first()->subtitle);
     }
 
     /** @test */
-    function additional_informationt_is_optional()
+    function additional_information_is_optional()
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
-            'additional_informationt' => '',
-        ]);
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
+            'additional_information' => '',
+        ]));
 
         $response->assertStatus(302);
-        $response->assertSessionDoesntHaveErrors('additional_informationt');
+        $response->assertSessionDoesntHaveErrors('additional_information');
+        $this->assertNull(Concert::first()->additional_information);
     }
 
     /** @test */
@@ -153,9 +161,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'date' => '2019-01-',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('date');
@@ -166,9 +174,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'date' => '2019-01-02',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors('date');
@@ -192,9 +200,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'time' => '10:45',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('time');
@@ -205,9 +213,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'time' => '10:45pm',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionDoesntHaveErrors('time');
@@ -296,9 +304,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'ticket_price' => 'not a number',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('ticket_price');
@@ -309,9 +317,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'ticket_price' => '4.99',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('ticket_price');
@@ -335,9 +343,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'ticket_quantity' => 11.5,
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('ticket_quantity');
@@ -348,9 +356,9 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
+        $response = $this->actingAs($user)->post(route('backstage.concerts.store'), $this->validParams([
             'ticket_quantity' => 0,
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('ticket_quantity');
