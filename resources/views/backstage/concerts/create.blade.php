@@ -14,7 +14,9 @@
 
     <div class="min-h-full h-full w-full">
       <div class="p-6 mx-auto max-w-4xl">
-        <form class="block" action="#">
+        <form class="block" action="{{ route('backstage.concerts.store') }}" method="post">
+          @csrf
+
           <section class="sm:flex justify-between">
             <div class="sm:w-1/3">
               <div class="text-gray-900">Concert Details</div>
@@ -118,19 +120,19 @@
 
                 <div class="ml-6 flex-1">
                   <label>
-                    <span class="text-sm font-medium text-gray-800 {{ $errors->first('start_time', 'text-red-700') }}">Start time</span>
+                    <span class="text-sm font-medium text-gray-800 {{ $errors->first('time', 'text-red-700') }}">Start time</span>
                     <input
                       required
                       tabindex="5"
                       type="text"
-                      name="start_time"
-                      value="{{ old('start_time') }}"
-                      class="mt-1 form-input block w-full {{ $errors->first('start_time', 'border-red-500') }}"
+                      name="time"
+                      value="{{ old('time') }}"
+                      class="mt-1 form-input block w-full {{ $errors->first('time', 'border-red-500') }}"
                       placeholder="8:30pm"
                     />
 
-                    @if ($errors->has('start_time'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('start_time') }}</div>
+                    @if ($errors->has('time'))
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('time') }}</div>
                     @endif
                   </label>
                 </div>
@@ -285,19 +287,19 @@
 
                 <div class="ml-6 flex-1">
                   <label>
-                    <span class="text-sm font-medium text-gray-800 {{ $errors->first('tickets_available', 'text-red-700') }}">Tickets Available</span>
+                    <span class="text-sm font-medium text-gray-800 {{ $errors->first('ticket_quantity', 'text-red-700') }}">Tickets Available</span>
                     <input
                       required
                       tabindex="12"
                       type="text"
-                      name="tickets_available"
-                      value="{{ old('tickets_available') }}"
-                      class="mt-1 form-input block w-full {{ $errors->first('tickets_available', 'border-red-500') }}"
+                      name="ticket_quantity"
+                      value="{{ old('ticket_quantity') }}"
+                      class="mt-1 form-input block w-full {{ $errors->first('ticket_quantity', 'border-red-500') }}"
                       placeholder="250"
                     />
 
-                    @if ($errors->has('tickets_available'))
-                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('tickets_available') }}</div>
+                    @if ($errors->has('ticket_quantity'))
+                      <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('ticket_quantity') }}</div>
                     @endif
                   </label>
                 </div>
