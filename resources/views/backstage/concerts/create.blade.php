@@ -160,7 +160,7 @@
                     name="venue"
                     value="{{ old('venue') }}"
                     class="mt-1 form-input block w-full {{ $errors->first('venue', 'border-red-500') }}"
-                    placeholder="Roc"
+                    placeholder="The Mosh Pit"
                   />
 
                   @if ($errors->has('venue'))
