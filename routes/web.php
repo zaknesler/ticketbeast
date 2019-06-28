@@ -28,3 +28,8 @@ Route::post('/concerts/{concert}/orders', 'ConcertOrderController@store')->name(
  * Orders
  */
 Route::get('/orders/{confirmationNumber}', 'OrderController@show')->name('orders.show');
+
+/**
+ * Backstage
+ */
+Route::get('/backstage/concerts', null)->name('backstage.concerts.index');

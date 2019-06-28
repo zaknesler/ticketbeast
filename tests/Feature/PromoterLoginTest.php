@@ -18,12 +18,12 @@ class PromoterLoginTest extends TestCase
     {
         $user = factory(User::class)->create([
             'email' => 'jane@example.com',
-            'password' => Hash::make('secret_password'),
+            'password' => Hash::make('secret-password'),
         ]);
 
         $response = $this->post('/login', [
             'email' => 'jane@example.com',
-            'password' => 'secret_password',
+            'password' => 'secret-password',
         ]);
 
         $response->assertRedirect('/backstage/concerts');
@@ -36,7 +36,7 @@ class PromoterLoginTest extends TestCase
     {
         $user = factory(User::class)->create([
             'email' => 'jane@example.com',
-            'password' => Hash::make('secret_password'),
+            'password' => Hash::make('secret-password'),
         ]);
 
         $response = $this->post('/login', [
