@@ -9,6 +9,9 @@ module.exports = {
       boxShadow: theme => ({
         outline: `0 0 0 3px ${theme('colors.brand.500')}60`,
       }),
+      minHeight: {
+        32: defaultTheme.spacing[32],
+      },
     },
     customForms: theme => ({
       default: {

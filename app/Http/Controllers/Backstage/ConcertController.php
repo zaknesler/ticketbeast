@@ -9,6 +9,6 @@ class ConcertController extends Controller
 {
     public function create()
     {
-        //
+        return view('backstage.concerts.create');
     }
 }
