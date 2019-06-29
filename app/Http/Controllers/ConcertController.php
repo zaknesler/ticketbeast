@@ -28,7 +28,7 @@ class ConcertController extends Controller
      */
     public function show(Concert $concert)
     {
-        if (is_null($concert->published_at)) {
+        if (!$concert->isPublished()) {
             return abort(404);
         }
 
