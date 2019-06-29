@@ -7,6 +7,7 @@ use App\Models\Concert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backstage\Concert\StoreConcertRequest;
+use App\Http\Requests\Backstage\Concert\UpdateConcertRequest;
 
 class ConcertController extends Controller
 {
@@ -79,11 +80,31 @@ class ConcertController extends Controller
     /**
      * Update an existing concert.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Concert  $concert
+     * @param  \App\Http\Requests\Backstage\Concert\UpdateConcertRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request)
+    public function update(Concert $concert, UpdateConcertRequest $request)
     {
-        //
+        abort_unless($concert->user->is($request->user()), 404);
+        abort_if($concert->isPublished(), 403);
+
+        $concert->update([
+            'title' => request('title'),
+            'subtitle' => request('subtitle'),
+            'additional_information' => request('additional_information'),
+            'date' => Carbon::parse(vsprintf('%s %s', [
+                request('date'),
+                request('time'),
+            ])),
+            'venue' => request('venue'),
+            'venue_address' => request('venue_address'),
+            'city' => request('city'),
+            'state' => request('state'),
+            'zip' => request('zip'),
+            'ticket_price' => request('ticket_price') * 100,
+        ]);
+
+        return redirect()->route('backstage.concerts.index');
     }
 }
