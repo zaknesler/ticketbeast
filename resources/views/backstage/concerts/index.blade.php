@@ -35,7 +35,7 @@
                 </div>
 
                 <div>
-                  <a class="text-brand-600 hover:underline" href="#">View</a>
+                  <a class="text-brand-600 hover:underline" href="{{ route('concerts.show', $concert) }}">View</a>
                   <a class="pl-4 text-brand-600 hover:underline" href="#">Edit</a>
                 </div>
               </div>
