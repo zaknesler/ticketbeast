@@ -90,19 +90,16 @@ class ConcertController extends Controller
         abort_if($concert->isPublished(), 403);
 
         $concert->update([
-            'title' => request('title'),
-            'subtitle' => request('subtitle'),
-            'additional_information' => request('additional_information'),
-            'date' => Carbon::parse(vsprintf('%s %s', [
-                request('date'),
-                request('time'),
-            ])),
-            'venue' => request('venue'),
-            'venue_address' => request('venue_address'),
-            'city' => request('city'),
-            'state' => request('state'),
-            'zip' => request('zip'),
-            'ticket_price' => request('ticket_price') * 100,
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'additional_information' => $request->additional_information,
+            'date' => Carbon::parse(vsprintf('%s %s', [$request->date, $request->time])),
+            'venue' => $request->venue,
+            'venue_address' => $request->venue_address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip' => $request->zip,
+            'ticket_price' => $request->ticket_price * 100,
         ]);
 
         return redirect()->route('backstage.concerts.index');
