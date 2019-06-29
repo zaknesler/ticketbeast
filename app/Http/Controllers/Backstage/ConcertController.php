@@ -36,6 +36,21 @@ class ConcertController extends Controller
     }
 
     /**
+     * Show the concert edit form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Concert $concert, Request $request)
+    {
+        abort_unless($concert->user->is($request->user()), 404);
+        abort_if($concert->isPublished(), 403);
+
+        return view('backstage.concerts.edit', [
+            'concert' => $concert,
+        ]);
+    }
+
+    /**
      * Create a new concert.
      *
      * @param  \App\Http\Requests\Backstage\Concert\StoreConcertRequest  $request
@@ -59,5 +74,16 @@ class ConcertController extends Controller
         $concert->publish();
 
         return redirect()->route('concerts.show', $concert);
+    }
+
+    /**
+     * Update an existing concert.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request)
+    {
+        //
     }
 }
