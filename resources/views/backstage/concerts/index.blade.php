@@ -29,9 +29,15 @@
                 </time>
               </div>
 
-              <div class="pt-3 text-sm flex justify-end">
-                <a class="text-brand-600 hover:underline" href="#">View</a>
-                <a class="pl-4 text-brand-600 hover:underline" href="#">Edit</a>
+              <div class="pt-6 text-sm flex items-center justify-between">
+                <div class="text-gray-500">
+                  {{ $concert->ticketsRemaining() }} {{ Str::plural('ticket', $concert->ticketsRemaining()) }} left
+                </div>
+
+                <div>
+                  <a class="text-brand-600 hover:underline" href="#">View</a>
+                  <a class="pl-4 text-brand-600 hover:underline" href="#">Edit</a>
+                </div>
               </div>
             </div>
           </div>
