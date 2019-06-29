@@ -108,6 +108,26 @@ class Concert extends Model
     }
 
     /**
+     * Determine if a given concert is published.
+     *
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return $this->published_at !== null;
+    }
+
+    /**
+     * Publish a concert.
+     *
+     * @return void
+     */
+    public function publish()
+    {
+        $this->update(['published_at' => $this->freshTimestamp()]);
+    }
+
+    /**
      * Scope a query to only include published concerts.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

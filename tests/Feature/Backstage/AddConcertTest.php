@@ -83,6 +83,7 @@ class AddConcertTest extends TestCase
         $response->assertRedirect(route('concerts.show', $concert));
 
         $this->assertTrue($concert->user->is($user));
+        $this->assertTrue($concert->isPublished());
 
         $this->assertEquals('Example Band', $concert->title);
         $this->assertEquals('Example Subtitle', $concert->subtitle);
@@ -135,6 +136,8 @@ class AddConcertTest extends TestCase
         $response->assertSessionDoesntHaveErrors('subtitle');
         $this->assertNull($concert->subtitle);
         $this->assertTrue($concert->user->is($user));
+
+        $this->assertTrue($concert->isPublished());
     }
 
     /** @test */
