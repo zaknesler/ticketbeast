@@ -31,13 +31,13 @@
       :class="{ hidden: !displayNavigation }"
       :aria-expanded="displayNavigation"
     >
-      <nav class="sm:flex-1" aria-label="Left navigation">
+      <nav class="sm:flex-1 text-sm" aria-label="Left navigation">
         <ul class="sm:flex sm:items-baseline">
-          {{-- <li><a href="{{ route('home') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Home</a></li> --}}
+          <li><a href="{{ route('backstage.concerts.index') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Your Concerts</a></li>
         </ul>
       </nav>
 
-      <nav class="sm:flex sm:items-center" aria-label="Right navigation">
+      <nav class="sm:flex sm:items-center text-sm" aria-label="Right navigation">
         <ul class="sm:flex sm:items-baseline">
           @auth
             <li>

@@ -14,25 +14,27 @@
     <script src="{{ mix('js/app.js') }}" defer></script>
   </head>
   <body class="font-sans font-normal text-base tracking-normal leading-normal bg-white text-gray-700 min-h-full h-full">
-    <div id="app" class="min-h-full h-full" v-cloak>
-      @hasSection('show-header')
-        @include('layouts/partials/_header')
-      @endif
+    <div id="app" class="min-h-full h-full flex flex-col" v-cloak>
+      <div class="flex-1">
+        @hasSection('show-header')
+          @include('layouts/partials/_header')
+        @endif
 
-      @hasSection('content-full')
-        @yield('content-full')
-      @endif
+        @hasSection('content-full')
+          @yield('content-full')
+        @endif
 
-      @hasSection('content')
-        <div class="p-6 w-full">
-          <div class="max-w-2xl mx-auto">
-            @yield('content')
+        @hasSection('content')
+          <div class="p-6 w-full">
+            <div class="max-w-2xl mx-auto">
+              @yield('content')
+            </div>
           </div>
-        </div>
-      @endif
+        @endif
+      </div>
 
       @hasSection('show-footer')
-        <div class="px-6 py-12 w-full bg-gray-900 text-gray-500 shadow-inner text-center text-sm">
+        <div class="px-6 py-8 w-full bg-gray-900 text-gray-500 shadow-inner text-center text-sm">
           &copy; Ticketbeast {{ date('Y') }}
         </div>
       @endif
