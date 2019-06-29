@@ -20,11 +20,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        factory(Concert::class)
-            ->states('published')
-            ->create([
-                'user_id' => $user->id,
-            ])
-            ->addTickets(50);
+        ConcertHelper::createPublished(['user_id' => $user->id, 'ticket_quantity' => 50]);
     }
 }

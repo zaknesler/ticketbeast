@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\Order;
 use App\Models\Ticket;
 use App\Models\Concert;
+use App\Database\Helpers\ConcertHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Billing\Exceptions\NotEnoughTicketsException;
 
@@ -74,15 +75,6 @@ class ConcertTest extends TestCase
         $this->assertEquals(5, $concert->ticketsRemaining());
     }
 
-    /** @test */
-    function concert_can_have_tickets_added()
-    {
-        $concert = factory(Concert::class)->create();
-
-        $concert->addTickets(50);
-
-        $this->assertEquals(50, $concert->ticketsRemaining());
-    }
 
     /** @test */
     function tickets_remaining_for_a_concert_does_not_include_ones_on_an_order()
@@ -100,7 +92,7 @@ class ConcertTest extends TestCase
     /** @test */
     function trying_to_reserve_more_tickets_than_remain_throws_an_exception()
     {
-        $concert = factory(Concert::class)->create()->addTickets(10);
+        $concert = ConcertHelper::createPublished(['ticket_quantity' => 10]);
 
         try {
             $concert->reserveTickets(11, 'john@example.com');
@@ -117,7 +109,7 @@ class ConcertTest extends TestCase
     /** @test */
     function can_reserve_available_tickets()
     {
-        $concert = factory(Concert::class)->create()->addTickets(3);
+        $concert = ConcertHelper::createPublished(['ticket_quantity' => 3]);
         $this->assertEquals(3, $concert->ticketsRemaining());
 
         $reservation = $concert->reserveTickets(2, 'john@example.com');
@@ -130,7 +122,7 @@ class ConcertTest extends TestCase
     /** @test */
     function cannot_reserve_tickets_that_have_already_been_purchased()
     {
-        $concert = factory(Concert::class)->create()->addTickets(3);
+        $concert = ConcertHelper::createPublished(['ticket_quantity' => 3]);
         $order = factory(Order::class)->create();
 
         $order->tickets()->saveMany($concert->tickets->take(2));
@@ -149,7 +141,7 @@ class ConcertTest extends TestCase
     /** @test */
     function cannot_reserve_tickets_that_have_already_been_reserved()
     {
-        $concert = factory(Concert::class)->create()->addTickets(3);
+        $concert = ConcertHelper::createPublished(['ticket_quantity' => 3]);
         $concert->reserveTickets(2, 'jane@example.com');
 
         try {
