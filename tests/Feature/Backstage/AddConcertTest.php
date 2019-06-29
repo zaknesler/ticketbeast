@@ -42,7 +42,7 @@ class AddConcertTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->get('/backstage/concerts/new');
+        $response = $this->actingAs($user)->get(route('backstage.concerts.create'));
 
         $response->assertSuccessful();
     }
@@ -50,7 +50,7 @@ class AddConcertTest extends TestCase
     /** @test */
     function guests_cannot_view_the_add_concert_form()
     {
-        $response = $this->get('/backstage/concerts/new');
+        $response = $this->get(route('backstage.concerts.create'));
 
         $response->assertStatus(302);
     }
