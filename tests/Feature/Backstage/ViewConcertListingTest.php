@@ -33,9 +33,9 @@ class ViewConcertListingTest extends TestCase
         $response = $this->actingAs($user)->get(route('backstage.concerts.index'));
 
         $response->assertSuccessful();
-        $this->assertTrue($response->original->getData()['concerts']->contains($ownedConcertA));
-        $this->assertTrue($response->original->getData()['concerts']->contains($ownedConcertB));
-        $this->assertFalse($response->original->getData()['concerts']->contains($unownedConcertA));
-        $this->assertFalse($response->original->getData()['concerts']->contains($unownedConcertB));
+        $response->data('concerts')->assertContains($ownedConcertA);
+        $response->data('concerts')->assertContains($ownedConcertB);
+        $response->data('concerts')->assertNotContains($unownedConcertA);
+        $response->data('concerts')->assertNotContains($unownedConcertB);
     }
 }
