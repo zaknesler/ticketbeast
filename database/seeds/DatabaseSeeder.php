@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\Concert;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Database\Helpers\ConcertHelper;
 
 class DatabaseSeeder extends Seeder
 {

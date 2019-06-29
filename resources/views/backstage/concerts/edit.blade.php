@@ -293,7 +293,7 @@
                       tabindex="12"
                       type="number"
                       name="ticket_quantity"
-                      value="{{ old('ticket_quantity', $concert->tickets()->count()) }}"
+                      value="{{ old('ticket_quantity', $concert->ticket_quantity) }}"
                       class="mt-1 form-input block w-full {{ $errors->first('ticket_quantity', 'border-red-500') }}"
                       placeholder="250"
                       min="1"
