@@ -25,7 +25,7 @@
                 <div class="text-gray-800 font-semibold">{{ $concert->title }}</div>
 
                 <time class="block text-sm text-gray-600" datetime="{{ $concert->date }}">
-                  {{ $concert->formatted_date }}
+                  {{ $concert->date->format('F j, Y g:ia') }}
                 </time>
               </div>
 
