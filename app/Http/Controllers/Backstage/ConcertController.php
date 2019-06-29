@@ -11,6 +11,21 @@ use App\Http\Requests\Backstage\Concert\StoreConcertRequest;
 class ConcertController extends Controller
 {
     /**
+     * Show all concerts that belong to a user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $concerts = $request->user()->concerts;
+
+        return view('backstage.concerts.index', [
+            'concerts' => $concerts,
+        ]);
+    }
+
+    /**
      * Show the concert create form.
      *
      * @return \Illuminate\Http\Response
