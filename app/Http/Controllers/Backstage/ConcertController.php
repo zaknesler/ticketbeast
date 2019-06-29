@@ -18,7 +18,7 @@ class ConcertController extends Controller
      */
     public function index(Request $request)
     {
-        $concerts = $request->user()->concerts;
+        $concerts = $request->user()->concerts()->latest()->get();
 
         return view('backstage.concerts.index', [
             'concerts' => $concerts,
