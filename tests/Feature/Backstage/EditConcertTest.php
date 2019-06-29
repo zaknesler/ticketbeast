@@ -105,7 +105,6 @@ class EditConcertTest extends TestCase
     /** @test */
     function promoters_can_edit_their_own_unpublished_concerts()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $concert = factory(Concert::class)->create([
             'user_id' => $user->id,
@@ -124,7 +123,19 @@ class EditConcertTest extends TestCase
 
         $response = $this->actingAs($user)
             ->from(route('backstage.concerts.index'))
-            ->patch(route('backstage.concerts.update', $concert), $this->validParams());
+            ->patch(route('backstage.concerts.update', $concert), [
+                'title' => 'New title',
+                'subtitle' => 'New subtitle',
+                'additional_information' => 'New additional information',
+                'date' => '2018-12-31',
+                'time' => '8:00pm',
+                'venue' => 'New venue',
+                'venue_address' => 'New address',
+                'city' => 'New city',
+                'state' => 'New state',
+                'zip' => '99999',
+                'ticket_price' => '72.50',
+            ]);
 
         $concert = $concert->fresh();
 
@@ -217,7 +228,10 @@ class EditConcertTest extends TestCase
     function title_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'title' => 'Original title',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -230,14 +244,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('title');
-        $this->assertNotNull($concert->title);
+        $this->assertEquals('Original title', $concert->title);
     }
 
     /** @test */
     function subtitle_is_optional_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'subtitle' => 'Original subtitle',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -257,7 +274,10 @@ class EditConcertTest extends TestCase
     function additional_information_is_optional_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'additional_information' => 'Original additional information',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -277,7 +297,10 @@ class EditConcertTest extends TestCase
     function date_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'date' => '2018-01-31 05:50:00',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -290,14 +313,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('date');
-        $this->assertNotNull($concert->date);
+        $this->assertEquals('2018-01-31 05:50:00', $concert->date);
     }
 
     /** @test */
     function date_must_be_properly_formatted_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'date' => '2018-01-31 05:50:00',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -310,14 +336,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('date');
-        $this->assertNotNull($concert->date);
+        $this->assertEquals('2018-01-31 05:50:00', $concert->date);
     }
 
     /** @test */
     function time_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'date' => '2018-01-31 05:50:00',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -330,14 +359,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('time');
-        $this->assertNotNull($concert->date);
+        $this->assertEquals('2018-01-31 05:50:00', $concert->date);
     }
 
     /** @test */
     function time_must_be_properly_formatted_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'date' => '2018-01-31 05:50:00',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -350,14 +382,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('time');
-        $this->assertNotNull($concert->date);
+        $this->assertEquals('2018-01-31 05:50:00', $concert->date);
     }
 
     /** @test */
     function venue_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'venue' => 'Original venue',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -370,14 +405,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('venue');
-        $this->assertNotNull($concert->venue);
+        $this->assertEquals('Original venue', $concert->venue);
     }
 
     /** @test */
     function venue_address_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'venue_address' => 'Original venue address',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -390,14 +428,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('venue_address');
-        $this->assertNotNull($concert->venue_address);
+        $this->assertEquals('Original venue address', $concert->venue_address);
     }
 
     /** @test */
     function city_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'city' => 'Original city',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -410,14 +451,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('city');
-        $this->assertNotNull($concert->city);
+        $this->assertEquals('Original city', $concert->city);
     }
 
     /** @test */
     function state_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'state' => 'Original state',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -430,14 +474,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('state');
-        $this->assertNotNull($concert->state);
+        $this->assertEquals('Original state', $concert->state);
     }
 
     /** @test */
     function zip_code_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'zip' => 'Original zip',
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -450,14 +497,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('zip');
-        $this->assertNotNull($concert->zip);
+        $this->assertEquals('Original zip', $concert->zip);
     }
 
     /** @test */
     function ticket_price_is_required_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'ticket_price' => 1234,
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -470,14 +520,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('ticket_price');
-        $this->assertNotNull($concert->ticket_price);
+        $this->assertEquals(1234, $concert->ticket_price);
     }
 
     /** @test */
     function ticket_price_must_be_numeric_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'ticket_price' => 1234,
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -490,14 +543,17 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('ticket_price');
-        $this->assertNotEquals('not-numeric', $concert->ticket_price);
+        $this->assertEquals(1234, $concert->ticket_price);
     }
 
     /** @test */
     function ticket_price_must_be_greater_than_five_dollars_when_updating_an_unpublished_concert()
     {
         $user = factory(User::class)->create();
-        $concert = factory(Concert::class)->create(['user_id' => $user->id]);
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'ticket_price' => 1234,
+        ]);
         $this->assertFalse($concert->isPublished());
 
         $response = $this->actingAs($user)
@@ -510,6 +566,6 @@ class EditConcertTest extends TestCase
 
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('ticket_price');
-        $this->assertNotEquals(499, $concert->ticket_price);
+        $this->assertEquals(1234, $concert->ticket_price);
     }
 }
