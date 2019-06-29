@@ -33,6 +33,7 @@ class EditConcertTest extends TestCase
             'state' => 'New state',
             'zip' => '99999',
             'ticket_price' => '72.50',
+            'ticket_quantity' => '10',
         ], $overrides);
     }
 
@@ -118,6 +119,7 @@ class EditConcertTest extends TestCase
             'state' => 'Old state',
             'zip' => '00000',
             'ticket_price' => 2000,
+            'ticket_quantity' => 5,
         ]);
         $this->assertFalse($concert->isPublished());
 
@@ -135,6 +137,7 @@ class EditConcertTest extends TestCase
                 'state' => 'New state',
                 'zip' => '99999',
                 'ticket_price' => '72.50',
+                'ticket_quantity' => '10',
             ]);
 
         $concert = $concert->fresh();
@@ -150,6 +153,7 @@ class EditConcertTest extends TestCase
         $this->assertEquals('New state', $concert->state);
         $this->assertEquals('99999', $concert->zip);
         $this->assertEquals(7250, $concert->ticket_price);
+        $this->assertEquals(10, $concert->ticket_quantity);
     }
 
     /** @test */
@@ -567,5 +571,74 @@ class EditConcertTest extends TestCase
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('ticket_price');
         $this->assertEquals(1234, $concert->ticket_price);
+    }
+
+    /** @test */
+    function ticket_quantity_is_required_when_updating_an_unpublished_concert()
+    {
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'ticket_quantity' => 5,
+        ]);
+        $this->assertFalse($concert->isPublished());
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'ticket_quantity' => '',
+            ]));
+
+        $concert = $concert->fresh();
+
+        $response->assertRedirect(route('backstage.concerts.edit', $concert));
+        $response->assertSessionHasErrors('ticket_quantity');
+        $this->assertEquals(5, $concert->ticket_quantity);
+    }
+
+    /** @test */
+    function ticket_quantity_must_be_an_integer_when_updating_an_unpublished_concert()
+    {
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'ticket_quantity' => 5,
+        ]);
+        $this->assertFalse($concert->isPublished());
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'ticket_quantity' => 'not-numeric',
+            ]));
+
+        $concert = $concert->fresh();
+
+        $response->assertRedirect(route('backstage.concerts.edit', $concert));
+        $response->assertSessionHasErrors('ticket_quantity');
+        $this->assertEquals(5, $concert->ticket_quantity);
+    }
+
+    /** @test */
+    function ticket_quantity_must_be_greater_than_one_when_updating_an_unpublished_concert()
+    {
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'ticket_quantity' => 5,
+        ]);
+        $this->assertFalse($concert->isPublished());
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'ticket_quantity' => '0',
+            ]));
+
+        $concert = $concert->fresh();
+
+        $response->assertRedirect(route('backstage.concerts.edit', $concert));
+        $response->assertSessionHasErrors('ticket_quantity');
+        $this->assertEquals(5, $concert->ticket_quantity);
     }
 }

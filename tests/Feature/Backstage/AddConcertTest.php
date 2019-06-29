@@ -58,8 +58,6 @@ class AddConcertTest extends TestCase
     /** @test */
     function promoters_can_add_a_valid_concert()
     {
-        $this->withoutExceptionHandling();
-
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)->post(route('backstage.concerts.store'), [
@@ -95,7 +93,7 @@ class AddConcertTest extends TestCase
         $this->assertEquals('FK', $concert->state);
         $this->assertEquals('12345', $concert->zip);
         $this->assertEquals(5950, $concert->ticket_price);
-        $this->assertEquals(50, $concert->ticketsRemaining());
+        $this->assertEquals(50, $concert->ticket_quantity);
     }
 
     /** @test */
