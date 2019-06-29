@@ -45,7 +45,7 @@ class ViewOrderTest extends TestCase
             'code' => 'tik_5678',
         ]);
 
-        $response = $this->get('/orders/ORDERCONFIRMATION1234');
+        $response = $this->get(route('orders.show', 'ORDERCONFIRMATION1234'));
 
         $response->assertStatus(200);
         $response->assertViewHas('order', $order);

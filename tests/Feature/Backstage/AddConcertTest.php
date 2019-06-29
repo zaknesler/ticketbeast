@@ -104,7 +104,7 @@ class AddConcertTest extends TestCase
         $response = $this->post(route('backstage.concerts.store'), $this->validParams());
 
         $response->assertStatus(302);
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
         $this->assertEquals(0, Concert::count());
     }
 

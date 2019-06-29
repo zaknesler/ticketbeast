@@ -46,7 +46,7 @@ class PurchaseTicketsTest extends TestCase
     private function orderTickets($concert, $params)
     {
         $savedRequest = $this->app['request'];
-        $response = $this->json('POST', '/concerts/' . $concert->id . '/orders', $params);
+        $response = $this->json('POST', route('concerts.orders.store', $concert), $params);
         $this->app['request'] = $savedRequest;
 
         return $response;

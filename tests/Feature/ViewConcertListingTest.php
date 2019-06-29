@@ -27,7 +27,7 @@ class ViewConcertListingTest extends TestCase
             'additional_information' => 'For support, call (555) 555-5555.',
         ]);
 
-        $response = $this->get('/concerts/' . $concert->id);
+        $response = $this->get(route('concerts.show', $concert));
 
         $response->assertSee('The Red Chord');
         $response->assertSee('with Animosity and Lethargy');
