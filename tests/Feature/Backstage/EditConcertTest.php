@@ -122,8 +122,9 @@ class EditConcertTest extends TestCase
         ]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.index'));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams());
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.index'))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams());
 
         $concert = $concert->fresh();
 
@@ -147,7 +148,8 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create();
         $this->assertFalse($concert->isPublished());
 
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams());
+        $response = $this->actingAs($user)
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams());
 
         $concert = $concert->fresh();
         $response->assertStatus(404);
@@ -170,7 +172,8 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->states('published')->create(['user_id' => $user->id]);
         $this->assertTrue($concert->isPublished());
 
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams());
+        $response = $this->actingAs($user)
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams());
 
         $concert = $concert->fresh();
 
@@ -217,10 +220,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'title' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'title' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -236,10 +240,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'subtitle' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'subtitle' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -255,10 +260,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'additional_information' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'additional_information' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -274,10 +280,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'date' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'date' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -293,10 +300,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'date' => '2050-01-',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'date' => '2050-01-',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -312,10 +320,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'time' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'time' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -331,10 +340,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'time' => '10:30',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'time' => '10:30',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -350,10 +360,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'venue' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'venue' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -369,10 +380,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'venue_address' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'venue_address' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -388,10 +400,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'city' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'city' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -407,10 +420,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'state' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'state' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -426,10 +440,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'zip' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'zip' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -445,10 +460,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'ticket_price' => '',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'ticket_price' => '',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -464,10 +480,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'ticket_price' => 'not-numeric',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'ticket_price' => 'not-numeric',
+            ]));
 
         $concert = $concert->fresh();
 
@@ -483,10 +500,11 @@ class EditConcertTest extends TestCase
         $concert = factory(Concert::class)->create(['user_id' => $user->id]);
         $this->assertFalse($concert->isPublished());
 
-        session()->setPreviousUrl(route('backstage.concerts.edit', $concert));
-        $response = $this->actingAs($user)->patch(route('backstage.concerts.update', $concert), $this->validParams([
-            'ticket_price' => '4.99',
-        ]));
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'ticket_price' => '4.99',
+            ]));
 
         $concert = $concert->fresh();
 
