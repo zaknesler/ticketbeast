@@ -23,4 +23,31 @@
     @apply outline-none shadow-outline shadow-transition;
 }
 
+.table {
+    @apply w-full max-w-full border-collapse;
+}
+
+.table td,
+.table th {
+    @apply text-left p-3 whitespace-no-wrap;
+}
+
+.table td:first-child,
+.table th:first-child {
+    @apply pl-0;
+}
+
+.table td:last-child,
+.table th:last-child {
+    @apply pr-0;
+}
+
+.table th {
+    @apply font-semibold border-b-2;
+}
+
+.table td {
+    @apply .border-t border-gray-200;
+}
+
 @tailwind utilities;

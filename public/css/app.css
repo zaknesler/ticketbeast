@@ -923,6 +923,39 @@ video {
   transition: box-shadow 100ms ease-in-out;
 }
 
+.table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+.table td,
+.table th {
+  text-align: left;
+  padding: 0.75rem;
+  white-space: nowrap;
+}
+
+.table td:first-child,
+.table th:first-child {
+  padding-left: 0;
+}
+
+.table td:last-child,
+.table th:last-child {
+  padding-right: 0;
+}
+
+.table th {
+  font-weight: 600;
+  border-bottom-width: 2px;
+}
+
+.table td {
+  border-top-width: 1px;
+  border-color: #edf2f7;
+}
+
 .appearance-none {
   -webkit-appearance: none;
      -moz-appearance: none;
