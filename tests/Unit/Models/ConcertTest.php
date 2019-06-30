@@ -75,6 +75,22 @@ class ConcertTest extends TestCase
         $this->assertEquals(5, $concert->ticketsRemaining());
     }
 
+    /** @test */
+    function a_concerts_date_is_not_accidentally_updated_when_published()
+    {
+        $concert = factory(Concert::class)->create([
+            'published_at' => null,
+            'date' => Carbon::parse('June 7, 2019 7:30pm'),
+        ]);
+        $this->assertFalse($concert->isPublished());
+
+        $concert->publish();
+
+        $this->assertEquals('June 7, 2019', $concert->formatted_date);
+        $this->assertEquals('7:30pm', $concert->formatted_start_time);
+        $this->assertEquals('2019-06-07 19:30:00', $concert->fresh()->date);
+        $this->assertTrue($concert->isPublished());
+    }
 
     /** @test */
     function tickets_remaining_for_a_concert_does_not_include_ones_on_an_order()

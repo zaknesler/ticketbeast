@@ -31,11 +31,13 @@
         @endif
 
         <div class="mt-12 mb-2 text-gray-600">Drafts</div>
+
         @if ($concerts->reject->isPublished()->count())
           <div class="-m-3 flex flex-wrap">
-          @foreach ($concerts->reject->isPublished() as $concert)
-            @include('backstage.concerts.partials.concert-card', $concert)
-          @endforeach
+            @foreach ($concerts->reject->isPublished() as $concert)
+              @include('backstage.concerts.partials.concert-card', $concert)
+            @endforeach
+          </div>
         @else
           @include('backstage.concerts.partials.blank-state', ['text' => 'You don\'t have any unpublished concerts!'])
         @endif

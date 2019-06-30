@@ -19,7 +19,17 @@
         </svg>
 
         <time class="ml-2 block text-sm text-gray-600" datetime="{{ $concert->date }}">
-          {{ $concert->formatted_date }} @ {{ $concert->formatted_start_time }}
+          {{ $concert->formatted_date }}
+        </time>
+      </div>
+
+      <div class="mt-3 flex items-center">
+        <svg class="w-4 h-4 text-brand-500 fill-current flex-no-shrink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20">
+          <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7.59V4h2v5.59l3.95 3.95-1.41 1.41L9 10.41z" />
+        </svg>
+
+        <time class="ml-2 block text-sm text-gray-600" datetime="{{ $concert->date }}">
+          {{ $concert->formatted_start_time }}
         </time>
       </div>
 
@@ -29,7 +39,7 @@
         </svg>
 
         <div class="ml-2 block text-sm text-gray-600">
-          {{ $concert->ticket_quantity }} {{ Str::plural('ticket', $concert->ticket_quantity) }}
+          {{ number_format($concert->ticket_quantity) }} {{ Str::plural('ticket', $concert->ticket_quantity) }}
         </div>
       </div>
     </div>
