@@ -5,7 +5,7 @@
 
   <div class="mt-8 text-lg text-gray-600">{{ $text ?? 'You haven\'t created any concerts!' }}</div>
 
-  @if (!$hideCreateButton)
+  @if (!isset($hideCreateButton))
     <div class="mt-8">
       <a href="{{ route('backstage.concerts.create') }}" class="inline-block btn">Create a concert</a>
     </div>

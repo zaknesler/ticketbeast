@@ -8,7 +8,7 @@
   <div class="bg-gray-100">
     <div class="w-full bg-white border-b">
       <div class="px-6 py-4 mx-auto max-w-4xl">
-        <h3 class="text-lg font-light text-gray-700">Edit concert</h3>
+        <h3 class="font-light text-gray-700">Edit concert</h3>
       </div>
     </div>
 
