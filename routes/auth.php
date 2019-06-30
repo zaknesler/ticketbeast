@@ -15,4 +15,5 @@ Route::prefix('/backstage')->namespace('Backstage')->group(function () {
     Route::patch('/concerts/{concert}', 'ConcertController@update')->name('backstage.concerts.update');
 
     Route::post('/published-concerts', 'PublishedConcertController@store')->name('backstage.publishedConcerts.store');
+    Route::get('/concerts/{concert}/orders', 'ConcertOrderController@show')->name('backstage.concerts.orders.show');
 });

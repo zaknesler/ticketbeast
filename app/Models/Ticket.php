@@ -62,6 +62,17 @@ class Ticket extends Model
     }
 
     /**
+     * Scope a query to only include tickets already sold.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSold($query)
+    {
+        return $query->whereNotNull('order_id');
+    }
+
+    /**
      * Mark the ticket as reserved.
      *
      * @return void

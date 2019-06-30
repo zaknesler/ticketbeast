@@ -1,7 +1,7 @@
 <div class="p-3 w-full sm:w-1/2 md:w-1/3">
   <div class="p-6 bg-white border rounded-lg flex flex-col">
     <div class="flex-1">
-      <a class="text-lg text-gray-800 hover:underline font-semibold" href="{{ route('concerts.show', $concert) }}">{{ $concert->title }}</a>
+      <div class="text-lg text-gray-800 font-semibold">{{ $concert->title }}</div>
       @if ($concert->subtitle)
         <div class="text-sm text-gray-600">{{ $concert->subtitle }}</div>
       @endif
@@ -49,13 +49,18 @@
 
     @if (!$concert->isPublished())
       <div class="mt-6 text-sm flex items-center justify-end">
-        <a class="btn px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 text-gray-800" href="{{ route('backstage.concerts.edit', $concert) }}">Edit</a>
+        <a class="btn px-3 py-1 inline-block bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 text-gray-800" href="{{ route('backstage.concerts.edit', $concert) }}">Edit</a>
 
         <form action="{{ route('backstage.publishedConcerts.store') }}" method="POST" class="inline">
           @csrf
           <input type="hidden" name="concert_id" value="{{ $concert->id }}" />
-          <button type="submit" class="ml-3 btn px-3 py-1">Publish</button>
+          <button type="submit" class="ml-3 btn px-3 py-1 inline-block">Publish</button>
         </form>
+      </div>
+    @else
+      <div class="mt-6 text-sm text-right">
+        <a class="text-brand-600 hover:underline" href="{{ route('concerts.show', $concert) }}">Public Link</a>
+        <a class="btn px-3 py-1 ml-3 inline-block bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 text-gray-800" href="{{ route('backstage.concerts.orders.show', $concert) }}">Manage</a>
       </div>
     @endif
   </div>

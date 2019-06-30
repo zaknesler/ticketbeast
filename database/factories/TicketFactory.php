@@ -8,6 +8,9 @@ $factory->define(App\Models\Ticket::class, function (Faker $faker) {
         'concert_id' => function () {
             return factory(App\Models\Concert::class)->create()->id;
         },
+        'order_id' => function () {
+            return factory(App\Models\Order::class)->create()->id;
+        },
         'code' => 'tik_1234',
     ];
 });
