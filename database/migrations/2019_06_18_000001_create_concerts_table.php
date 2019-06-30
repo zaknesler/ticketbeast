@@ -19,7 +19,7 @@ class CreateConcertsTable extends Migration
 
             $table->string('title');
             $table->string('subtitle')->nullable();
-            $table->timestamp('date')->default('1970-01-01 00:00:00');
+            $table->timestamp('date')->nullable()->default(null);
             $table->integer('ticket_price');
             $table->integer('ticket_quantity');
             $table->string('venue');
