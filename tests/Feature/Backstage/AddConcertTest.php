@@ -78,7 +78,7 @@ class AddConcertTest extends TestCase
         $concert = Concert::first();
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('concerts.show', $concert));
+        $response->assertRedirect(route('backstage.concerts.index'));
 
         $this->assertTrue($concert->user->is($user));
         $this->assertFalse($concert->isPublished());

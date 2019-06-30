@@ -73,7 +73,7 @@ class ConcertController extends Controller
             'ticket_quantity' => $request->ticket_quantity,
         ]);
 
-        return redirect()->route('concerts.show', $concert);
+        return redirect()->route('backstage.concerts.index');
     }
 
     /**
