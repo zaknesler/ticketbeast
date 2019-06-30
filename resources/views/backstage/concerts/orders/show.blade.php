@@ -39,7 +39,7 @@
 
           <div class="p-4 w-1/3 flex-1">
             <div class="text-sm text-gray-600">Total Revenue</div>
-            <div class="text-3xl font-bold text-gray-800">&mdash;</div>
+            <div class="text-3xl font-bold text-gray-800">${{ number_format($concert->revenueInDollars(), 2) }}</div>
           </div>
         </div>
       </div>

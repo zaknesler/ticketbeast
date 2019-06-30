@@ -130,11 +130,21 @@ class Concert extends Model
     /**
      * Get the percentage a concert is sold out.
      *
-     * @return double
+     * @return float
      */
     public function percentSoldOut()
     {
         return number_format(($this->ticketsSold() / $this->totalTickets()) * 100, 2);
+    }
+
+    /**
+     * Get the total revenue in dollars.
+     *
+     * @return float
+     */
+    public function revenueInDollars()
+    {
+        return $this->orders()->sum('amount') / 100;
     }
 
     /**
@@ -200,13 +210,13 @@ class Concert extends Model
     }
 
     /**
-     * A concert has many orders.
+     * Get the orders associated with a concert.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Support\Collection
      */
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'tickets');
+        return Order::whereIn('id', $this->tickets()->pluck('order_id'));
     }
 
     /**
