@@ -19,10 +19,9 @@ class ConcertController extends Controller
      */
     public function index(Request $request)
     {
-        $concerts = $request->user()->concerts()->latest()->get();
-
         return view('backstage.concerts.index', [
-            'concerts' => $concerts,
+            'publishedConcerts' => $request->user()->concerts()->whereNotNull('published_at')->get(),
+            'unpublishedConcerts' => $request->user()->concerts()->whereNull('published_at')->get(),
         ]);
     }
 

@@ -17,12 +17,12 @@
     </div>
 
     <div class="p-6 mx-auto max-w-4xl">
-      @if ($concerts->count())
+      @if (count($publishedConcerts) || count($unpublishedConcerts))
         <div class="mb-2 text-gray-600">Published</div>
 
-        @if ($concerts->filter->isPublished()->count())
+        @if (count($publishedConcerts))
           <div class="-m-3 flex flex-wrap">
-            @foreach ($concerts->filter->isPublished() as $concert)
+            @foreach ($publishedConcerts as $concert)
               @include('backstage.concerts.partials.concert-card', $concert)
             @endforeach
           </div>
@@ -32,9 +32,9 @@
 
         <div class="mt-12 mb-2 text-gray-600">Drafts</div>
 
-        @if ($concerts->reject->isPublished()->count())
+        @if (count($unpublishedConcerts))
           <div class="-m-3 flex flex-wrap">
-            @foreach ($concerts->reject->isPublished() as $concert)
+            @foreach ($unpublishedConcerts as $concert)
               @include('backstage.concerts.partials.concert-card', $concert)
             @endforeach
           </div>
