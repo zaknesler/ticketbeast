@@ -37,7 +37,12 @@
     @if (!$concert->isPublished())
       <div class="mt-6 text-sm flex items-center justify-end">
         <a class="btn px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 text-gray-800" href="{{ route('backstage.concerts.edit', $concert) }}">Edit</a>
-        <a class="ml-3 btn px-3 py-1" href="#">Publish</a>
+
+        <form action="{{ route('backstage.publishedConcerts.store') }}" method="POST" class="inline">
+          @csrf
+          <input type="hidden" name="concert_id" value="{{ $concert->id }}" />
+          <button type="submit" class="ml-3 btn px-3 py-1">Publish</button>
+        </form>
       </div>
     @endif
   </div>
