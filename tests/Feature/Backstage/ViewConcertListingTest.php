@@ -40,20 +40,14 @@ class ViewConcertListingTest extends TestCase
 
         $response->assertSuccessful();
 
-        $response->data('publishedConcerts')->assertContains($publishedA);
-        $response->data('publishedConcerts')->assertNotContains($publishedB);
-        $response->data('publishedConcerts')->assertContains($publishedC);
+        $response->data('publishedConcerts')->assertEquals([
+            $publishedA,
+            $publishedC,
+        ]);
 
-        $response->data('publishedConcerts')->assertNotContains($unpublishedA);
-        $response->data('publishedConcerts')->assertNotContains($unpublishedB);
-        $response->data('publishedConcerts')->assertNotContains($unpublishedC);
-
-        $response->data('unpublishedConcerts')->assertContains($unpublishedA);
-        $response->data('unpublishedConcerts')->assertNotContains($unpublishedB);
-        $response->data('unpublishedConcerts')->assertContains($unpublishedC);
-
-        $response->data('unpublishedConcerts')->assertNotContains($publishedA);
-        $response->data('unpublishedConcerts')->assertNotContains($publishedB);
-        $response->data('unpublishedConcerts')->assertNotContains($publishedC);
+        $response->data('unpublishedConcerts')->assertEquals([
+            $unpublishedA,
+            $unpublishedC,
+        ]);
     }
 }
