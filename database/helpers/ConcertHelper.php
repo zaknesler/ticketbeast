@@ -9,7 +9,7 @@ class ConcertHelper
     /**
      * Create a published concert.
      *
-     * @param  array  $overrides
+     * @param  array|null  $overrides
      * @return \App\Models\Concert
      */
     public static function createPublished($overrides = [])
@@ -23,7 +23,7 @@ class ConcertHelper
     /**
      * Create an unpublished concert.
      *
-     * @param  array  $overrides
+     * @param  array|null  $overrides
      * @return \App\Models\Concert
      */
     public static function createUnpublished($overrides = [])

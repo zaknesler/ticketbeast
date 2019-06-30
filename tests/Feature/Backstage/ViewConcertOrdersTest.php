@@ -4,6 +4,8 @@ namespace Tests\Feature\Backstage;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Order;
+use App\Database\Helpers\OrderHelper;
 use App\Database\Helpers\ConcertHelper;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,6 +20,8 @@ class ViewConcertOrdersTest extends TestCase
         $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
+
+        $order = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(11)]);
 
         $response = $this->actingAs($user)->get(route('backstage.concerts.orders.show', $concert));
 
