@@ -81,7 +81,7 @@ class AddConcertTest extends TestCase
         $response->assertRedirect(route('concerts.show', $concert));
 
         $this->assertTrue($concert->user->is($user));
-        $this->assertTrue($concert->isPublished());
+        $this->assertFalse($concert->isPublished());
 
         $this->assertEquals('Example Band', $concert->title);
         $this->assertEquals('Example Subtitle', $concert->subtitle);
@@ -94,6 +94,7 @@ class AddConcertTest extends TestCase
         $this->assertEquals('12345', $concert->zip);
         $this->assertEquals(5950, $concert->ticket_price);
         $this->assertEquals(50, $concert->ticket_quantity);
+        $this->assertEquals(0, $concert->ticketsRemaining());
     }
 
     /** @test */
@@ -134,8 +135,6 @@ class AddConcertTest extends TestCase
         $response->assertSessionDoesntHaveErrors('subtitle');
         $this->assertNull($concert->subtitle);
         $this->assertTrue($concert->user->is($user));
-
-        $this->assertTrue($concert->isPublished());
     }
 
     /** @test */

@@ -73,8 +73,6 @@ class ConcertController extends Controller
             'ticket_quantity' => $request->ticket_quantity,
         ]);
 
-        $concert->publish();
-
         return redirect()->route('concerts.show', $concert);
     }
 
