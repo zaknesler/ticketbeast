@@ -1,16 +1,22 @@
 @extends('layouts.base')
 
-@section('title', 'Your Concerts')
+@section('title', $concert->title)
 @section('show-header', true)
 @section('show-footer', true)
 
 @section('content-full')
   <div class="h-full bg-gray-100">
     <div class="w-full bg-white border-b">
-      <div class="px-6 py-4 mx-auto max-w-4xl flex items-baseline">
-        <h3 class="font-semibold text-gray-700">{{ $concert->title }}</h3>
-        <span class="mx-2 text-gray-500">&ndash;</span>
-        <div class="text-sm font-light text-gray-600">{{ $concert->formatted_date }}</div>
+      <div class="px-6 py-4 mx-auto max-w-4xl flex items-baseline justify-between">
+        <div class="flex items-baseline">
+          <h3 class="font-semibold text-gray-700">{{ $concert->title }}</h3>
+          <span class="mx-2 text-xs text-gray-500">&ndash;</span>
+          <div class="text-xs text-gray-600">{{ $concert->formatted_date }}</div>
+        </div>
+
+        <nav class="text-sm text-gray-800">
+          <a href="{{ route('backstage.concerts.orders.show', $concert) }}" class="mr-4 font-semibold hover:underline">Orders</a>
+        </nav>
       </div>
     </div>
 
