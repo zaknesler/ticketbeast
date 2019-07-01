@@ -17,7 +17,19 @@ class ViewConcertOrdersTest extends TestCase
     /** @test */
     function a_promoter_can_view_the_orders_of_their_own_published_concert()
     {
-        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)->get(route('backstage.concerts.orders.show', $concert));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('backstage.concerts.orders.show');
+        $this->assertTrue($response->data('concert')->is($concert));
+    }
+
+    /** @test */
+    function a_promoter_can_view_the_ten_most_recent_orders_for_a_concert()
+    {
         $user = factory(User::class)->create();
         $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
 
@@ -34,10 +46,6 @@ class ViewConcertOrdersTest extends TestCase
         $recentOrder10 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(1)]);
 
         $response = $this->actingAs($user)->get(route('backstage.concerts.orders.show', $concert));
-
-        $response->assertStatus(200);
-        $response->assertViewIs('backstage.concerts.orders.show');
-        $this->assertTrue($response->data('concert')->is($concert));
 
         $response->data('orders')->assertNotContains($oldOrder);
         $response->data('orders')->assertEquals([
