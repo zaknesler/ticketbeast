@@ -21,13 +21,37 @@ class ViewConcertOrdersTest extends TestCase
         $user = factory(User::class)->create();
         $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
 
-        $order = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(11)]);
+        $oldOrder = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(11)]);
+        $recentOrder1 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(10)]);
+        $recentOrder2 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(9)]);
+        $recentOrder3 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(8)]);
+        $recentOrder4 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(7)]);
+        $recentOrder5 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(6)]);
+        $recentOrder6 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(5)]);
+        $recentOrder7 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(4)]);
+        $recentOrder8 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(3)]);
+        $recentOrder9 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(2)]);
+        $recentOrder10 = OrderHelper::createForConcert($concert, ['created_at' => now()->subDays(1)]);
 
         $response = $this->actingAs($user)->get(route('backstage.concerts.orders.show', $concert));
 
         $response->assertStatus(200);
         $response->assertViewIs('backstage.concerts.orders.show');
         $this->assertTrue($response->data('concert')->is($concert));
+
+        $response->data('orders')->assertNotContains($oldOrder);
+        $response->data('orders')->assertEquals([
+            $recentOrder10,
+            $recentOrder9,
+            $recentOrder8,
+            $recentOrder7,
+            $recentOrder6,
+            $recentOrder5,
+            $recentOrder4,
+            $recentOrder3,
+            $recentOrder2,
+            $recentOrder1,
+        ]);
     }
 
     /** @test */

@@ -22,6 +22,7 @@ class ConcertOrderController extends Controller
 
         return view('backstage.concerts.orders.show', [
             'concert' => $concert,
+            'orders' => $concert->orders()->latest()->take(10)->get(),
         ]);
     }
 }

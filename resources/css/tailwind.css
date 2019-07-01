@@ -43,7 +43,7 @@
 }
 
 .table th {
-    @apply font-semibold border-b-2;
+    @apply font-semibold border-b border-gray-300;
 }
 
 .table td {

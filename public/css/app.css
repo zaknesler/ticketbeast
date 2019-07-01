@@ -948,7 +948,8 @@ video {
 
 .table th {
   font-weight: 600;
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
+  border-color: #e2e8f0;
 }
 
 .table td {
