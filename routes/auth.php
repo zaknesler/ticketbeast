@@ -27,4 +27,11 @@ Route::prefix('/backstage')->namespace('Backstage')->group(function () {
      * --------------------------------------------------------------------------
      */
     Route::get('/concerts/{concert}/orders', 'ConcertOrderController@show')->name('backstage.concerts.orders.show');
+
+    /**
+     * --------------------------------------------------------------------------
+     * Concert Messages
+     * --------------------------------------------------------------------------
+     */
+    Route::get('/concerts/{concert}/messages', 'ConcertMessageController@create')->name('backstage.concerts.messages.create');
 });

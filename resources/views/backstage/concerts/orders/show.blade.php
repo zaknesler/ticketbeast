@@ -16,6 +16,7 @@
 
         <nav class="text-sm text-gray-800">
           <a href="{{ route('backstage.concerts.orders.show', $concert) }}" class="mr-4 font-semibold hover:underline">Orders</a>
+          <a href="{{ route('backstage.concerts.messages.create', $concert) }}" class="hover:underline">Message Attendees</a>
         </nav>
       </div>
     </div>
