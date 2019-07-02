@@ -24,4 +24,25 @@ class ConcertMessageController extends Controller
             'concert' => $concert,
         ]);
     }
+
+    /**
+     * Store a message and send it to the attendees.
+     *
+     * @param  \App\Models\Concert  $concert
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Concert $concert, Request $request)
+    {
+        abort_unless($concert->user->is($request->user()), 404);
+        abort_unless($concert->isPublished(), 404);
+
+        $message = $concert->attendeeMessages()->create([
+            'subject' => $request->subject,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('backstage.concerts.messages.create', $concert)
+            ->with('flash', 'Message has been sent.');
+    }
 }

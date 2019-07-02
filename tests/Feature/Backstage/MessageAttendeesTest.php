@@ -4,6 +4,7 @@ namespace Tests\Feature\Backstage;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\AttendeeMessage;
 use App\Database\Helpers\ConcertHelper;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,8 +16,6 @@ class MessageAttendeesTest extends TestCase
     /** @test */
     function a_promoter_can_view_the_message_form_for_their_own_concert()
     {
-        $this->withoutExceptionHandling();
-
         $user = factory(User::class)->create();
         $concert = ConcertHelper::createPublished([
             'user_id' => $user->id,
@@ -48,5 +47,28 @@ class MessageAttendeesTest extends TestCase
         $response = $this->get(route('backstage.concerts.messages.create', $concert));
 
         $response->assertRedirect('/login');
+    }
+
+    /** @test */
+    function a_promoter_can_send_a_new_message()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = factory(User::class)->create();
+        $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)
+            ->post(route('backstage.concerts.messages.store', $concert), [
+                'subject' => 'My Subject',
+                'body' => 'My Message',
+            ]);
+
+        $response->assertRedirect(route('backstage.concerts.messages.create', $concert));
+        $response->assertSessionHas('flash');
+
+        $message = AttendeeMessage::first();
+        $this->assertTrue($concert->is($message->concert));
+        $this->assertEquals('My Subject', $message->subject);
+        $this->assertEquals('My Message', $message->body);
     }
 }

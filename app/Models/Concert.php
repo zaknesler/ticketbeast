@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Ticket;
+use App\Models\AttendeeMessage;
 use App\Reservations\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use App\Billing\Exceptions\NotEnoughTicketsException;
@@ -227,6 +228,16 @@ class Concert extends Model
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    /**
+     * A concert has many attendee messages.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendeeMessages()
+    {
+        return $this->hasMany(AttendeeMessage::class);
     }
 
     /**

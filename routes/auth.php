@@ -34,4 +34,5 @@ Route::prefix('/backstage')->namespace('Backstage')->group(function () {
      * --------------------------------------------------------------------------
      */
     Route::get('/concerts/{concert}/messages/new', 'ConcertMessageController@create')->name('backstage.concerts.messages.create');
+    Route::post('/concerts/{concert}/messages', 'ConcertMessageController@store')->name('backstage.concerts.messages.store');
 });
