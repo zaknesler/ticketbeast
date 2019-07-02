@@ -10,7 +10,7 @@
 @section('content-full')
   <div class="min-h-full flex bg-gray-100">
     <div class="md:p-6 m-auto max-w-4xl w-full">
-      <div class="bg-white md:rounded-lg md:flex md:shadow-xl">
+      <div class="bg-white md:rounded-lg md:flex">
         <div class="flex-1">
           <img class="w-full h-full pointer-events-none select-none md:rounded-l-lg" src="https://placehold.it/400x500" alt="Poster Image" />
         </div>
