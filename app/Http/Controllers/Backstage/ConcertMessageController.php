@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backstage;
 use App\Models\Concert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backstage\Concert\StoreAttendeeMessageRequest;
 
 class ConcertMessageController extends Controller
 {
@@ -29,10 +30,10 @@ class ConcertMessageController extends Controller
      * Store a message and send it to the attendees.
      *
      * @param  \App\Models\Concert  $concert
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Backstage\Concert\StoreAttendeeMessageRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Concert $concert, Request $request)
+    public function store(Concert $concert, StoreAttendeeMessageRequest $request)
     {
         abort_unless($concert->user->is($request->user()), 404);
         abort_unless($concert->isPublished(), 404);

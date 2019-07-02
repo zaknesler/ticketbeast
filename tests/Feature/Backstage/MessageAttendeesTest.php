@@ -46,7 +46,7 @@ class MessageAttendeesTest extends TestCase
 
         $response = $this->get(route('backstage.concerts.messages.create', $concert));
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -70,5 +70,73 @@ class MessageAttendeesTest extends TestCase
         $this->assertTrue($concert->is($message->concert));
         $this->assertEquals('My Subject', $message->subject);
         $this->assertEquals('My Message', $message->body);
+    }
+
+    /** @test */
+    function a_promoter_cannot_send_a_new_message_for_other_concerts()
+    {
+        $user = factory(User::class)->create();
+        $concert = ConcertHelper::createPublished();
+
+        $response = $this->actingAs($user)
+            ->post(route('backstage.concerts.messages.store', $concert), [
+                'subject' => 'My subject',
+                'body' => 'My message',
+            ]);
+
+        $response->assertStatus(404);
+        $this->assertEquals(0, AttendeeMessage::count());
+    }
+
+    /** @test */
+    function a_guest_cannot_send_a_new_message_for_any_concerts()
+    {
+        $concert = ConcertHelper::createPublished();
+
+        $response = $this->post(route('backstage.concerts.messages.store', $concert), [
+            'subject' => 'My subject',
+            'body' => 'My message',
+        ]);
+
+        $response->assertRedirect(route('login'));
+        $this->assertEquals(0, AttendeeMessage::count());
+    }
+
+    /** @test */
+    function subject_is_required_when_sending_a_message()
+    {
+        $user = factory(User::class)->create();
+        $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
+
+        $response = $this->from(route('backstage.concerts.messages.create', $concert))
+            ->actingAs($user)
+            ->post(route('backstage.concerts.messages.store', $concert), [
+                'subject' => '',
+                'body' => 'My message',
+            ]);
+
+        $response->assertRedirect(route('backstage.concerts.messages.create', $concert));
+
+        $response->assertSessionHasErrors('subject');
+        $this->assertEquals(0, AttendeeMessage::count());
+    }
+
+    /** @test */
+    function body_is_required_when_sending_a_message()
+    {
+        $user = factory(User::class)->create();
+        $concert = ConcertHelper::createPublished(['user_id' => $user->id]);
+
+        $response = $this->from(route('backstage.concerts.messages.create', $concert))
+            ->actingAs($user)
+            ->post(route('backstage.concerts.messages.store', $concert), [
+                'subject' => 'My subject',
+                'body' => '',
+            ]);
+
+        $response->assertRedirect(route('backstage.concerts.messages.create', $concert));
+
+        $response->assertSessionHasErrors('body');
+        $this->assertEquals(0, AttendeeMessage::count());
     }
 }
