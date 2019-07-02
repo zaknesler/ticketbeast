@@ -38,6 +38,6 @@ class OrderConfirmationEmail extends Mailable
     {
         $this->subject('Your Ticketbeast Order');
 
-        return $this->markdown('emails.orders.confirmation');
+        return $this->markdown('emails.order-confirmation');
     }
 }
