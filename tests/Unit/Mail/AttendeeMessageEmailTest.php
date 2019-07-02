@@ -25,4 +25,17 @@ class AttendeeMessageEmailTest extends TestCase
         $this->assertEquals('Test subject', $email->build()->subject);
         $this->assertStringContainsString('Test body', $email->render());
     }
+
+    /** @test */
+    function attendee_message_email_renders_custom_markdown()
+    {
+        $attendeeMessage = factory(AttendeeMessage::class)->create([
+            'subject' => 'Test subject',
+            'body' => '# This should be an h1',
+        ]);
+
+        $email = new AttendeeMessageEmail($attendeeMessage);
+
+        $this->assertStringContainsString('This should be an h1</h1>', $email->render());
+    }
 }
