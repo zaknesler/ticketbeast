@@ -37,6 +37,7 @@ class AttendeeMessageEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.attendee-message');
+        return $this->subject($this->attendeeMessage->subject)
+                    ->markdown('emails.attendee-message');
     }
 }

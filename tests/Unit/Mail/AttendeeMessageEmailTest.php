@@ -1,0 +1,28 @@
+<?php
+
+namespace Tests\Unit\Mail;
+
+use Tests\TestCase;
+use App\Models\AttendeeMessage;
+use App\Mail\AttendeeMessageEmail;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class AttendeeMessageEmailTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    function attendee_message_email_contains_the_subject_and_body()
+    {
+        $attendeeMessage = factory(AttendeeMessage::class)->create([
+            'subject' => 'Test subject',
+            'body' => 'Test body',
+        ]);
+
+        $email = new AttendeeMessageEmail($attendeeMessage);
+
+        $this->assertEquals('Test subject', $email->build()->subject);
+        $this->assertStringContainsString('Test body', $email->render());
+    }
+}
