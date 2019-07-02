@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backstage;
 use App\Models\Concert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\Concerts\SendAttendeeMessage;
 use App\Http\Requests\Backstage\Concert\StoreAttendeeMessageRequest;
 
 class ConcertMessageController extends Controller
@@ -42,6 +43,8 @@ class ConcertMessageController extends Controller
             'subject' => $request->subject,
             'body' => $request->body,
         ]);
+
+        SendAttendeeMessage::dispatch($message);
 
         return redirect()->route('backstage.concerts.messages.create', $concert)
             ->with('flash', 'Message has been sent.');
