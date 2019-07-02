@@ -24,7 +24,7 @@
     <div class="p-6 mx-auto max-w-4xl">
       <div class="text-gray-800 text-center">Send a Message</div>
 
-      <form class="mt-6 p-6 mx-auto max-w-xl bg-white border rounded-lg" action="#" method="post">
+      <form class="mt-6 p-6 mx-auto max-w-xl bg-white border rounded-lg" action="{{ route('backstage.concerts.messages.store', $concert) }}" method="post">
         @csrf
 
         <div>
@@ -49,24 +49,32 @@
 
         <div class="mt-3">
           <label>
-            <span class="text-xs font-medium text-gray-600 {{ $errors->first('password', 'text-red-700') }}">Message</span>
+            <span class="text-xs font-medium text-gray-600 {{ $errors->first('body', 'text-red-700') }}">Message</span>
 
             <textarea
               required
               tabindex="2"
-              name="message"
-              class="mt-1 form-textarea min-h-32 block w-full {{ $errors->first('password', 'border-red-500') }}"
+              name="body"
+              class="mt-1 form-textarea min-h-32 block w-full {{ $errors->first('body', 'border-red-500') }}"
               placeholder="Enter your message..."
               rows="10"
-            >{{ old('message') }}</textarea>
+            >{{ old('body') }}</textarea>
 
-            @if ($errors->has('password'))
-              <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('password') }}</div>
+            @if ($errors->has('body'))
+              <div class="px-3 py-2 mt-2 text-xs font-semibold bg-red-100 text-red-700 rounded-lg">{{ $errors->first('body') }}</div>
             @endif
           </label>
         </div>
 
-        <div class="mt-6 text-right">
+        <div class="mt-6 flex items-center justify-between">
+          <div>
+            @if (session('flash'))
+              <div class="text-sm font-semibold text-brand-600">
+                {{ session('flash') }}
+              </div>
+            @endif
+          </div>
+
           <button tabindex="4" class="btn px-5 py-2 text-sm">Send Message</button>
         </div>
       </form>

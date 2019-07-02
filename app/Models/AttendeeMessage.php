@@ -15,6 +15,16 @@ class AttendeeMessage extends Model
     protected $guarded = [];
 
     /**
+     * Get all of the email addresses associated with the concert's orders.
+     *
+     * @return array
+     */
+    public function recipients()
+    {
+        return $this->concert->orders()->pluck('email');
+    }
+
+    /**
      * An attendee message belongs to a concert.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

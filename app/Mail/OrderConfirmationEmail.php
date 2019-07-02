@@ -20,7 +20,7 @@ class OrderConfirmationEmail extends Mailable
     public $order;
 
     /**
-     * Create a new message instance.
+     * Create a new mailable instance.
      *
      * @return void
      */
