@@ -152,16 +152,12 @@ class ConcertTest extends TestCase
     {
         $concert = ConcertHelper::createPublished(['ticket_quantity' => 10]);
 
-        try {
-            $concert->reserveTickets(11, 'john@example.com');
-        } catch (NotEnoughTicketsException $e) {
-            $this->assertFalse($concert->hasOrderFor('john@example.com'));
-            $this->assertEquals(10, $concert->ticketsRemaining());
+        $this->expectException(NotEnoughTicketsException::class);
 
-            return;
-        }
+        $concert->reserveTickets(11, 'john@example.com');
 
-        $this->fail('Order succeeded event though there were not enough tickets remaining.');
+        $this->assertFalse($concert->hasOrderFor('john@example.com'));
+        $this->assertEquals(10, $concert->ticketsRemaining());
     }
 
     /** @test */
@@ -182,18 +178,13 @@ class ConcertTest extends TestCase
     {
         $concert = ConcertHelper::createPublished(['ticket_quantity' => 3]);
         $order = factory(Order::class)->create();
-
         $order->tickets()->saveMany($concert->tickets->take(2));
 
-        try {
-            $concert->reserveTickets(2, 'john@example.com');
-        } catch (NotEnoughTicketsException $e) {
-            $this->assertEquals(1, $concert->ticketsRemaining());
+        $this->expectException(NotEnoughTicketsException::class);
 
-            return;
-        }
+        $concert->reserveTickets(2, 'john@example.com');
 
-        $this->fail('Reserving tickets succeeded even though the tickets were already sold.');
+        $this->assertEquals(1, $concert->ticketsRemaining());
     }
 
     /** @test */
@@ -202,14 +193,10 @@ class ConcertTest extends TestCase
         $concert = ConcertHelper::createPublished(['ticket_quantity' => 3]);
         $concert->reserveTickets(2, 'jane@example.com');
 
-        try {
-            $concert->reserveTickets(2, 'john@example.com');
-        } catch (NotEnoughTicketsException $e) {
-            $this->assertEquals(1, $concert->ticketsRemaining());
+        $this->expectException(NotEnoughTicketsException::class);
 
-            return;
-        }
+        $concert->reserveTickets(2, 'john@example.com');
 
-        $this->fail('Reserving tickets succeeded even though the tickets were already reserved.');
+        $this->assertEquals(1, $concert->ticketsRemaining());
     }
 }
