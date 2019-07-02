@@ -15,13 +15,27 @@ class AttendeeMessage extends Model
     protected $guarded = [];
 
     /**
-     * Get all of the email addresses associated with the concert's orders.
+     * Get all of the orders associated with the related concert.
      *
      * @return array
      */
-    public function recipients()
+    public function orders()
     {
-        return $this->concert->orders()->pluck('email');
+        return $this->concert->orders();
+    }
+
+    /**
+     * Fetch the recipients in chunks at a time.
+     *
+     * @param  int  $chunkSize
+     * @param  callback  $callback
+     * @return \Illuminate\Support\Collection
+     */
+    public function withChunkedRecipients($chunkSize, $callback)
+    {
+        $this->orders()->chunk($chunkSize, function ($orders) use ($callback) {
+            $callback($orders->pluck('email'));
+        });
     }
 
     /**

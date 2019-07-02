@@ -34,19 +34,19 @@ class SendAttendeeMessageTest extends TestCase
         $otherOrder = OrderHelper::createForConcert($otherConcert, ['email' => 'nope@example.com']);
 
         SendAttendeeMessage::dispatch($message);
-        Mail::assertSent(AttendeeMessageEmail::class, function ($mail) use ($message) {
+        Mail::assertQueued(AttendeeMessageEmail::class, function ($mail) use ($message) {
             return $mail->hasTo('steve@example.com')
                 && $mail->attendeeMessage->is($message);
         });
-        Mail::assertSent(AttendeeMessageEmail::class, function ($mail) use ($message) {
+        Mail::assertQueued(AttendeeMessageEmail::class, function ($mail) use ($message) {
             return $mail->hasTo('jane@example.com')
                 && $mail->attendeeMessage->is($message);
         });
-        Mail::assertSent(AttendeeMessageEmail::class, function ($mail) use ($message) {
+        Mail::assertQueued(AttendeeMessageEmail::class, function ($mail) use ($message) {
             return $mail->hasTo('john@example.com')
                 && $mail->attendeeMessage->is($message);
         });
-        Mail::assertNotSent(AttendeeMessageEmail::class, function ($mail) use ($message) {
+        Mail::assertNotQueued(AttendeeMessageEmail::class, function ($mail) use ($message) {
             return $mail->hasTo('nope@example.com');
         });
     }
