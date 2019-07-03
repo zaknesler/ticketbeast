@@ -480,7 +480,7 @@ class AddConcertTest extends TestCase
     {
         Storage::fake('public');
         $user = factory(User::class)->create();
-        $file = File::create('concert-poster.png', 599);
+        $file = File::create('concert-poster.png', 599, 775);
 
         $response = $this->actingAs($user)
             ->from(route('backstage.concerts.create'))
