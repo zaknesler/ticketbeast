@@ -456,4 +456,22 @@ class AddConcertTest extends TestCase
             Storage::disk('public')->path($concert->poster_image_path)
         );
     }
+
+    /** @test */
+    function poster_image_must_be_a_valid_image()
+    {
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $file = File::create('not-a-poster.pdf');
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.create'))
+            ->post(route('backstage.concerts.store'), $this->validParams([
+                'poster_image' => $file,
+            ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
+        $response->assertSessionHasErrors('poster_image');
+    }
 }

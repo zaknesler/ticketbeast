@@ -36,6 +36,7 @@ class StoreConcertRequest extends FormRequest
             'additional_information' => ['nullable'],
             'ticket_price' => ['required', 'numeric', 'min:5'],
             'ticket_quantity' => ['required', 'integer', 'min:1'],
+            'poster_image' => ['nullable', 'image'],
         ];
     }
 }
