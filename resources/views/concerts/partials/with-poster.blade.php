@@ -4,7 +4,7 @@
       <img class="w-full h-full pointer-events-none select-none sm:rounded-t-lg md:rounded-t-none md:rounded-l-lg" src="{{ $concert->getPosterUrl() }}" alt="Poster Image" />
     </div>
 
-    <div class="p-8 flex-1 sm:border sm:border-t-0 md:border-t md:border-l-0 sm:rounded-b-lg md:rounded-r-lg flex flex-col">
+    <div class="p-8 flex-1 sm:border sm:border-t-0 md:border-t md:border-l-0 sm:rounded-b-lg md:rounded-b-none md:rounded-r-lg flex flex-col">
       <div class="flex-1">
         <div class="text-gray-900 text-2xl font-medium">{{ $concert->title }}</div>
         @if ($concert->subtitle)
