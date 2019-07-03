@@ -403,14 +403,19 @@ class AddConcertTest extends TestCase
     {
         Storage::fake('s3');
         $user = factory(User::class)->create();
+        $file = File::image('concert-poster.png');
 
         $response = $this->actingAs($user)
             ->post(route('backstage.concerts.store'), $this->validParams([
-                'poster_image' => File::image('concert-poster.png'),
+                'poster_image' => $file,
             ]));
 
-        $image = Concert::first()->poster_image_path;
-        $this->assertNotNull($image);
-        Storage::disk('s3')->assertExists($image);
+        $concert = Concert::first();
+        $this->assertNotNull($concert->poster_image_path);
+        Storage::disk('s3')->assertExists($concert->poster_image_path);
+        $this->assertFileEquals(
+            $file->getPathName(),
+            Storage::disk('s3')->path($concert->poster_image_path)
+        );
     }
 }
