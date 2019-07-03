@@ -14,12 +14,12 @@
 
     <div class="min-h-full h-full w-full">
       <div class="p-6 mx-auto max-w-4xl">
-        <form class="block" action="{{ route('backstage.concerts.store') }}" method="post">
+        <form class="block" action="{{ route('backstage.concerts.store') }}" method="post" enctype="multipart/form-data">
           @csrf
 
           <section class="sm:flex justify-between">
             <div class="sm:w-1/3">
-              <div class="text-gray-900">Concert Details</div>
+              <div class="font-semibold text-gray-800">Concert Details</div>
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
                 <p>Tell us who's playing!</p>
@@ -88,7 +88,7 @@
 
           <section class="sm:flex justify-between">
             <div class="sm:w-1/3">
-              <div class="text-gray-900">Date & Time</div>
+              <div class="font-semibold text-gray-800">Date & Time</div>
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
                 <p>Let us know when the show starts! The starting time should be the time doors open and ticketholders are allowed to enter.</p>
@@ -142,7 +142,7 @@
 
           <section class="sm:flex justify-between">
             <div class="sm:w-1/3">
-              <div class="text-gray-900">Venue Information</div>
+              <div class="font-semibold text-gray-800">Venue Information</div>
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
                 <p>Where's the show at? Let fans know what the venue is and where they should be going.</p>
@@ -255,7 +255,7 @@
 
           <section class="sm:flex justify-between">
             <div class="sm:w-1/3">
-              <div class="text-gray-900">Tickets & Pricing</div>
+              <div class="font-semibold text-gray-800">Tickets & Pricing</div>
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
                 <p>Set the ticket price and availability, but don't forget that rockers don't want to break the bank!</p>
@@ -309,8 +309,40 @@
 
           <div class="my-6 w-full h-px bg-gray-300"></div>
 
+          <section class="sm:flex justify-between">
+            <div class="sm:w-1/3">
+              <div class="font-semibold text-gray-800">Concert Poster</div>
+
+              <div class="mt-3 text-sm leading-relaxed text-gray-600">
+                <p>Upload a sweet poster for this concert and we'll display it on the checkout page.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 sm:mt-0 sm:ml-6 sm:w-3/5">
+              <div>
+                <label>
+                  <span class="text-sm font-medium text-gray-800 {{ $errors->first('poster_image', 'text-red-700') }}">Poster Image</span>
+                  <input
+                    required
+                    tabindex="13"
+                    type="file"
+                    name="poster_image"
+                    value="{{ old('poster_image') }}"
+                    class="mt-1 form-input form-file px-2 text-sm block w-full {{ $errors->first('poster_image', 'border-red-500') }}"
+                  />
+
+                  @if ($errors->has('poster_image'))
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('poster_image') }}</div>
+                  @endif
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <div class="my-6 w-full h-px bg-gray-300"></div>
+
           <div class="text-right">
-            <button tabindex="13" class="btn">Create Concert</button>
+            <button tabindex="14" class="btn">Create Concert</button>
           </div>
         </form>
       </div>

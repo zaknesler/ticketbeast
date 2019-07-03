@@ -980,6 +980,39 @@ video {
   border-color: #edf2f7;
 }
 
+.form-file {
+  cursor: pointer;
+}
+
+.form-file::-webkit-file-upload-button {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: #38b2ac;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.5rem;
+  border-style: none;
+  -webkit-appearance: none;
+          appearance: none;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.form-file:hover::-webkit-file-upload-button {
+  background-color: #319795;
+}
+
+.form-file:focus::-webkit-file-upload-button,
+.form-file::-webkit-file-upload-button:focus {
+  outline: 0;
+}
+
 .appearance-none {
   -webkit-appearance: none;
      -moz-appearance: none;
