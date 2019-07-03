@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        ConcertHelper::createPublished([
+        ConcertHelper::createUnpublished([
             'user_id' => $user->id,
             'title' => 'The Red Chord',
             'subtitle' => 'with Animosity and Lethargy',
