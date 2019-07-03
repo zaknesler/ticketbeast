@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use App\Models\AttendeeMessage;
 use App\Reservations\Reservation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use App\Billing\Exceptions\NotEnoughTicketsException;
 
 class Concert extends Model
@@ -27,6 +28,30 @@ class Concert extends Model
     protected $dates = [
         'date',
     ];
+
+    /**
+     * Determine if a concert has a poster uploaded.
+     *
+     * @return boolean
+     */
+    public function hasPoster()
+    {
+        return !is_null($this->poster_image_path);
+    }
+
+    /**
+     * Get the full URL to the concert's poster.
+     *
+     * @return string
+     */
+    public function getPosterUrl()
+    {
+        if (!$this->hasPoster()) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->poster_image_path);
+    }
 
     /**
      * Determine if a concert has an order for a specified email.
