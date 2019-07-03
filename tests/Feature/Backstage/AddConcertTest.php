@@ -510,4 +510,24 @@ class AddConcertTest extends TestCase
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('poster_image');
     }
+
+    /** @test */
+    function poster_image_is_optional()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.create'))
+            ->post(route('backstage.concerts.store'), $this->validParams([
+                'poster_image' => null,
+            ]));
+
+        $concert = Concert::first();
+        $response->assertRedirect(route('backstage.concerts.index'));
+        $response->assertSessionDoesntHaveErrors('poster_image');
+        $this->assertTrue($concert->user->is($user));
+        $this->assertNull($concert->poster_image_path);
+    }
 }
