@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/stubs/optimized-poster.png')));
+        $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/__stubs__/optimized-poster.png')));
         $redChord = ConcertHelper::createUnpublished([
             'user_id' => $user->id,
             'title' => 'The Red Chord',
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'poster_image_path' => $posterPath,
         ]);
 
-        $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/stubs/fat-night-optimized.png')));
+        $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/__stubs__/fat-night-optimized.png')));
         ConcertHelper::createUnpublished([
             'user_id' => $user->id,
             'title' => 'Fat Night',
