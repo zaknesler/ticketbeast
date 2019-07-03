@@ -440,6 +440,7 @@ class AddConcertTest extends TestCase
     /** @test */
     function a_poster_image_is_uploaded_if_included()
     {
+        Event::fake([ConcertAdded::class]);
         Storage::fake('public');
         $user = factory(User::class)->create();
         $file = File::image('concert-poster.png', 850, 1100);

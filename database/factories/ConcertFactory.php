@@ -20,6 +20,7 @@ $factory->define(App\Models\Concert::class, function (Faker $faker) {
         'zip' => '90210',
         'ticket_price' => 2000,
         'ticket_quantity' => 50,
+        'poster_image_path' => null,
     ];
 });
 
