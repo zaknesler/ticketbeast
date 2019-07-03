@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Concert;
+use App\Events\ConcertAdded;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -514,8 +516,6 @@ class AddConcertTest extends TestCase
     /** @test */
     function poster_image_is_optional()
     {
-        $this->withoutExceptionHandling();
-
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
@@ -529,5 +529,23 @@ class AddConcertTest extends TestCase
         $response->assertSessionDoesntHaveErrors('poster_image');
         $this->assertTrue($concert->user->is($user));
         $this->assertNull($concert->poster_image_path);
+    }
+
+    /** @test */
+    function an_event_is_fired_when_a_concert_is_added()
+    {
+        $this->withoutExceptionHandling();
+
+        Event::fake([ConcertAdded::class]);
+
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.create'))
+            ->post(route('backstage.concerts.store'), $this->validParams());
+
+        Event::assertDispatched(ConcertAdded::class, function ($event) {
+            return $event->concert->is(Concert::first());
+        });
     }
 }
