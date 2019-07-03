@@ -6,6 +6,7 @@ use App\Billing\PaymentGateway;
 use App\Tickets\TicketCodeGenerator;
 use Illuminate\Support\ServiceProvider;
 use App\Orders\ConfirmationNumberGenerator;
+use App\Providers\TelescopeServiceProvider;
 use App\Tickets\HashidsTicketCodeGenerator;
 use App\Billing\Stripe\StripePaymentGateway;
 use App\Orders\RandomConfirmationNumberGenerator;
@@ -30,7 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
