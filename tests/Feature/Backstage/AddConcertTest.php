@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Concert;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -394,5 +396,21 @@ class AddConcertTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('ticket_quantity');
+    }
+
+    /** @test */
+    function a_poster_image_is_uploaded_if_included()
+    {
+        Storage::fake('s3');
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->post(route('backstage.concerts.store'), $this->validParams([
+                'poster_image' => File::image('concert-poster.png'),
+            ]));
+
+        $image = Concert::first()->poster_image_path;
+        $this->assertNotNull($image);
+        Storage::disk('s3')->assertExists($image);
     }
 }
