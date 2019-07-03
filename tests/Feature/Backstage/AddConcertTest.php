@@ -63,6 +63,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), [
                 'title' => 'Example Band',
                 'subtitle' => 'Example Subtitle',
@@ -116,11 +117,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'title' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('title');
     }
 
@@ -130,6 +133,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'subtitle' => '',
             ]));
@@ -148,6 +152,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'additional_information' => '',
             ]));
@@ -166,11 +171,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'date' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('date');
     }
 
@@ -180,11 +187,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'date' => '2019-01-',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('date');
     }
 
@@ -194,6 +203,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'date' => '2019-01-02',
             ]));
@@ -208,11 +218,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'time' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('time');
     }
 
@@ -222,11 +234,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'time' => '10:45',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('time');
     }
 
@@ -236,6 +250,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'time' => '10:45pm',
             ]));
@@ -250,11 +265,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'venue' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('venue');
     }
 
@@ -264,11 +281,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'venue_address' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('venue_address');
     }
 
@@ -278,11 +297,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'city' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('city');
     }
 
@@ -292,11 +313,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'state' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('state');
     }
 
@@ -306,11 +329,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'zip' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('zip');
     }
 
@@ -320,11 +345,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_price' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_price');
     }
 
@@ -334,11 +361,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_price' => 'not a number',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_price');
     }
 
@@ -348,11 +377,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_price' => '4.99',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_price');
     }
 
@@ -362,11 +393,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_quantity' => '',
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_quantity');
     }
 
@@ -376,11 +409,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_quantity' => 11.5,
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_quantity');
     }
 
@@ -390,11 +425,13 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_quantity' => 0,
             ]));
 
         $response->assertStatus(302);
+        $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_quantity');
     }
 
@@ -406,6 +443,7 @@ class AddConcertTest extends TestCase
         $file = File::image('concert-poster.png');
 
         $response = $this->actingAs($user)
+            ->from('backstage.concerts.create')
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'poster_image' => $file,
             ]));
