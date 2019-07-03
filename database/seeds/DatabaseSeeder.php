@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Concert;
+use Illuminate\Http\File;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Database\Helpers\ConcertHelper;
@@ -22,7 +23,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        ConcertHelper::createUnpublished([
+        $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/stubs/optimized-poster.png')));
+        $redChord = ConcertHelper::createUnpublished([
             'user_id' => $user->id,
             'title' => 'The Red Chord',
             'subtitle' => 'with Animosity and Lethargy',
@@ -35,8 +37,10 @@ class DatabaseSeeder extends Seeder
             'zip' => '90210',
             'ticket_price' => 3250,
             'ticket_quantity' => 50,
+            'poster_image_path' => $posterPath,
         ]);
 
+        $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/stubs/fat-night-optimized.png')));
         ConcertHelper::createUnpublished([
             'user_id' => $user->id,
             'title' => 'Fat Night',
@@ -49,6 +53,7 @@ class DatabaseSeeder extends Seeder
             'zip' => '10024',
             'ticket_price' => 3250,
             'ticket_quantity' => 50,
+            'poster_image_path' => $posterPath,
         ]);
     }
 }
