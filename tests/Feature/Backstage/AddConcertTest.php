@@ -63,7 +63,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), [
                 'title' => 'Example Band',
                 'subtitle' => 'Example Subtitle',
@@ -117,7 +117,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'title' => '',
             ]));
@@ -133,7 +133,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'subtitle' => '',
             ]));
@@ -152,7 +152,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'additional_information' => '',
             ]));
@@ -171,7 +171,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'date' => '',
             ]));
@@ -187,7 +187,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'date' => '2019-01-',
             ]));
@@ -203,7 +203,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'date' => '2019-01-02',
             ]));
@@ -218,7 +218,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'time' => '',
             ]));
@@ -234,7 +234,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'time' => '10:45',
             ]));
@@ -250,7 +250,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'time' => '10:45pm',
             ]));
@@ -265,7 +265,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'venue' => '',
             ]));
@@ -281,7 +281,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'venue_address' => '',
             ]));
@@ -297,7 +297,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'city' => '',
             ]));
@@ -313,7 +313,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'state' => '',
             ]));
@@ -329,7 +329,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'zip' => '',
             ]));
@@ -345,7 +345,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_price' => '',
             ]));
@@ -361,7 +361,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_price' => 'not a number',
             ]));
@@ -377,7 +377,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_price' => '4.99',
             ]));
@@ -393,7 +393,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_quantity' => '',
             ]));
@@ -409,7 +409,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_quantity' => 11.5,
             ]));
@@ -425,7 +425,7 @@ class AddConcertTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'ticket_quantity' => 0,
             ]));
@@ -443,7 +443,7 @@ class AddConcertTest extends TestCase
         $file = File::image('concert-poster.png');
 
         $response = $this->actingAs($user)
-            ->from('backstage.concerts.create')
+            ->from(route('backstage.concerts.create'))
             ->post(route('backstage.concerts.store'), $this->validParams([
                 'poster_image' => $file,
             ]));
