@@ -5,7 +5,7 @@
 
 @section('content-full')
   <div class="h-full flex relative">
-    @if (Route::has('login'))
+    @if (Route::has('auth.login'))
       <div class="m-8 absolute top-0 right-0">
         <ul class="-mr-6 flex items-baseline font-semibold text-brand-600">
           @auth
@@ -16,12 +16,6 @@
             <li class="mr-6">
               <a class="hover:text-brand-800" href="{{ route('auth.login') }}">Sign in</a>
             </li>
-
-            @if (Route::has('register'))
-              <li class="mr-6">
-                <a class="hover:text-brand-800" href="{{ route('register') }}">Sign up</a>
-              </li>
-            @endif
           @endauth
         </ul>
       </div>
