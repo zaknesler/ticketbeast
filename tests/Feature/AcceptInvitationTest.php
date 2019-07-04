@@ -52,8 +52,6 @@ class AcceptInvitationTest extends TestCase
     /** @test */
     function registering_with_a_valid_invitation_code()
     {
-        $this->withoutExceptionHandling();
-
         $invitation = factory(Invitation::class)->create([
             'user_id' => null,
             'code' => 'TESTCODE1234',

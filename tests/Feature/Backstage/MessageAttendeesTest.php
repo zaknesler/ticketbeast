@@ -54,8 +54,6 @@ class MessageAttendeesTest extends TestCase
     /** @test */
     function a_promoter_can_send_a_new_message()
     {
-        $this->withoutExceptionHandling();
-
         Queue::fake();
 
         $user = factory(User::class)->create();

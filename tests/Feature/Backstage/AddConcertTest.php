@@ -535,8 +535,6 @@ class AddConcertTest extends TestCase
     /** @test */
     function an_event_is_fired_when_a_concert_is_added()
     {
-        $this->withoutExceptionHandling();
-
         Event::fake([ConcertAdded::class]);
 
         $user = factory(User::class)->create();

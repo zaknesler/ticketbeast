@@ -61,7 +61,7 @@ class PurchaseTicketsTest extends TestCase
 
         $concert = ConcertHelper::createPublished(['ticket_price' => 3250, 'ticket_quantity' => 3]);
 
-        $response = $this->withoutExceptionHandling()->orderTickets($concert, [
+        $response = $this->orderTickets($concert, [
             'email' => 'john@example.com',
             'ticket_quantity' => 3,
             'payment_token' => $this->paymentGateway->getValidTestToken(),
@@ -143,8 +143,6 @@ class PurchaseTicketsTest extends TestCase
     /** @test */
     function cannot_purchase_tickets_another_customer_is_already_trying_to_purchase()
     {
-        $this->withoutExceptionHandling();
-
         $concert = ConcertHelper::createPublished(['ticket_price' => 1200, 'ticket_quantity' => 3]);
 
         $this->paymentGateway->beforeFirstCharge(function ($paymentGateway) use ($concert) {
