@@ -35,3 +35,10 @@ Route::post('/concerts/{concert}/orders', 'ConcertOrderController@store')->name(
  * --------------------------------------------------------------------------
  */
 Route::get('/orders/{confirmationNumber}', 'OrderController@show')->name('orders.show');
+
+/**
+ * --------------------------------------------------------------------------
+ * Invitations
+ * --------------------------------------------------------------------------
+ */
+Route::get('/invitations/{code}', 'InvitationController@show')->name('invitations.show');
