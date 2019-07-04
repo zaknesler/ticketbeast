@@ -13,7 +13,7 @@ addons:
     packages:
       - mysql-server
       - mysql-client
-  chrome: stable
+  # chrome: stable
 
 before_install:
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('pass') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
@@ -24,9 +24,10 @@ before_install:
 install:
   - cp .env.travis .env
   - composer self-update
-  - composer install --prefer-source --no-interaction --dev
+  - composer install --prefer-source --no-interaction
   - php artisan key:generate --force
   - php artisan migrate --seed --force
+  - php artisan dusk:chrome-driver 75
 
 before_script:
   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
