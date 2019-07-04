@@ -27,7 +27,7 @@ install:
   - composer install --prefer-source --no-interaction
   - php artisan key:generate --force
   - php artisan migrate --seed --force
-  - php artisan dusk:chrome-driver 75
+  - php artisan dusk:chrome-driver 73
 
 before_script:
   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
