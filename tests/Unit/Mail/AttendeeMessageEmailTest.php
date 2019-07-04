@@ -3,6 +3,8 @@
 namespace Tests\Unit\Mail;
 
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Concert;
 use App\Models\AttendeeMessage;
 use App\Mail\AttendeeMessageEmail;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,12 +12,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AttendeeMessageEmailTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     function attendee_message_email_contains_the_subject_and_body()
     {
-        $attendeeMessage = factory(AttendeeMessage::class)->create([
+        $attendeeMessage = factory(AttendeeMessage::class)->make([
+            'concert_id' => factory(Concert::class)->make([
+                'user_id' => factory(User::class)->make(),
+            ]),
             'subject' => 'Test subject',
             'body' => 'Test body',
         ]);
@@ -29,7 +32,10 @@ class AttendeeMessageEmailTest extends TestCase
     /** @test */
     function attendee_message_email_renders_custom_markdown()
     {
-        $attendeeMessage = factory(AttendeeMessage::class)->create([
+        $attendeeMessage = factory(AttendeeMessage::class)->make([
+            'concert_id' => factory(Concert::class)->make([
+                'user_id' => factory(User::class)->make(),
+            ]),
             'subject' => 'Test subject',
             'body' => '# This should be an h1',
         ]);
