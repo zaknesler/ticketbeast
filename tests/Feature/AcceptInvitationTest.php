@@ -59,8 +59,8 @@ class AcceptInvitationTest extends TestCase
 
         $response = $this->post(route('auth.register', [
             'email' => 'john@example.com',
-            'password' => 'secret',
-            'password_confirmation' => 'secret',
+            'password' => 'password',
+            'password_confirmation' => 'password',
             'invitation_code' => 'TESTCODE1234',
         ]));
 
@@ -69,7 +69,7 @@ class AcceptInvitationTest extends TestCase
         $user = User::first();
         $this->assertAuthenticatedAs($user);
         $this->assertEquals('john@example.com', $user->email);
-        $this->assertTrue(Hash::check('secret', $user->password));
+        $this->assertTrue(Hash::check('password', $user->password));
         $this->assertTrue($invitation->fresh()->hasBeenUsed());
         $this->assertTrue($invitation->fresh()->user->is($user));
     }
@@ -85,8 +85,8 @@ class AcceptInvitationTest extends TestCase
 
         $response = $this->post(route('auth.register', [
             'email' => 'john@example.com',
-            'password' => 'secret',
-            'password_confirmation' => 'secret',
+            'password' => 'password',
+            'password_confirmation' => 'password',
             'invitation_code' => 'TESTCODE1234',
         ]));
 
@@ -99,8 +99,8 @@ class AcceptInvitationTest extends TestCase
     {
         $response = $this->post(route('auth.register', [
             'email' => 'john@example.com',
-            'password' => 'secret',
-            'password_confirmation' => 'secret',
+            'password' => 'password',
+            'password_confirmation' => 'password',
             'invitation_code' => 'TESTCODE1234',
         ]));
 
@@ -119,8 +119,8 @@ class AcceptInvitationTest extends TestCase
         $response = $this->from(route('invitations.show', 'TESTCODE1234'))
             ->post(route('auth.register', [
                 'email' => '',
-                'password' => 'secret',
-                'password_confirmation' => 'secret',
+                'password' => 'password',
+                'password_confirmation' => 'password',
                 'invitation_code' => 'TESTCODE1234',
             ]));
 
@@ -140,8 +140,8 @@ class AcceptInvitationTest extends TestCase
         $response = $this->from(route('invitations.show', 'TESTCODE1234'))
             ->post(route('auth.register', [
                 'email' => 'not-an-email',
-                'password' => 'secret',
-                'password_confirmation' => 'secret',
+                'password' => 'password',
+                'password_confirmation' => 'password',
                 'invitation_code' => 'TESTCODE1234',
             ]));
 
@@ -163,8 +163,8 @@ class AcceptInvitationTest extends TestCase
         $response = $this->from(route('invitations.show', 'TESTCODE1234'))
             ->post(route('auth.register', [
                 'email' => $existingUser->email,
-                'password' => 'secret',
-                'password_confirmation' => 'secret',
+                'password' => 'password',
+                'password_confirmation' => 'password',
                 'invitation_code' => 'TESTCODE1234',
             ]));
 
