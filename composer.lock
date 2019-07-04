@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1e38072f236473608bc7a02b4d5a1e4",
+    "content-hash": "f2f12b8a7186dbeda00376364e0902be",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3410,16 +3410,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "1a1a1044ad00e285bd2825fac4c3a0443d90ad33"
+                "reference": "6fb502c23885701a991b0bba974b1a8eb6673577"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/1a1a1044ad00e285bd2825fac4c3a0443d90ad33",
-                "reference": "1a1a1044ad00e285bd2825fac4c3a0443d90ad33",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/6fb502c23885701a991b0bba974b1a8eb6673577",
+                "reference": "6fb502c23885701a991b0bba974b1a8eb6673577",
                 "shasum": ""
             },
             "require": {
@@ -3467,7 +3467,7 @@
                 "throwable",
                 "whoops"
             ],
-            "time": "2019-06-23T09:00:00+00:00"
+            "time": "2019-07-04T09:00:00+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -5118,56 +5118,6 @@
                 "validate"
             ],
             "time": "2018-12-25T11:19:39+00:00"
-        },
-        {
-            "name": "zaknesler/tailwind-preset",
-            "version": "v4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zaknesler/tailwind-preset.git",
-                "reference": "d3b665b8933f6342317c527607f778c87d9b296f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zaknesler/tailwind-preset/zipball/d3b665b8933f6342317c527607f778c87d9b296f",
-                "reference": "d3b665b8933f6342317c527607f778c87d9b296f",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^5.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "ZakNesler\\TailwindPreset\\TailwindServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "ZakNesler\\TailwindPreset\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Zak Nesler",
-                    "email": "contact@zaknesler.com"
-                }
-            ],
-            "description": "A Tailwind CSS preset for Laravel.",
-            "keywords": [
-                "laravel",
-                "laravel preset",
-                "preset",
-                "tailwind",
-                "tailwindcss"
-            ],
-            "time": "2019-06-23T14:50:50+00:00"
         }
     ],
     "aliases": [],
