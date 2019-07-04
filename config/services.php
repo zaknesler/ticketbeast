@@ -35,6 +35,7 @@ return [
     ],
 
     'stripe' => [
+        'client_id' => env('STRIPE_CLIENT_ID'),
         'model' => App\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
