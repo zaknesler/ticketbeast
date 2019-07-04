@@ -91,6 +91,6 @@ class ViewConcertOrdersTest extends TestCase
 
         $response = $this->get(route('backstage.concerts.orders.show', $concert));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
     }
 }

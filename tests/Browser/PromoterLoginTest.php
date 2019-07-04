@@ -21,7 +21,7 @@ class PromoterLoginTest extends DuskTestCase
     //     ]);
 
     //     $this->browse(function (Browser $browser) {
-    //         $browser->visitRoute('login')
+    //         $browser->visitRoute('auth.login')
     //                 ->type('email', 'john@example.com')
     //                 ->type('password', 'secret-password')
     //                 ->press('Sign in')
@@ -38,7 +38,7 @@ class PromoterLoginTest extends DuskTestCase
     //     ]);
 
     //     $this->browse(function (Browser $browser) {
-    //         $browser->visitRoute('login')
+    //         $browser->visitRoute('auth.login')
     //                 ->type('email', 'jane@example.com')
     //                 ->type('password', 'wrong-password')
     //                 ->press('Sign in')

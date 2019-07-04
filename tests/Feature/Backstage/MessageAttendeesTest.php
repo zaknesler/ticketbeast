@@ -48,7 +48,7 @@ class MessageAttendeesTest extends TestCase
 
         $response = $this->get(route('backstage.concerts.messages.create', $concert));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
     }
 
     /** @test */
@@ -111,7 +111,7 @@ class MessageAttendeesTest extends TestCase
             'body' => 'My message',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
         $this->assertEquals(0, AttendeeMessage::count());
         Queue::assertNotPushed(AttendeeMessage::class);
     }

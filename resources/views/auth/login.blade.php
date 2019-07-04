@@ -14,7 +14,7 @@
         Sign in to your account
       </div>
 
-      <form action="{{ route('login') }}" method="POST" class="mt-6">
+      <form action="{{ route('auth.login.store') }}" method="POST" class="mt-6">
         @csrf
 
         <div>

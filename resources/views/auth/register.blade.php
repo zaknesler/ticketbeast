@@ -94,7 +94,7 @@
 
         <div class="mt-6 text-sm flex items-center justify-between">
           <div>
-            Have an account? <a tabindex="6" href="{{ route('login') }}" class="font-semibold text-gray-700 hover:text-gray-800 hover:underline">Sign in</a>
+            Have an account? <a tabindex="6" href="{{ route('auth.login') }}" class="font-semibold text-gray-700 hover:text-gray-800 hover:underline">Sign in</a>
           </div>
 
           <button tabindex="5" class="btn px-5 py-2">Sign up</button>

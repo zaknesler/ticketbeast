@@ -19,7 +19,7 @@ class ViewConcertListingTest extends TestCase
         $response = $this->get(route('backstage.concerts.index'));
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
     }
 
     /** @test */

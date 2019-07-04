@@ -46,7 +46,7 @@ class LoginController extends Controller
     {
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
-        ])->redirectTo(route('login'));
+        ])->redirectTo(route('auth.login'));
     }
 
     /**
@@ -57,6 +57,6 @@ class LoginController extends Controller
      */
     protected function loggedOut(Request $request)
     {
-        return redirect()->route('login');
+        return redirect()->route('auth.login');
     }
 }

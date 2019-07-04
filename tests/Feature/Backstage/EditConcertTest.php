@@ -91,7 +91,7 @@ class EditConcertTest extends TestCase
         $response = $this->get(route('backstage.concerts.edit', $concert));
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
     }
 
     /** @test */
@@ -100,7 +100,7 @@ class EditConcertTest extends TestCase
         $response = $this->get(route('backstage.concerts.edit', 999));
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
     }
 
     /** @test */
@@ -215,7 +215,7 @@ class EditConcertTest extends TestCase
 
         $concert = $concert->fresh();
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
         $this->assertNotEquals('New title', $concert->title);
         $this->assertNotEquals('New subtitle', $concert->subtitle);
         $this->assertNotEquals('New additional information', $concert->additional_information);

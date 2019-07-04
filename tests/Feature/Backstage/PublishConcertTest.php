@@ -81,7 +81,7 @@ class PublishConcertTest extends TestCase
             'concert_id' => $concert->id,
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
 
         $concert = $concert->fresh();
         $this->assertFalse($concert->isPublished());

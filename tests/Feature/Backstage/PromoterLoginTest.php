@@ -21,7 +21,7 @@ class PromoterLoginTest extends TestCase
             'password' => Hash::make('secret-password'),
         ]);
 
-        $response = $this->post(route('login'), [
+        $response = $this->post(route('auth.login.store'), [
             'email' => 'jane@example.com',
             'password' => 'secret-password',
         ]);
@@ -39,12 +39,12 @@ class PromoterLoginTest extends TestCase
             'password' => Hash::make('secret-password'),
         ]);
 
-        $response = $this->post(route('login'), [
+        $response = $this->post(route('auth.login.store'), [
             'email' => 'jane@example.com',
             'password' => 'not-the-right-password',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
         $response->assertSessionHasErrors('email');
         $this->assertFalse(Auth::check());
     }
@@ -52,12 +52,12 @@ class PromoterLoginTest extends TestCase
     /** @test */
     function logging_in_with_an_account_that_does_not_exist()
     {
-        $response = $this->post(route('login'), [
+        $response = $this->post(route('auth.login.store'), [
             'email' => 'nobody@example.com',
             'password' => 'not-the-right-password',
         ]);
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
         $response->assertSessionHasErrors('email');
         $this->assertFalse(Auth::check());
     }
@@ -68,9 +68,9 @@ class PromoterLoginTest extends TestCase
         Auth::login(factory(User::class)->create());
         $this->assertTrue(Auth::check());
 
-        $response = $this->post(route('logout'));
+        $response = $this->post(route('auth.logout'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('auth.login'));
         $this->assertFalse(Auth::check());
     }
 }

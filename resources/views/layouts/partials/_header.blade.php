@@ -43,10 +43,10 @@
             <li><a href="{{ route('backstage.concerts.index') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Your Concerts</a></li>
             <li>
               <a href="#" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline" onclick="document.querySelector('#logoutForm').submit()">Log out</a>
-              <form action="{{ route('logout') }}" method="POST" id="logoutForm" class="hidden">@csrf</form>
+              <form action="{{ route('auth.logout') }}" method="POST" id="logoutForm" class="hidden">@csrf</form>
             </li>
           @else
-            <li><a href="{{ route('login') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Sign in</a></li>
+            <li><a href="{{ route('auth.login') }}" class="px-6 py-3 sm:p-0 sm:ml-5 block sm:inline-block text-brand-400 hover:text-white hover:bg-gray-900 sm:hover:bg-transparent no-underline">Sign in</a></li>
           @endauth
         </ul>
       </nav>

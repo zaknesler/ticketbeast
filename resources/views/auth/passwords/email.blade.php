@@ -45,7 +45,7 @@
 
         <div class="mt-6 text-sm flex items-center justify-between">
           <div>
-            Remember it? <a tabindex="3" href="{{ route('login') }}" class="font-semibold text-gray-700 hover:text-gray-800 hover:underline">Sign in</a>
+            Remember it? <a tabindex="3" href="{{ route('auth.login') }}" class="font-semibold text-gray-700 hover:text-gray-800 hover:underline">Sign in</a>
           </div>
 
           <button tabindex="2" class="btn px-5 py-2">Send Link</button>
