@@ -4,59 +4,48 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
     /**
-     * Create a new controller instance.
+     * Display the login form.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function showLoginForm()
     {
-        $this->middleware('guest')->except('logout');
-
-        $this->redirectTo = route('backstage.concerts.index');
+        return view('auth.login');
     }
 
     /**
-     * Get the failed login response instance.
+     * Attempt to authenticate the user.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @return \Illuminate\Http\RedirectResponse
      */
-    protected function sendFailedLoginResponse(Request $request)
+    public function login(Request $request)
     {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ])->redirectTo(route('auth.login'));
+        if (Auth::attempt($request->all(['email', 'password']))) {
+            return redirect(route('backstage.concerts.index'));
+        }
+
+        return redirect(route('auth.login'))
+            ->withInput(['email' => $request->email])
+            ->withErrors([
+                'email' => ['These credentials do not match our records.'],
+            ]);
     }
 
     /**
-     * The user has logged out of the application.
+     * Unauthenticate the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
-    protected function loggedOut(Request $request)
+    public function logout()
     {
-        return redirect()->route('auth.login');
+        Auth::logout();
+
+        return redirect(route('auth.login'));
     }
 }
