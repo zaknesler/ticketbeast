@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Orders;
+namespace App\Generators\Implementations;
 
-use App\Orders\ConfirmationNumberGenerator;
+use App\Generators\ConfirmationNumberGenerator;
 
 class RandomConfirmationNumberGenerator implements ConfirmationNumberGenerator
 {

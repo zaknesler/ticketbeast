@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tickets;
+namespace App\Generators\Implementations;
 
 use Hashids\Hashids;
 use App\Models\Ticket;
-use App\Tickets\TicketCodeGenerator;
+use App\Generators\TicketCodeGenerator;
 
 class HashidsTicketCodeGenerator implements TicketCodeGenerator
 {

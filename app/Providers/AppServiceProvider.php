@@ -3,13 +3,13 @@
 namespace App\Providers;
 
 use App\Billing\PaymentGateway;
-use App\Tickets\TicketCodeGenerator;
+use App\Generators\TicketCodeGenerator;
 use Illuminate\Support\ServiceProvider;
-use App\Orders\ConfirmationNumberGenerator;
 use App\Providers\TelescopeServiceProvider;
-use App\Tickets\HashidsTicketCodeGenerator;
 use App\Billing\Stripe\StripePaymentGateway;
-use App\Orders\RandomConfirmationNumberGenerator;
+use App\Generators\ConfirmationNumberGenerator;
+use App\Generators\Implementations\HashidsTicketCodeGenerator;
+use App\Generators\Implementations\RandomConfirmationNumberGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {

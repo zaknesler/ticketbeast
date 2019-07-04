@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orders;
+namespace App\Generators;
 
 interface ConfirmationNumberGenerator
 {

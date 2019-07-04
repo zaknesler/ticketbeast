@@ -3,7 +3,7 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use App\Orders\ConfirmationNumberGenerator;
+use App\Generators\ConfirmationNumberGenerator;
 
 class ConfirmationNumber extends Facade
 {

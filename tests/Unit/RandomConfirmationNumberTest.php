@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Orders\RandomConfirmationNumberGenerator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Generators\Implementations\RandomConfirmationNumberGenerator;
 
 class RandomConfirmationNumberTest extends TestCase
 {

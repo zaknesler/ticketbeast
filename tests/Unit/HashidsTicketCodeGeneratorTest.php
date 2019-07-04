@@ -4,9 +4,9 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\Ticket;
-use App\Tickets\HashidsTicketCodeGenerator;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Generators\Implementations\HashidsTicketCodeGenerator;
 
 class HashidsTicketCodeGeneratorTest extends TestCase
 {

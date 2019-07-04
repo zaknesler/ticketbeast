@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tickets;
+namespace App\Generators;
 
 use App\Models\Ticket;
 
