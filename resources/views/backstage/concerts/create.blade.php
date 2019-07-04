@@ -92,7 +92,7 @@
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
                 <p>Have a sweet poster for this concert? Upload it and we'll display it on the checkout page.</p>
-                <p class="mt-2">The poster image must have an aspect ratio of 27x40.</p>
+                <p class="mt-2">The poster image must have an aspect ratio of 8.5 x 11.</p>
               </div>
             </div>
 

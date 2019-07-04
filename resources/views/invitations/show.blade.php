@@ -14,9 +14,10 @@
         Create a new account
       </div>
 
-      <form action="#" method="POST" class="mt-6">
+      <form action="{{ route('auth.register') }}" method="POST" class="mt-6">
         @csrf
 
+        <input type="hidden" name="invitation_code" value="{{ $invitation->code }}" />
 
         <div class="mt-3">
           <label>
