@@ -36,8 +36,7 @@ class OrderConfirmationEmail extends Mailable
      */
     public function build()
     {
-        $this->subject('Your Ticketbeast Order');
-
-        return $this->markdown('emails.order-confirmation');
+        return $this->subject('Your Ticketbeast Order')
+                    ->markdown('emails.order-confirmation');
     }
 }
