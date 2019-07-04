@@ -17,6 +17,7 @@ class CreateInvitationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->index()->nullable();
 
+            $table->string('email');
             $table->string('code');
             $table->timestamps();
 

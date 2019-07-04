@@ -5,6 +5,8 @@ namespace Tests\Unit\Models;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Invitation;
+use App\Mail\InvitationEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -42,5 +44,24 @@ class InvitationTest extends TestCase
         ]);
 
         $this->assertTrue($invitation->hasBeenUsed());
+    }
+
+    /** @test */
+    function an_invitation_can_be_sent_to_the_associated_email()
+    {
+        Mail::fake();
+
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => factory(User::class)->create(),
+            'email' => 'john@example.com',
+            'code' => 'TESTCODE1234',
+        ]);
+
+        $invitation->send();
+
+        Mail::assertSent(InvitationEmail::class, function ($mail) use ($invitation) {
+            return $mail->hasTo('john@example.com')
+                && $mail->invitation->is($invitation);
+        });
     }
 }

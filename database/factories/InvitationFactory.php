@@ -8,6 +8,7 @@ $factory->define(\App\Models\Invitation::class, function (Faker $faker) {
         'user_id' => function () {
             return factory(\App\Models\User::class)->create()->id;
         },
+        'email' => 'john@example.com',
         'code' => 'TESTCODE1234',
     ];
 });

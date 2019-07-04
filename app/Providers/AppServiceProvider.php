@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Billing\PaymentGateway;
 use App\Generators\TicketCodeGenerator;
 use Illuminate\Support\ServiceProvider;
+use App\Generators\InvitationCodeGenerator;
 use App\Providers\TelescopeServiceProvider;
 use App\Billing\Stripe\StripePaymentGateway;
 use App\Generators\ConfirmationNumberGenerator;
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
         PaymentGateway::class => StripePaymentGateway::class,
         ConfirmationNumberGenerator::class => RandomConfirmationNumberGenerator::class,
         TicketCodeGenerator::class => HashidsTicketCodeGenerator::class,
+        InvitationCodeGenerator::class => RandomConfirmationNumberGenerator::class,
     ];
 
     /**

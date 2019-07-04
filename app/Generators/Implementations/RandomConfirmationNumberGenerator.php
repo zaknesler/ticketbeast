@@ -2,9 +2,10 @@
 
 namespace App\Generators\Implementations;
 
+use App\Generators\InvitationCodeGenerator;
 use App\Generators\ConfirmationNumberGenerator;
 
-class RandomConfirmationNumberGenerator implements ConfirmationNumberGenerator
+class RandomConfirmationNumberGenerator implements ConfirmationNumberGenerator, InvitationCodeGenerator
 {
     /**
      * Generate an order confirmation number.
