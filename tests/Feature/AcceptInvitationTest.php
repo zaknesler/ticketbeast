@@ -107,4 +107,132 @@ class AcceptInvitationTest extends TestCase
         $response->assertStatus(404);
         $this->assertEquals(0, User::count());
     }
+
+    /** @test */
+    function email_is_required_when_registering_an_account()
+    {
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => null,
+            'code' => 'TESTCODE1234',
+        ]);
+
+        $response = $this->from(route('invitations.show', 'TESTCODE1234'))
+            ->post(route('auth.register', [
+                'email' => '',
+                'password' => 'secret',
+                'password_confirmation' => 'secret',
+                'invitation_code' => 'TESTCODE1234',
+            ]));
+
+        $response->assertRedirect(route('invitations.show', 'TESTCODE1234'));
+        $response->assertSessionHasErrors('email');
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function email_is_a_valid_email_address_when_registering_an_account()
+    {
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => null,
+            'code' => 'TESTCODE1234',
+        ]);
+
+        $response = $this->from(route('invitations.show', 'TESTCODE1234'))
+            ->post(route('auth.register', [
+                'email' => 'not-an-email',
+                'password' => 'secret',
+                'password_confirmation' => 'secret',
+                'invitation_code' => 'TESTCODE1234',
+            ]));
+
+        $response->assertRedirect(route('invitations.show', 'TESTCODE1234'));
+        $response->assertSessionHasErrors('email');
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function email_must_be_unique_when_registering_an_account()
+    {
+        $existingUser = factory(User::class)->create(['email' => 'john@example.com']);
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => null,
+            'code' => 'TESTCODE1234',
+        ]);
+        $this->assertEquals(1, User::count());
+
+        $response = $this->from(route('invitations.show', 'TESTCODE1234'))
+            ->post(route('auth.register', [
+                'email' => $existingUser->email,
+                'password' => 'secret',
+                'password_confirmation' => 'secret',
+                'invitation_code' => 'TESTCODE1234',
+            ]));
+
+        $response->assertRedirect(route('invitations.show', 'TESTCODE1234'));
+        $response->assertSessionHasErrors('email');
+        $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
+    function password_is_required_when_registering_an_account()
+    {
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => null,
+            'code' => 'TESTCODE1234',
+        ]);
+
+        $response = $this->from(route('invitations.show', 'TESTCODE1234'))
+            ->post(route('auth.register', [
+                'email' => 'john@example.com',
+                'password' => '',
+                'password_confirmation' => '',
+                'invitation_code' => 'TESTCODE1234',
+            ]));
+
+        $response->assertRedirect(route('invitations.show', 'TESTCODE1234'));
+        $response->assertSessionHasErrors('password');
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function password_must_be_at_least_eight_characters_long_when_registering_an_account()
+    {
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => null,
+            'code' => 'TESTCODE1234',
+        ]);
+
+        $response = $this->from(route('invitations.show', 'TESTCODE1234'))
+            ->post(route('auth.register', [
+                'email' => 'john@example.com',
+                'password' => '1234567',
+                'password_confirmation' => '1234567',
+                'invitation_code' => 'TESTCODE1234',
+            ]));
+
+        $response->assertRedirect(route('invitations.show', 'TESTCODE1234'));
+        $response->assertSessionHasErrors('password');
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function password_must_confirmed_when_registering_an_account()
+    {
+        $invitation = factory(Invitation::class)->create([
+            'user_id' => null,
+            'code' => 'TESTCODE1234',
+        ]);
+
+        $response = $this->from(route('invitations.show', 'TESTCODE1234'))
+            ->post(route('auth.register', [
+                'email' => 'john@example.com',
+                'password' => 'long-and-secure-password',
+                'password_confirmation' => '',
+                'invitation_code' => 'TESTCODE1234',
+            ]));
+
+        $response->assertRedirect(route('invitations.show', 'TESTCODE1234'));
+        $response->assertSessionHasErrors('password');
+        $this->assertEquals(0, User::count());
+    }
 }
