@@ -1,5 +1,5 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/../resources/views/vendor/mail/html/themes/custom.css": "/../resources/views/vendor/mail/html/themes/custom.css"
+    "/js/app.js": "/js/app.js?id=3dbec1ab502a3309062b",
+    "/css/app.css": "/css/app.css?id=983138775441e4ca3053",
+    "/../resources/views/vendor/mail/html/themes/custom.css": "/../resources/views/vendor/mail/html/themes/custom.css?id=5378f8d5b196971923d7"
 }
