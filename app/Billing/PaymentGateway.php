@@ -25,7 +25,8 @@ interface PaymentGateway
      *
      * @param  int  $amount
      * @param  string  $token
+     * @param  string  $destinationAccountId
      * @return void
      */
-    public function charge($amount, $token);
+    public function charge($amount, $token, $destinationAccountId);
 }

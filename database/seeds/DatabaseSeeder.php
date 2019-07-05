@@ -17,13 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $faker = \Faker\Factory::create();
+        $gateway = new \App\Billing\FakePaymentGateway;
+
         $user = factory(User::class)->create([
             'email' => 'zak@example.com',
             'password' => Hash::make('password'),
+            'stripe_account_id' => null,
+            'stripe_access_token' => null,
         ]);
 
         $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/__stubs__/optimized-poster.png')));
-        $redChord = ConcertHelper::createUnpublished([
+        $concert = ConcertHelper::createPublished([
             'user_id' => $user->id,
             'title' => 'The Red Chord',
             'subtitle' => 'with Animosity and Lethargy',
@@ -35,9 +40,16 @@ class DatabaseSeeder extends Seeder
             'state' => 'ON',
             'zip' => '90210',
             'ticket_price' => 3250,
-            'ticket_quantity' => 50,
+            'ticket_quantity' => 100,
             'poster_image_path' => $posterPath,
         ]);
+
+        foreach(range(1, 25) as $i) {
+            Carbon::setTestNow(Carbon::instance($faker->dateTimeBetween('-2 months')));
+
+            $concert->reserveTickets(rand(1, 4), $faker->safeEmail)
+                    ->complete($gateway, $gateway->getValidTestToken($faker->creditCardNumber), 'test_acct_1234');
+        }
 
         $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/__stubs__/fat-night-optimized.png')));
         ConcertHelper::createUnpublished([

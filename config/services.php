@@ -43,6 +43,9 @@ return [
             'secret' => env('STRIPE_WEBHOOK_SECRET'),
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
+        'testing' => [
+            'destination_account_id' => env('STRIPE_TEST_DESTINATION_ACCOUNT_ID'),
+        ],
     ],
 
 ];

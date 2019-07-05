@@ -40,4 +40,14 @@ class Charge
     {
         return $this->data['amount'];
     }
+
+    /**
+     * Get the destination account identifier.
+     *
+     * @return string
+     */
+    public function destination()
+    {
+        return $this->data['destination'];
+    }
 }

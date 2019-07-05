@@ -19,7 +19,7 @@ trait PaymentGatewayContractTests
         $paymentGateway = $this->getPaymentGateway();
 
         $newCharges = $paymentGateway->newChargesDuring(function ($paymentGateway) {
-            $paymentGateway->charge(2500, $paymentGateway->getValidTestToken());
+            $paymentGateway->charge(2500, $paymentGateway->getValidTestToken(), config('services.stripe.testing.destination_account_id'));
         });
 
         $this->assertCount(1, $newCharges);
@@ -31,10 +31,11 @@ trait PaymentGatewayContractTests
     {
         $paymentGateway = $this->getPaymentGateway();
 
-        $charge = $paymentGateway->charge(2500, $paymentGateway->getValidTestToken($paymentGateway::TEST_CARD_NUMBER));
+        $charge = $paymentGateway->charge(2500, $paymentGateway->getValidTestToken($paymentGateway::TEST_CARD_NUMBER), config('services.stripe.testing.destination_account_id'));
 
         $this->assertEquals(substr($paymentGateway::TEST_CARD_NUMBER, -4), $charge->cardLastFour());
         $this->assertEquals(2500, $charge->amount());
+        $this->assertEquals(config('services.stripe.testing.destination_account_id'), $charge->destination());
     }
 
     /** @test */
@@ -42,12 +43,12 @@ trait PaymentGatewayContractTests
     {
         $paymentGateway = $this->getPaymentGateway();
 
-        $paymentGateway->charge(2000, $paymentGateway->getValidTestToken());
-        $paymentGateway->charge(3000, $paymentGateway->getValidTestToken());
+        $paymentGateway->charge(2000, $paymentGateway->getValidTestToken(), config('services.stripe.testing.destination_account_id'));
+        $paymentGateway->charge(3000, $paymentGateway->getValidTestToken(), config('services.stripe.testing.destination_account_id'));
 
         $newCharges = $paymentGateway->newChargesDuring(function ($paymentGateway) {
-            $paymentGateway->charge(4000, $paymentGateway->getValidTestToken());
-            $paymentGateway->charge(5000, $paymentGateway->getValidTestToken());
+            $paymentGateway->charge(4000, $paymentGateway->getValidTestToken(), config('services.stripe.testing.destination_account_id'));
+            $paymentGateway->charge(5000, $paymentGateway->getValidTestToken(), config('services.stripe.testing.destination_account_id'));
         });
 
         $this->assertCount(2, $newCharges);
@@ -62,7 +63,7 @@ trait PaymentGatewayContractTests
         $this->expectException(PaymentFailedException::class);
 
         $newCharges = $paymentGateway->newChargesDuring(function ($paymentGateway) {
-            $paymentGateway->charge(2500, 'invalid-payment-token');
+            $paymentGateway->charge(2500, 'invalid-payment-token', config('services.stripe.testing.destination_account_id'));
         });
 
         $this->assertCount(0, $newCharges);

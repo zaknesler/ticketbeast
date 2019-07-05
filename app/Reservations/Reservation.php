@@ -50,11 +50,12 @@ class Reservation
      *
      * @param  \App\Billing\PaymentGateway  $paymentGateway
      * @param  string  $paymentToken
+     * @param  string  $destinationAccountId
      * @return \App\Models\Order
      */
-    public function complete(PaymentGateway $paymentGateway, $paymentToken)
+    public function complete(PaymentGateway $paymentGateway, $paymentToken, $destinationAccountId)
     {
-        $charge = $paymentGateway->charge($this->totalCost(), $paymentToken);
+        $charge = $paymentGateway->charge($this->totalCost(), $paymentToken, $destinationAccountId);
 
         return Order::forTickets($this->tickets(), $this->email(), $charge);
     }
