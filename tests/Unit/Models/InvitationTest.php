@@ -16,7 +16,7 @@ class InvitationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function an_invitation_can_be_retreived_by_its_code()
+    function an_invitation_can_be_retrieved_by_its_code()
     {
         $invitation = factory(Invitation::class)->create([
             'code' => 'TESTCODE1234',

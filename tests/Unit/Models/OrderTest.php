@@ -67,7 +67,7 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    function retreiving_an_order_by_its_confirmation_number()
+    function retrieving_an_order_by_its_confirmation_number()
     {
         $order = factory(Order::class)->create([
             'confirmation_number' => 'ORDERCONFIRMATION1234',
