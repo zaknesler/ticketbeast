@@ -41,5 +41,6 @@ Route::prefix('/backstage')->namespace('Backstage')->group(function () {
      * Stripe Connect
      * --------------------------------------------------------------------------
      */
-    Route::get('/backstage/stripe-connect/authorize', 'StripeConnectController@authorizeRedirect')->name('backstage.stripe-connect.authorize');
+    Route::get('/stripe-connect/authorize', 'StripeConnectController@authorizeRedirect')->name('backstage.stripe-connect.authorize');
+    Route::get('/stripe-connect/redirect', 'StripeConnectController@redirect')->name('backstage.stripe-connect.redirect');
 });
