@@ -67,7 +67,7 @@ class StripePaymentGateway implements PaymentGateway
                 'source' => $token,
                 'destination' => [
                     'account' => $destinationAccountId,
-                    'amount' => $amount * 0.9,
+                    'amount' => round($amount * 0.9),
                 ],
             ]);
 
