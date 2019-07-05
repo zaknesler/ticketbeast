@@ -95,6 +95,12 @@ class FakePaymentGateway implements PaymentGateway
         ]);
     }
 
+    /**
+     * Execute a callback before the first charge is created.
+     *
+     * @param  \Closure  $callback
+     * @return void
+     */
     public function beforeFirstCharge($callback)
     {
         $this->beforeFirstChargeCallback = $callback;
