@@ -9,22 +9,13 @@ use App\Http\Controllers\Controller;
 class StripeConnectController extends Controller
 {
     /**
-     * Redirect the user to the Stripe authorization page.
+     * Show the page that includes the link to connect a user's account with Stripe.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function authorizeRedirect()
+    public function connect()
     {
-        $url = vsprintf('%s?%s', [
-            'https://connect.stripe.com/oauth/authorize',
-            http_build_query([
-                'response_type' => 'code',
-                'scope' => 'read_write',
-                'client_id' => config('services.stripe.client_id'),
-            ]),
-        ]);
-
-        return redirect($url);
+        return view('backstage.stripe-connect.connect');
     }
 
     /**
@@ -47,5 +38,24 @@ class StripeConnectController extends Controller
         ]);
 
         return redirect(route('backstage.concerts.index'));
+    }
+
+    /**
+     * Redirect the user to the Stripe authorization page.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function authorizeRedirect()
+    {
+        $url = vsprintf('%s?%s', [
+            'https://connect.stripe.com/oauth/authorize',
+            http_build_query([
+                'response_type' => 'code',
+                'scope' => 'read_write',
+                'client_id' => config('services.stripe.client_id'),
+            ]),
+        ]);
+
+        return redirect($url);
     }
 }

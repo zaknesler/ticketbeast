@@ -21,7 +21,8 @@ class ConnectWithStripeTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)
-                    ->visit(route('backstage.stripe-connect.authorize'))
+                    ->visit(route('backstage.stripe-connect.connect'))
+                    ->clickLink('Connect with Stripe')
                     ->assertUrlIs('https://connect.stripe.com/oauth/authorize')
                     ->assertQueryStringHas('response_type', 'code')
                     ->assertQueryStringHas('scope', 'read_write')
