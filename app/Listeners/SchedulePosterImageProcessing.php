@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Events\ConcertAdded;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Jobs\Concerts\ProcessPosterImage;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,10 +11,10 @@ class SchedulePosterImageProcessing
     /**
      * Handle the event.
      *
-     * @param  \App\Events\ConcertAdded  $event
+     * @param  Object  $event
      * @return void
      */
-    public function handle(ConcertAdded $event)
+    public function handle($event)
     {
         if (!$event->concert->hasPoster()) {
             return;

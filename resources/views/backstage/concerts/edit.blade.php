@@ -14,7 +14,7 @@
 
     <div class="min-h-full h-full w-full">
       <div class="p-6 mx-auto max-w-4xl">
-        <form class="block" action="{{ route('backstage.concerts.update', $concert) }}" method="post">
+        <form class="block" action="{{ route('backstage.concerts.update', $concert) }}" method="post" enctype="multipart/form-data">
           @csrf
           @method('patch')
 
@@ -89,6 +89,38 @@
 
           <section class="sm:flex justify-between">
             <div class="sm:w-1/3">
+              <div class="font-semibold text-gray-800">Concert Poster</div>
+
+              <div class="mt-3 text-sm leading-relaxed text-gray-600">
+                <p>Have a sweet poster for this concert? Upload it and we'll display it on the checkout page.</p>
+                <p class="mt-2">The poster image must have an aspect ratio of 8.5 x 11.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 sm:mt-0 sm:ml-6 sm:w-3/5">
+              <div>
+                <label>
+                  <span class="text-sm font-medium text-gray-800 {{ $errors->first('poster_image', 'text-red-700') }}">Poster Image <span class="text-xs text-gray-500">(Optional)</span></span>
+                  <input
+                    tabindex="4"
+                    type="file"
+                    name="poster_image"
+                    value="{{ old('poster_image') }}"
+                    class="mt-1 form-input form-file px-2 text-sm block w-full {{ $errors->first('poster_image', 'border-red-500') }}"
+                  />
+
+                  @if ($errors->has('poster_image'))
+                    <div class="px-3 py-2 mt-2 text-xs font-semibold border border-red-200 bg-red-100 text-red-700 rounded-lg">{{ $errors->first('poster_image') }}</div>
+                  @endif
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <div class="my-6 w-full h-px bg-gray-300"></div>
+
+          <section class="sm:flex justify-between">
+            <div class="sm:w-1/3">
               <div class="text-gray-900">Date & Time</div>
 
               <div class="mt-3 text-sm leading-relaxed text-gray-600">
@@ -103,7 +135,7 @@
                     <span class="text-sm font-medium text-gray-800 {{ $errors->first('date', 'text-red-700') }}">Date</span>
                     <input
                       required
-                      tabindex="4"
+                      tabindex="5"
                       type="text"
                       name="date"
                       value="{{ old('date', $concert->date->format('Y-m-d')) }}"
@@ -122,7 +154,7 @@
                     <span class="text-sm font-medium text-gray-800 {{ $errors->first('time', 'text-red-700') }}">Start time</span>
                     <input
                       required
-                      tabindex="5"
+                      tabindex="6"
                       type="text"
                       name="time"
                       value="{{ old('time', $concert->date->format('g:ia')) }}"
@@ -156,7 +188,7 @@
                   <span class="text-sm font-medium text-gray-800 {{ $errors->first('venue', 'text-red-700') }}">Venue</span>
                   <input
                     required
-                    tabindex="6"
+                    tabindex="7"
                     type="text"
                     name="venue"
                     value="{{ old('venue', $concert->venue) }}"
@@ -175,7 +207,7 @@
                   <span class="text-sm font-medium text-gray-800 {{ $errors->first('venue_address', 'text-red-700') }}">Street Address</span>
                   <input
                     required
-                    tabindex="7"
+                    tabindex="8"
                     type="text"
                     name="venue_address"
                     value="{{ old('venue_address', $concert->venue_address) }}"
@@ -195,7 +227,7 @@
                     <span class="text-sm font-medium text-gray-800 {{ $errors->first('city', 'text-red-700') }}">City</span>
                     <input
                       required
-                      tabindex="8"
+                      tabindex="9"
                       type="text"
                       name="city"
                       value="{{ old('city', $concert->city) }}"
@@ -215,7 +247,7 @@
                       <span class="text-sm font-medium text-gray-800 {{ $errors->first('state', 'text-red-700') }}">State/Province</span>
                       <input
                         required
-                        tabindex="9"
+                        tabindex="10"
                         type="text"
                         name="state"
                         value="{{ old('state', $concert->state) }}"
@@ -234,7 +266,7 @@
                       <span class="text-sm font-medium text-gray-800 {{ $errors->first('zip', 'text-red-700') }}">ZIP</span>
                       <input
                         required
-                        tabindex="10"
+                        tabindex="11"
                         type="text"
                         name="zip"
                         value="{{ old('zip', $concert->zip) }}"
@@ -270,7 +302,7 @@
                     <span class="text-sm font-medium text-gray-800 {{ $errors->first('ticket_price', 'text-red-700') }}">Price</span>
                     <input
                       required
-                      tabindex="11"
+                      tabindex="12"
                       type="text"
                       name="ticket_price"
                       value="{{ old('ticket_price', $concert->ticket_price_in_dollars) }}"
@@ -290,7 +322,7 @@
                     <span class="text-sm font-medium text-gray-800 {{ $errors->first('ticket_quantity', 'text-red-700') }}">Tickets Available</span>
                     <input
                       required
-                      tabindex="12"
+                      tabindex="13"
                       type="number"
                       name="ticket_quantity"
                       value="{{ old('ticket_quantity', $concert->ticket_quantity) }}"
@@ -311,7 +343,7 @@
           <div class="my-6 w-full h-px bg-gray-300"></div>
 
           <div class="text-right">
-            <button tabindex="13" class="btn">Update Concert</button>
+            <button tabindex="14" class="btn">Update Concert</button>
           </div>
         </form>
       </div>

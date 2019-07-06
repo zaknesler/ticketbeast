@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Backstage\Concert;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateConcertRequest extends FormRequest
@@ -36,6 +37,7 @@ class UpdateConcertRequest extends FormRequest
             'additional_information' => ['nullable'],
             'ticket_price' => ['required', 'numeric', 'min:5'],
             'ticket_quantity' => ['required', 'integer', 'min:1'],
+            'poster_image' => ['nullable', 'image', Rule::dimensions()->minWidth(600)->ratio(8.5 / 11)],
         ];
     }
 }

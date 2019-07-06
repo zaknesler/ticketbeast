@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\ConcertAdded;
+use App\Events\ConcertUpdated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\SchedulePosterImageProcessing;
@@ -21,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         ConcertAdded::class => [
+            SchedulePosterImageProcessing::class,
+        ],
+        ConcertUpdated::class => [
             SchedulePosterImageProcessing::class,
         ],
     ];

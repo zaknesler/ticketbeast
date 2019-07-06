@@ -83,7 +83,6 @@ class AddConcertTest extends TestCase
 
         $concert = Concert::first();
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.index'));
 
         $this->assertTrue($concert->user->is($user));
@@ -108,13 +107,12 @@ class AddConcertTest extends TestCase
     {
         $response = $this->post(route('backstage.concerts.store'), $this->validParams());
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('auth.login'));
         $this->assertEquals(0, Concert::count());
     }
 
     /** @test */
-    function title_is_required()
+    function title_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -124,13 +122,12 @@ class AddConcertTest extends TestCase
                 'title' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('title');
     }
 
     /** @test */
-    function subtitle_is_optional()
+    function subtitle_is_optional_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -149,7 +146,7 @@ class AddConcertTest extends TestCase
     }
 
     /** @test */
-    function additional_information_is_optional()
+    function additional_information_is_optional_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -168,7 +165,7 @@ class AddConcertTest extends TestCase
     }
 
     /** @test */
-    function date_is_required()
+    function date_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -178,13 +175,12 @@ class AddConcertTest extends TestCase
                 'date' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('date');
     }
 
     /** @test */
-    function date_must_be_properly_formatted()
+    function date_must_be_properly_formatted_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -194,13 +190,12 @@ class AddConcertTest extends TestCase
                 'date' => '2019-01-',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('date');
     }
 
     /** @test */
-    function properly_formatted_dates_are_allowed()
+    function properly_formatted_dates_are_allowed_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -215,7 +210,7 @@ class AddConcertTest extends TestCase
     }
 
     /** @test */
-    function time_is_required()
+    function time_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -225,13 +220,12 @@ class AddConcertTest extends TestCase
                 'time' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('time');
     }
 
     /** @test */
-    function time_must_be_properly_formatted()
+    function time_must_be_properly_formatted_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -241,13 +235,12 @@ class AddConcertTest extends TestCase
                 'time' => '10:45',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('time');
     }
 
     /** @test */
-    function properly_formatted_times_are_allowed()
+    function properly_formatted_times_are_allowed_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -262,7 +255,7 @@ class AddConcertTest extends TestCase
     }
 
     /** @test */
-    function venue_is_required()
+    function venue_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -272,13 +265,12 @@ class AddConcertTest extends TestCase
                 'venue' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('venue');
     }
 
     /** @test */
-    function venue_address_is_required()
+    function venue_address_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -288,13 +280,12 @@ class AddConcertTest extends TestCase
                 'venue_address' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('venue_address');
     }
 
     /** @test */
-    function city_is_required()
+    function city_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -304,13 +295,12 @@ class AddConcertTest extends TestCase
                 'city' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('city');
     }
 
     /** @test */
-    function state_is_required()
+    function state_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -320,13 +310,12 @@ class AddConcertTest extends TestCase
                 'state' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('state');
     }
 
     /** @test */
-    function zip_is_required()
+    function zip_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -336,13 +325,12 @@ class AddConcertTest extends TestCase
                 'zip' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('zip');
     }
 
     /** @test */
-    function ticket_price_is_required()
+    function ticket_price_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -352,13 +340,12 @@ class AddConcertTest extends TestCase
                 'ticket_price' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_price');
     }
 
     /** @test */
-    function ticket_price_must_be_numeric()
+    function ticket_price_must_be_numeric_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -368,13 +355,12 @@ class AddConcertTest extends TestCase
                 'ticket_price' => 'not a number',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_price');
     }
 
     /** @test */
-    function ticket_price_must_be_greater_than_five_dollars()
+    function ticket_price_must_be_greater_than_five_dollars_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -384,13 +370,12 @@ class AddConcertTest extends TestCase
                 'ticket_price' => '4.99',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_price');
     }
 
     /** @test */
-    function ticket_quantity_is_required()
+    function ticket_quantity_is_required_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -400,13 +385,12 @@ class AddConcertTest extends TestCase
                 'ticket_quantity' => '',
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_quantity');
     }
 
     /** @test */
-    function ticket_quantity_must_be_an_integer()
+    function ticket_quantity_must_be_an_integer_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -416,13 +400,12 @@ class AddConcertTest extends TestCase
                 'ticket_quantity' => 11.5,
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_quantity');
     }
 
     /** @test */
-    function ticket_quantity_must_be_greater_than_one()
+    function ticket_quantity_must_be_greater_than_one_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 
@@ -432,13 +415,12 @@ class AddConcertTest extends TestCase
                 'ticket_quantity' => 0,
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('ticket_quantity');
     }
 
     /** @test */
-    function a_poster_image_is_uploaded_if_included()
+    function a_poster_image_is_uploaded_if_included_when_creating_a_concert()
     {
         Event::fake([ConcertAdded::class]);
         Storage::fake('public');
@@ -461,7 +443,7 @@ class AddConcertTest extends TestCase
     }
 
     /** @test */
-    function poster_image_must_be_a_valid_image()
+    function poster_image_must_be_a_valid_image_when_creating_a_concert()
     {
         Storage::fake('public');
         $user = factory(User::class)->create();
@@ -473,13 +455,12 @@ class AddConcertTest extends TestCase
                 'poster_image' => $file,
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('poster_image');
     }
 
     /** @test */
-    function poster_image_must_be_at_least_600_pixels_wide()
+    function poster_image_must_be_at_least_600_pixels_wide_when_creating_a_concert()
     {
         Storage::fake('public');
         $user = factory(User::class)->create();
@@ -491,13 +472,12 @@ class AddConcertTest extends TestCase
                 'poster_image' => $file,
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('poster_image');
     }
 
     /** @test */
-    function poster_image_must_be_have_letter_aspect_ratio()
+    function poster_image_must_be_have_letter_aspect_ratio_when_creating_a_concert()
     {
         Storage::fake('public');
         $user = factory(User::class)->create();
@@ -509,13 +489,12 @@ class AddConcertTest extends TestCase
                 'poster_image' => $file,
             ]));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('backstage.concerts.create'));
         $response->assertSessionHasErrors('poster_image');
     }
 
     /** @test */
-    function poster_image_is_optional()
+    function poster_image_is_optional_when_creating_a_concert()
     {
         $user = factory(User::class)->create();
 

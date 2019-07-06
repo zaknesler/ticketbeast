@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Concert;
 use App\Events\ConcertAdded;
 use Illuminate\Http\Request;
+use App\Events\ConcertUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backstage\Concert\StoreConcertRequest;
 use App\Http\Requests\Backstage\Concert\UpdateConcertRequest;
@@ -91,6 +92,8 @@ class ConcertController extends Controller
         abort_unless($concert->user->is($request->user()), 404);
         abort_if($concert->isPublished(), 403);
 
+        $oldImagePath = $concert->poster_image_path;
+
         $concert->update([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
@@ -103,7 +106,10 @@ class ConcertController extends Controller
             'zip' => $request->zip,
             'ticket_price' => $request->ticket_price * 100,
             'ticket_quantity' => $request->ticket_quantity,
+            'poster_image_path' => optional($request->file('poster_image'))->store('posters', 'public'),
         ]);
+
+        ConcertUpdated::dispatch($concert, $oldImagePath);
 
         return redirect()->route('backstage.concerts.index');
     }

@@ -6,6 +6,11 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Concert;
+use App\Events\ConcertAdded;
+use App\Events\ConcertUpdated;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -90,7 +95,6 @@ class EditConcertTest extends TestCase
 
         $response = $this->get(route('backstage.concerts.edit', $concert));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('auth.login'));
     }
 
@@ -99,7 +103,6 @@ class EditConcertTest extends TestCase
     {
         $response = $this->get(route('backstage.concerts.edit', 999));
 
-        $response->assertStatus(302);
         $response->assertRedirect(route('auth.login'));
     }
 
@@ -640,5 +643,155 @@ class EditConcertTest extends TestCase
         $response->assertRedirect(route('backstage.concerts.edit', $concert));
         $response->assertSessionHasErrors('ticket_quantity');
         $this->assertEquals(5, $concert->ticket_quantity);
+    }
+
+    /** @test */
+    function a_poster_image_is_uploaded_if_included_when_updating_an_unpublished_concert()
+    {
+        Event::fake([ConcertUpdated::class]);
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertFalse($concert->isPublished());
+        $file = File::image('concert-poster.png', 850, 1100);
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'poster_image' => $file,
+            ]));
+
+        // Storage::disk('public')->assertMissing($originalImagePath);
+
+        $concert = $concert->fresh();
+        $this->assertNotNull($concert->poster_image_path);
+        Storage::disk('public')->assertExists($concert->poster_image_path);
+        $this->assertFileEquals(
+            $file->getPathName(),
+            Storage::disk('public')->path($concert->poster_image_path)
+        );
+    }
+
+    /** @test */
+    function a_poster_image_must_be_a_valid_image_when_updating_an_unpublished_concert()
+    {
+        Event::fake([ConcertUpdated::class]);
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertFalse($concert->isPublished());
+        $file = File::create('not-a-poster.pdf');
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'poster_image' => $file,
+            ]));
+
+        $response->assertRedirect(route('backstage.concerts.edit', $concert));
+        $response->assertSessionHasErrors('poster_image');
+
+        $concert = $concert->fresh();
+        $this->assertNull($concert->poster_image_path);
+    }
+
+    /** @test */
+    function a_poster_image_must_at_least_600_pixels_wide_when_updating_an_unpublished_concert()
+    {
+        Event::fake([ConcertUpdated::class]);
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertFalse($concert->isPublished());
+        $file = File::image('concert-poster.png', 599, 775);
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'poster_image' => $file,
+            ]));
+
+        $response->assertRedirect(route('backstage.concerts.edit', $concert));
+        $response->assertSessionHasErrors('poster_image');
+
+        $concert = $concert->fresh();
+        $this->assertNull($concert->poster_image_path);
+    }
+
+    /** @test */
+    function a_poster_image_must_have_letter_aspect_ratio_when_updating_an_unpublished_concert()
+    {
+        Event::fake([ConcertUpdated::class]);
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertFalse($concert->isPublished());
+        $file = File::image('concert-poster.png', 851, 1100);
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'poster_image' => $file,
+            ]));
+
+        $response->assertRedirect(route('backstage.concerts.edit', $concert));
+        $response->assertSessionHasErrors('poster_image');
+
+        $concert = $concert->fresh();
+        $this->assertNull($concert->poster_image_path);
+    }
+
+    /** @test */
+    function a_poster_image_is_optional_when_updating_an_unpublished_concert()
+    {
+        Event::fake([ConcertUpdated::class]);
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertFalse($concert->isPublished());
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'poster_image' => null,
+            ]));
+
+        $response->assertRedirect(route('backstage.concerts.index'));
+        $response->assertSessionDoesntHaveErrors('poster_image');
+    }
+
+    /** @test */
+    function an_event_is_fired_when_a_concert_is_updated()
+    {
+        Event::fake([ConcertUpdated::class]);
+        Storage::fake('public');
+        $user = factory(User::class)->create();
+        $concert = factory(Concert::class)->create([
+            'user_id' => $user->id,
+            'poster_image_path' => 'posters/old-image-path.png',
+        ]);
+        $this->assertFalse($concert->isPublished());
+        $file = File::image('concert-poster.png', 850, 1100);
+
+        $response = $this->actingAs($user)
+            ->from(route('backstage.concerts.edit', $concert))
+            ->patch(route('backstage.concerts.update', $concert), $this->validParams([
+                'poster_image' => $file,
+            ]));
+
+        Event::assertDispatched(ConcertUpdated::class, function ($event) use ($concert) {
+            return $event->concert->is($concert)
+                && $event->oldImagePath === 'posters/old-image-path.png';
+        });
     }
 }
