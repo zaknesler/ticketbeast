@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
+use App\Jobs\Concerts\DeleteOldPoster;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Jobs\Concerts\ProcessPosterImage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SchedulePosterImageProcessing
+class ScheduleOldPosterDeletion
 {
     /**
      * Handle the event.
@@ -16,10 +16,10 @@ class SchedulePosterImageProcessing
      */
     public function handle($event)
     {
-        if (!$event->concert->hasPoster()) {
+        if ($event->oldImagePath === null) {
             return;
         }
 
-        ProcessPosterImage::dispatch($event->concert);
+        DeleteOldPoster::dispatch($event->concert, $event->oldImagePath);
     }
 }
