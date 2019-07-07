@@ -92,9 +92,7 @@ class ConcertController extends Controller
         abort_unless($concert->user->is($request->user()), 404);
         abort_if($concert->isPublished(), 403);
 
-        $oldImagePath = $concert->poster_image_path;
-
-        $concert->update([
+        $concert->fill([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
             'additional_information' => $request->additional_information,
@@ -106,10 +104,18 @@ class ConcertController extends Controller
             'zip' => $request->zip,
             'ticket_price' => $request->ticket_price * 100,
             'ticket_quantity' => $request->ticket_quantity,
-            'poster_image_path' => optional($request->file('poster_image'))->store('posters', 'public'),
         ]);
 
-        ConcertUpdated::dispatch($concert, $oldImagePath);
+        if ($request->hasFile('poster_image')) {
+            $oldImagePath = $concert->poster_image_path;
+            $concert->fill([
+                'poster_image_path' => $request->file('poster_image')->store('posters', 'public')
+            ]);
+        }
+
+        $concert->save();
+
+        ConcertUpdated::dispatch($concert, $oldImagePath ?? null);
 
         return redirect()->route('backstage.concerts.index');
     }
