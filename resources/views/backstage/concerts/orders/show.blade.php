@@ -27,7 +27,7 @@
 
         <div class="mt-2 border bg-white rounded-lg">
           <div class="p-4 border-b">
-            <div>The show is {{ $concert->percentSoldOut() }}% sold out!</div>
+            <div>The show is {{ round($concert->percentSoldOut()) }}% sold out!</div>
 
             <div class="mt-4 h-2 rounded-full bg-gray-200 z-10">
               <div class="h-full bg-brand-500 z-20 rounded-full" style="width: {{ $concert->percentSoldOut() }}%"></div>
