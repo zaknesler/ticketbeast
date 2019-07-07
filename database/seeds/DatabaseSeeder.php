@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         $user = factory(User::class)->create([
             'email' => 'zak@example.com',
             'password' => Hash::make('password'),
-            'stripe_account_id' => null,
-            'stripe_access_token' => null,
+            'stripe_account_id' => config('services.stripe.testing.destination_account_id'),
+            'stripe_access_token' => config('services.stripe.testing.destination_access_token'),
         ]);
 
         $posterPath = Storage::disk('public')->putFile('posters', new File(base_path('tests/__stubs__/optimized-poster.png')));

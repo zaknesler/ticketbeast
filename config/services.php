@@ -45,6 +45,7 @@ return [
         ],
         'testing' => [
             'destination_account_id' => env('STRIPE_TEST_DESTINATION_ACCOUNT_ID'),
+            'destination_access_token' => env('STRIPE_TEST_DESTINATION_ACCESS_TOKEN'),
         ],
     ],
 
