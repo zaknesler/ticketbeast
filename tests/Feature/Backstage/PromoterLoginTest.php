@@ -32,6 +32,31 @@ class PromoterLoginTest extends TestCase
     }
 
     /** @test */
+    function session_is_remembered_if_remember_input_is_included()
+    {
+        $user = factory(User::class)->create([
+            'email' => 'jane@example.com',
+            'password' => Hash::make('secret-password'),
+        ]);
+
+        $response = $this->post(route('auth.login.store'), [
+            'email' => 'jane@example.com',
+            'password' => 'secret-password',
+            'remember' => true,
+        ]);
+
+        $user = $user->fresh();
+        $response->assertRedirect(route('backstage.concerts.index'));
+        $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
+            $user->id,
+            $user->getRememberToken(),
+            $user->password,
+        ]));
+        $this->assertTrue(Auth::check());
+        $this->assertTrue(Auth::user()->is($user));
+    }
+
+    /** @test */
     function logging_in_with_invalid_credentials()
     {
         $user = factory(User::class)->create([

@@ -26,7 +26,7 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        if (Auth::attempt($request->all(['email', 'password']))) {
+        if (Auth::attempt($request->all(['email', 'password']), $request->has('remember'))) {
             return redirect(route('backstage.concerts.index'));
         }
 
