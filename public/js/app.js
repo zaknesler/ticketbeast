@@ -2542,7 +2542,7 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "mr-3 w-full flex items-center" }, [
+        _c("div", { staticClass: "mr-3 flex items-center flex-grow" }, [
           _vm.maxTickets
             ? _c(
                 "select",
@@ -2592,16 +2592,14 @@ var render = function() {
                 0
               )
             : _c("div", [
-                _c(
-                  "div",
-                  { staticClass: "text-lg font-semibold text-gray-800" },
-                  [_vm._v("Sold out!")]
-                ),
+                _c("div", { staticClass: "font-semibold text-gray-800" }, [
+                  _vm._v("Sold out!")
+                ]),
                 _vm._v(" "),
                 _c(
                   "div",
                   { staticClass: "mt-1 text-sm leading-tight text-gray-600" },
-                  [_vm._v("Check back later for openings.")]
+                  [_vm._v("Check back later for openings!")]
                 )
               ])
         ]),
@@ -2609,7 +2607,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "ml-3 w-full",
+            staticClass: "ml-3 block",
             class: {
               "cursor-not-allowed": _vm.maxTickets === 0 || _vm.processing
             }
@@ -2618,7 +2616,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn w-full",
+                staticClass: "btn",
                 class: {
                   "opacity-50 pointer-events-none select-none":
                     _vm.maxTickets === 0 || _vm.processing

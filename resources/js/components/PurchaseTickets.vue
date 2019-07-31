@@ -1,7 +1,7 @@
 <template>
   <div>
     <form class="flex justify-between items-center" @submit.prevent="openStripe">
-      <div class="mr-3 w-full flex items-center">
+      <div class="mr-3 flex items-center flex-grow">
         <select
           v-if="maxTickets"
           class="form-select py-3 block w-full h-full"
@@ -18,17 +18,17 @@
         </select>
 
         <div v-else>
-          <div class="text-lg font-semibold text-gray-800">Sold out!</div>
-          <div class="mt-1 text-sm leading-tight text-gray-600">Check back later for openings.</div>
+          <div class="font-semibold text-gray-800">Sold out!</div>
+          <div class="mt-1 text-sm leading-tight text-gray-600">Check back later for openings!</div>
         </div>
       </div>
 
       <div
-        class="ml-3 w-full"
+        class="ml-3 block"
         :class="{ 'cursor-not-allowed': maxTickets === 0 || processing }"
       >
         <button
-          class="btn w-full"
+          class="btn"
           :disabled="maxTickets === 0"
           :class="{ 'opacity-50 pointer-events-none select-none': maxTickets === 0 || processing }"
         >Buy Tickets</button>
